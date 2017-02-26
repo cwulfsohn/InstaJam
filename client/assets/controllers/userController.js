@@ -2,7 +2,8 @@ app.controller("userController", ["$scope", "userFactory", "$location", "$cookie
   $scope.user = {}
   $scope.userLogin = {}
   $scope.register = function(){
-    usersFactory.create($scope.user, function(data){
+    userFactory.create($scope.user, function(data){
+      console.log("Hello");
       if (data.err){
         $scope.errors = [];
         for (key in data.err.errors){
@@ -20,7 +21,7 @@ app.controller("userController", ["$scope", "userFactory", "$location", "$cookie
     })
   }
   $scope.login = function(){
-    usersFactory.login($scope.userLogin, function(data){
+    userFactory.login($scope.userLogin, function(data){
       if(data.user){
         $cookies.put("user", data.user[0].firstName);
         $location.url('/success');
