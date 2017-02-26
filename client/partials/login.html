@@ -1,0 +1,14 @@
+<h1>Login</h1>
+<div ngif="error">
+  <p>{{error}}</p>
+</div>
+<form ng-submit="login()">
+  <label for="email">
+    Email <input type="text" name="email" ng-model="userLogin.email">
+  </label>
+  <label for="password">
+    Password <input type="password" name="password" ng-model="userLogin.password">
+  </label>
+  <input type="submit" value="Log In">
+</form>
+<a href="#!/registration">Not registered? Register!</a>
