@@ -1,5 +1,8 @@
 var mongoose = require('mongoose');
 var bcrypt = require('bcryptjs');
+require('./song')
+require('./comment')
+require('./playlist')
 
 var UserSchema = mongoose.Schema({
   firstName: {
@@ -35,7 +38,42 @@ email: {
   birthday: {
     type: Date,
     required: [true, "birthday required"]
-  }
+  },
+  profile_image: {
+    type: String,
+    required: Null
+  },
+  cover_image: {
+    type: String,
+    required: Null
+  },
+  following: [{
+    type: mongoose.Schema.Types.ObjectId, ref: 'User'
+  }],
+  followers: [{
+    type: mongoose.Schema.Types.ObjectId, ref: 'User'
+  }],
+  uploaded_songs: [{
+    type: mongoose.Schema.Types.ObjectId, ref: 'Song'
+  }],
+  reposts: [{
+    type: mongoose.Schema.Types.ObjectId, ref: 'Song'
+  }],
+  description: {
+    type: String
+  },
+  location: {
+    type: String
+  },
+  playlists: [{
+    type: mongoose.Schema.Types.ObjectId, ref: 'Playlist'
+  }],
+  like_songs: [{
+    type: mongoose.Schema.Types.ObjectId, ref: 'Song'
+  }],
+  like_playlists: [{
+    type: mongoose.Schema.Types.ObjectId, ref: 'Playlist'
+  }]
 },{timestamps: true});
 
 UserSchema.pre('save', function(done){
