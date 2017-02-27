@@ -1,4 +1,4 @@
-var app = angular.module("app", ["ngRoute", "ngCookies"]);
+var app = angular.module("app", ["ngRoute", "ngCookies", "ngFileUpload"]);
 app.config(function ($routeProvider) {
   $routeProvider
 .when('/', {
@@ -12,6 +12,10 @@ app.config(function ($routeProvider) {
 .when('/success', {
   templateUrl: "partials/success.html",
   controller: "successController"
+})
+.when('/upload', {
+  templateUrl: 'partials/upload_song.html',
+  controller: "uploadController"
 })
 .otherwise({
   redirectTo: "/"
