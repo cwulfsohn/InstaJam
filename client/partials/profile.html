@@ -1,12 +1,12 @@
 <div class="container">
   <div id="header">
     <h1 id="first_name">{{user.firstName}}</h1>
-      <button id="profile_select_picture" class="btn pull-left" type="file" ngf-select="uploadFiles($file, $invalidFiles, 'profile')"
+      <button ng-if="user._id == id" id="profile_select_picture" class="btn pull-left" type="file" ngf-select="uploadFiles($file, $invalidFiles, 'profile')"
           accept="image/*" ngf-max-height="1000" ngf-max-size="1MB">
       Profile Picture</button>
       <img class="img-circle img-responsive profile_picture" src="{{user.profile_image}}">
       <div class="cover_picture">
-        <button id="cover_select_picture" class="btn pull-right" type="file" ngf-select="uploadFiles($file, $invalidFiles, 'cover')"
+        <button ng-if="user._id == id" id="cover_select_picture" class="btn pull-right" type="file" ngf-select="uploadFiles($file, $invalidFiles, 'cover')"
             accept="image/*" ngf-max-height="1000" ngf-max-size="1MB">
         Cover Picture</button>
         <img src="{{user.cover_image}}">
@@ -23,18 +23,18 @@
       <div ng-if="containerView == 0">
       </div>
       <div ng-if="containerView == 1">
-        {{user.uploaded_songs}}
         <div ng-repeat="track in user.uploaded_songs">
-          <img src="{{track.song.album_cover}}">
-          <audio controls ng-src="{{track.song.song_file}}"></audio>
-          <button ng-click="like()">{{track}}</button>
-          <button ng-click="reposts()">{{track}}</button>
-          <button ng-click="playlist()">Add to playlist</button>
+          <img src="{{track.album_cover}}">
+          <audio controls ng-src="{{track.song_file}}"></audio>
+          <button ng-if="track.likes.indexOf(id) > -1" ng-click="disLike(track._id, id)">Likes {{track.likes.length}}</button>
+          <button ng-if="track.likes.indexOf(id) == -1" ng-click="like(track._id, id)">Likes {{track.likes.length}}</button>
+          <button ng-if="track.reposted_by.indexOf(id) > -1" ng-click="removeRepost(track._id, id)">Reposts {{track.reposted_by.length}}</button>
+          <button ng-if="track.reposted_by.indexOf(id) == -1" ng-click="repost(track._id, id)">Reposts {{track.reposted_by.length}}</button>
+          <button type="button" class="btn btn-default" ng-click="open()">Add a playlist</button>
       </div>
       </div>
       <div ng-if="containerView == 2">
           <div ng-repeat="playlist in user.playlists">
-            <p>{{playlist}}</p>
             <img src="{{playlist}}">
             <audio controls ng-src="{{track.song_file}}"></audio>
           </div>
