@@ -3,6 +3,7 @@ var fs = require('fs');
 var path = require("path");
 var User = mongoose.model('User');
 var Song = mongoose.model('Song');
+var Playlist = mongoose.model('Playlist');
 var static_folder = "../static/audio";
 var static_images = "../static/images"
 module.exports = {
@@ -211,5 +212,26 @@ module.exports = {
         }})
       }
     })
+  },
+  showPlaylist: function(req, res){
+    User.find({_id: req.params.u_id}).populate('playlists').exec(function(err, user){
+      if(err){
+        res.json({err:err})
+      }
+      else{
+        Song.findOne({_id: req.params.s_id}, function(err, song){
+          if(err){
+            res.json({err: err})
+          }
+          else if(!user.playlists){
+            res.json({playlists: "No Current Playlists", song: song})
+          }
+          else{
+            res.json({playlists: user, song: song})
+          }
+        })
+      }
+    })
+
   }
 }

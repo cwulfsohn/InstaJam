@@ -25,5 +25,10 @@ app.factory('songFactory', ["$http", function($http){
       callback(data.data)
     })
   }
+  factory.showPlaylists = function(song_id, user_id, callback){
+    $http.get('/playlist/'+song_id+"/"+user_id).then(function(data){
+      callback(data.data)
+    })
+  }
   return factory;
 }])

@@ -1,5 +1,32 @@
+<style media="screen">
+  #waveform_preview{
+    width: 74.5%;
+    display: inline-block;
+    vertical-align: top;
+  }
+  #audio_player_preview{
+    background: #2E282A;
+    border-radius: 10px;
+    border: .5em solid #c0c0c0;
+  }
+  #album_cover_preview{
+    width: 25%;
+    display: inline-block;
+    vertical-align: top;
+  }
+</style>
 <h1>{{song.song_title}}</h1>
 <h3>{{song.artist_name}}</h3>
 <h4>Uploaded by {{song._user.firstName}}</h4>
-<audio controls ng-src="{{song.song_file}}"></audio>
-<img src="{{song.album_cover}}" alt="Album Cover">
+<div id="length">Duration:</div>
+<div id="currentTime">Current time: </div>
+<hr>
+<h2>Control Buttons</h2>
+<button id="play">Play</button>
+<button id="pause">Pause</button>
+<button id="restart">Restart</button>
+<hr>
+<div id="audio_player_preview">
+  <img id="album_cover_preview" ng-src="{{song.album_cover}}" alt="Album Cover">
+  <div id="waveform_preview"></div>
+</div>

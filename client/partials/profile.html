@@ -24,18 +24,18 @@
       </div>
       <div ng-if="containerView == 1">
         <div ng-repeat="track in user.uploaded_songs">
-          <img src="{{track.album_cover}}">
+          <img ng-src="{{track.album_cover}}">
           <audio controls ng-src="{{track.song_file}}"></audio>
           <button ng-if="track.likes.indexOf(id) > -1" ng-click="disLike(track._id, id)">Likes {{track.likes.length}}</button>
           <button ng-if="track.likes.indexOf(id) == -1" ng-click="like(track._id, id)">Likes {{track.likes.length}}</button>
           <button ng-if="track.reposted_by.indexOf(id) > -1" ng-click="removeRepost(track._id, id)">Reposts {{track.reposted_by.length}}</button>
           <button ng-if="track.reposted_by.indexOf(id) == -1" ng-click="repost(track._id, id)">Reposts {{track.reposted_by.length}}</button>
-          <button type="button" class="btn btn-default" ng-click="open()">Add a playlist</button>
+          <button type="button" class="btn btn-default" ng-click="open(track._id)">Add a playlist</button>
       </div>
       </div>
       <div ng-if="containerView == 2">
           <div ng-repeat="playlist in user.playlists">
-            <img src="{{playlist}}">
+            <img ng-src="{{playlist}}">
             <audio controls ng-src="{{track.song_file}}"></audio>
           </div>
       </div>

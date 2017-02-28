@@ -75,12 +75,14 @@ app.controller("profileController", ["$scope", "userFactory","songFactory", "$lo
       $scope.showUser();
     })
   }
-  $scope.open = function(){
+  $scope.open = function(song_id){
+    $cookies.put('songId', song_id)
   $uibModal.open({
         animation: true,
         ariaLabelledBy: 'modal-title-top',
         ariaDescribedBy: 'modal-body-top',
-        templateUrl: './partials/login.html',
+        templateUrl: './partials/playlist.html',
+        contorller: 'playlistController'
       });
     }
 }])
