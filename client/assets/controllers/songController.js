@@ -24,7 +24,7 @@ app.controller("songController", ["$scope", "songFactory", "$location", "$cookie
       wavesurfer.load($scope.song.song_file);
 
       wavesurfer.on('ready', function () {
-        $("#length").text("Duration:" + wavesurfer.getDuration() + " seconds");
+        $("#length").text(secondsToMinSec(wavesurfer.getDuration()));
         $('#play').click(function() {
             wavesurfer.play();
         });
@@ -39,3 +39,10 @@ app.controller("songController", ["$scope", "songFactory", "$location", "$cookie
   };
   $scope.getSong();
 }])
+
+function secondsToMinSec(seconds){
+  var string = ""
+  var minutes = Math.trunc(seconds/60);
+  var seconds = Math.trunc(seconds%60);
+  return string + minutes + ":" + seconds;
+}
