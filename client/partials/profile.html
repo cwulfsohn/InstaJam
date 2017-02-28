@@ -1,6 +1,6 @@
 <div class="container">
   <div id="header">
-    <h1 id="first_name">{{firstName}}</h1>
+    <h1 id="first_name">{{user.firstName}}</h1>
       <button id="profile_select_picture" class="btn pull-left" type="file" ngf-select="uploadFiles($file, $invalidFiles, 'profile')"
           accept="image/*" ngf-max-height="1000" ngf-max-size="1MB">
       Profile Picture</button>
@@ -23,18 +23,19 @@
       <div ng-if="containerView == 0">
       </div>
       <div ng-if="containerView == 1">
+        {{user.uploaded_songs}}
         <div ng-repeat="track in user.uploaded_songs">
-          <img src="{{track.album_cover}}">
-          <audio controls ng-src="{{track.song_file}}"></audio>
-          <button ng-click="like()">{{track.likes.length}}</button>
-          <button ng-click="reposts()">{{track.reposted_by.length}}</button>
+          <img src="{{track.song.album_cover}}">
+          <audio controls ng-src="{{track.song.song_file}}"></audio>
+          <button ng-click="like()">{{track}}</button>
+          <button ng-click="reposts()">{{track}}</button>
           <button ng-click="playlist()">Add to playlist</button>
       </div>
       </div>
       <div ng-if="containerView == 2">
           <div ng-repeat="playlist in user.playlists">
             <p>{{playlist}}</p>
-            <img src="{{playlist.songs.album_cover}}">
+            <img src="{{playlist}}">
             <audio controls ng-src="{{track.song_file}}"></audio>
           </div>
       </div>
