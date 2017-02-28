@@ -41,11 +41,11 @@ email: {
   },
   profile_image: {
     type: String,
-    required: null
+    default: null
   },
   cover_image: {
     type: String,
-    required: null
+    default: null
   },
   following: [{
     type: mongoose.Schema.Types.ObjectId, ref: 'User'

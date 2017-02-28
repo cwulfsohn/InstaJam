@@ -37,17 +37,25 @@ module.exports = {
               res.json({err:err})
             }
             else {
-              fs.readFile(file.path, function(err, data){
+              user.uploaded_songs.push(song);
+              user.save(function(err, user){
                 if (err){
                   res.json({err:err})
                 }
                 else {
-                  fs.writeFile(path.join(__dirname, static_folder, filepath), data, "base64", function(err){
-                    if(err){
+                  fs.readFile(file.path, function(err, data){
+                    if (err){
                       res.json({err:err})
                     }
                     else {
-                      res.json({song:song})
+                      fs.writeFile(path.join(__dirname, static_folder, filepath), data, "base64", function(err){
+                        if(err){
+                          res.json({err:err})
+                        }
+                        else {
+                          res.json({song:song})
+                        }
+                      })
                     }
                   })
                 }
@@ -93,7 +101,7 @@ module.exports = {
     })
   },
   show: function(req, res){
-    Song.findOne({_id:req.params.id}, function(err, song){
+    Song.findOne({_id:req.params.id}).populate("_user").exec( function(err, song){
       if (err){
         res.json({err:err});
       }
