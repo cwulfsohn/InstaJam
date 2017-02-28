@@ -10,7 +10,7 @@ app.config(function ($routeProvider) {
   controller: 'userController'
 })
 .when('/success', {
-  templateUrl: "partials/success.html",
+  templateUrl: "partials/userHome.html",
   controller: "successController"
 })
 .otherwise({

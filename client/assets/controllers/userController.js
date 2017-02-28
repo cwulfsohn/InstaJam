@@ -1,4 +1,8 @@
 app.controller("userController", ["$scope", "userFactory", "$location", "$cookies", function($scope, userFactory, $location, $cookies){
+  if ($cookies.get("user")){
+    $location.url('/success');
+  }
+
   $scope.user = {}
   $scope.userLogin = {}
   $scope.register = function(){
