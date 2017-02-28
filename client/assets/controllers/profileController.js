@@ -1,4 +1,11 @@
 app.controller("profileController", ["$scope", "userFactory", "$location", "$cookies", 'Upload', "$timeout", "$routeParams", function($scope, userFactory, $location, $cookies, Upload, $timeout, $routeParams){
+  if ($cookies.get("user")){
+    $scope.currentUser = $cookies.get("user");
+  }
+  else {
+    $location.url('/')
+  }
+  
   $scope.profile_id = $routeParams.id;
   $scope.id = $cookies.get('id');
   $scope.firstName = $cookies.get('user');
