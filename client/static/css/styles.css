@@ -235,6 +235,13 @@ background-color: #333;
     top: 14px;
     position: absolute;
   }
+  
+  .navbar-brand {
+      position: absolute;
+      left: 50%;
+      margin-left: -50px;  /* 50% of your logo width */
+      display: block;
+  }
 
   .navbar-custom .navbar-nav > li > a {
     min-width: 80%;
@@ -372,7 +379,6 @@ background-color: #333;
 
 .sidebar-headlines {
   border-bottom: 1px solid #D5D5D5;
-  text-align: center;
 }
 
 .thumb {
@@ -409,10 +415,13 @@ form .progress {
 .stream-song-art {
   margin-top: 10px;
   margin-right: 5px;
+  display: inline-block;
 }
 
 .song-content {
   margin-top: 15px;
+  display: inline-block;
+  vertical-align: top;
 }
 
 .play-button {

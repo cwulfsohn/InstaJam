@@ -1,4 +1,5 @@
 var mongoose = require("mongoose");
+var textSearch = require("mongoose-text-search");
 var fs = require("fs");
 var path = require("path");
 mongoose.connect("mongodb://localhost/instajam");

@@ -1,42 +1,4 @@
-<nav id="main-nav" class="navbar navbar-custom navbar-fixed-top">
-  <div class="container-fluid">
-    <!-- Brand and toggle get grouped for better mobile display -->
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="#">InstaJam</a>
-    </div>
-    <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse" id="navbar">
-        <ul class="nav navbar-nav navbar-left">
-          <li class="active"><a href="#!/success">Home<span class="sr-only">(current)</span></a></li>
-          <li><a href="#">Collection</a></li>
-        </ul>
-        <form id="nav-form" class="navbar-form navbar-left">
-          <input id="nav-search" type="text" class="form-control" placeholder="Search" ng-model="searchTerm">
-          <input id="invisible-submit" type="submit" ng-click="search()">
-        </form>
-        <ul class="nav navbar-nav navbar-right">
-          <li><a ng-href="#!/upload">Upload</a></li>
-          <li class="dropdown">
-            <a id="user-dropdown" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img class="img-circle sm-user-img" src="{{user.profile_image}}">{{user.firstName}} {{user.lastName}}<span class="caret"></span></a>
-            <ul class="dropdown-menu">
-              <li><a ng-href="#!/profile/{{user.firstName}}/{{user._id}}">Profile</a></li>
-              <li><a>Likes</a></li>
-              <li><a>Playlists</a></li>
-              <li role="separator" class="divider"></li>
-              <li><a href="#">Tracks</a></li>
-              <li><a ng-click="logout()">Log Out</a></li>
-            </ul>
-          </li>
-        </ul>
-    </div><!-- /.navbar-collapse -->
-  </div><!-- /.container-fluid -->
-</nav>
+<navigation></navigation>
 <div class="container">
   <div id="main-content" class="col-sm-8 col-xs-12">
     <div id="user-links" class="col-sm-12">
@@ -52,10 +14,10 @@
     <div id="user-stream" class="col-sm-12">
       <div class="row col-sm-12">
         <p><img src="{{user.profile_image}}" alt="User Profile Image" class="sm-user-img img-circle">(artist name here) posted a (track/playlist) (X time ago)</p>
-        <div class="stream-song-art row col-sm-4 col-xs-12">
+        <div class="stream-song-art">
           <img src="{{user.profile_image}}" alt="Album Cover">
         </div>
-        <div class="song-content row col-sm-8 col-xs-12">
+        <div class="song-content">
           <div class="song-header col-xs-12">
             <button class="play-button img-circle"><span class="glyphicon glyphicon-play"></span></button>
           </div>
@@ -65,7 +27,7 @@
   </div>
   <div id="right-sidebar" class="col-sm-4 col-xs-12">
     <div class="sidebar-headlines col-sm-12">
-      <h5 class="headline">Who to Follow</h5>
+      <h5 class="headline"><span class="glyphicon glyphicon-fire"></span>  Who to Follow</h5>
     </div>
   </div>
 </div>

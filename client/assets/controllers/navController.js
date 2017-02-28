@@ -1,16 +1,17 @@
-app.controller("successController", ["$scope", "userFactory", "$location", "$cookies", function($scope, userFactory, $location, $cookies){
+app.controller("navController", ["$scope", "userFactory", "$location", "$cookies", function($scope, userFactory, $location, $cookies){
   if ($cookies.get("user")){
     $scope.currentUser = $cookies.get("user");
     $scope.currentUser_id = $cookies.get('id');
-  }
-  else {
-    $location.url('/')
+    console.log("Current user is", $scope.currentUser_id)
+  } else {
+    $location.url('/login');
   }
 
   $scope.logout = function(){
     $scope.currentUser = {};
     $cookies.remove("user");
-    $location.url('/');
+    $cookies.remove("id");
+    $location.url('/login');
   }
 
   userFactory.showUser($scope.currentUser_id, function(data){
@@ -18,9 +19,8 @@ app.controller("successController", ["$scope", "userFactory", "$location", "$coo
       console.log(data.err)
     }
     else{
-      $scope.user = data.user
+      $scope.currentUser = data.user
       console.log("User is", $scope.user)
     }
   })
-
-}])
+}]);
