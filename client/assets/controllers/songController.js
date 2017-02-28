@@ -13,6 +13,7 @@ app.controller("songController", ["$scope", "songFactory", "$location", "$cookie
   $scope.getSong = function(){
     songFactory.getSong($routeParams.id, function(data){
       $scope.song = data.song;
+      console.log($scope.song);
     })
   };
   $scope.getSong();
