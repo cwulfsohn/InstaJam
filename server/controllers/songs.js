@@ -214,19 +214,14 @@ module.exports = {
     })
   },
   showPlaylist: function(req, res){
-    User.find({_id: req.params.u_id}).populate('playlists').populate({path:"playlists", populate:{path: "song"}}).exec(function(err, user){
+    User.findOne({_id: req.params.u_id}).populate('playlists').populate({path:"playlists", populate:{path: "song"}}).exec(function(err, user){
       if(err){
         res.json({err:err})
       }
       else{
-        console.log(user)
-        console.log(user.playlists)
         Song.findOne({_id: req.params.s_id}, function(err, song){
           if(err){
             res.json({err: err})
-          }
-          else if(!user.playlists){
-            res.json({playlists: "No Current Playlists", song: song})
           }
           else{
             res.json({playlists: user, song: song})
@@ -253,7 +248,7 @@ module.exports = {
                 res.json({err: err})
               }
               else{
-                user.playlists.push(playlist._id)
+                user.playlists.push(playlist)
                 user.save(function(err, user){
                   if(err){
                     res.json({err: err})
@@ -267,5 +262,38 @@ module.exports = {
           }
         })
     }})
+  },
+  addToPlaylist: function(req, res){
+    Song.findOne({_id: req.body.s_id}, function(err, song){
+      if(err){
+        res.json({err: err})
+      }
+      else{
+        Playlist.findOne({_id: req.body.p_id}, function(err, playlist){
+          if(err){
+            res.json({err: err})
+          }
+          else{
+            song.in_playlists.push(playlist)
+            song.save(function(err, song){
+              if(err){
+                res.json({err: err})
+              }
+              else{
+                playlist.songs.push(song)
+                playlist.save(function(err, playlist){
+                  if(err){
+                    res.json({err: err})
+                  }
+                  else{
+                    res.json({success: 'Success'})
+                  }
+                })
+              }
+            })
+          }
+        })
+      }
+    })
   }
 }

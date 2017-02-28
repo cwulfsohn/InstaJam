@@ -1,5 +1,5 @@
 <style>
-#image{
+.image{
   width: 30px;
   height: 30px;
 }
@@ -9,9 +9,12 @@
   <button ng-click="changeView(1)">Create a Playlist</button>
   <div ng-if="containerView == 0">
     <input type='text' placeholder="Filter Playlist" ng-model="search.$">
-    <p>{{user}}</p>
-    <div ng-repeat="playlist in user.playlists | filter:search">
-
+    <div ng-repeat="playlist in playlists.playlists | filter:search">
+      <img class="image" ng-src="{{playlist.first_song_art}}">
+      <p>{{playlist.title}}</p>
+      <p>{{playlist.songs.length}}</p>
+      <button ng-click="addToPlaylist(song._id, playlist._id)">Add to playlist</button>
+      <hr>
     </div>
   </div>
   <div ng-if="containerView == 1">
@@ -25,7 +28,7 @@
     <input type="submit" value="Save">
     </form>
     <div>
-      <img id="image" ng-src="{{song.album_cover}}">
+      <img class="image" ng-src="{{song.album_cover}}">
       <p>{{song.artist_name}} - {{song.song_title}}</p>
     </div>
   </div>

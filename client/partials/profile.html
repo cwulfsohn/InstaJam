@@ -35,7 +35,7 @@
       </div>
       <div ng-if="containerView == 2">
           <div ng-repeat="playlist in user.playlists">
-            <img ng-src="{{playlist}}">
+            <img ng-src="{{playlist.first_song_art}}">
             <audio controls ng-src="{{track.song_file}}"></audio>
           </div>
       </div>
