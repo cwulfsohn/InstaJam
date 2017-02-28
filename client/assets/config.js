@@ -13,9 +13,13 @@ app.config(function ($routeProvider) {
   templateUrl: "partials/success.html",
   controller: "successController"
 })
-.when("/profile", {
+.when("/profile/:firstName/:id", {
   templateUrl: "partials/profile.html",
   controller: "profileController"
+})
+.when('/upload', {
+  templateUrl: 'partials/upload_song.html',
+  controller: "uploadController"
 })
 .otherwise({
   redirectTo: "/"
