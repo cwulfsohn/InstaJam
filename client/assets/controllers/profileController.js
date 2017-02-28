@@ -78,6 +78,26 @@ app.controller("profileController", ["$scope", "userFactory","songFactory", "$lo
       $scope.showUser();
     })
   };
+  $scope.playlistLike = function(playlist_id, user_id){
+    songFactory.playlistLike(playlist_id, user_id, function(data){
+      $scope.showUser();
+    })
+  }
+  $scope.playlistDisLike = function(playlist_id, user_id){
+    songFactory.playlistDisLike(playlist_id, user_id, function(data){
+      $scope.showUser();
+    })
+  }
+  $scope.playlistRepost = function(playlist_id, user_id){
+    songFactory.playlistRepost(playlist_id, user_id, function(data){
+      $scope.showUser();
+    })
+  }
+  $scope.playlistRemoveRepost = function(playlist_id, user_id){
+    songFactory.playlistRemoveRepost(playlist_id, user_id, function(data){
+      $scope.showUser();
+    })
+  };
   $scope.wavemaker = function(songId){
     var wavesurfer = WaveSurfer.create({
       container: songId,
@@ -99,6 +119,7 @@ app.controller("profileController", ["$scope", "userFactory","songFactory", "$lo
       })
     });
   };
+
   $scope.open = function(song_id){
     $cookies.put('songId', song_id)
   $uibModal.open({
@@ -109,4 +130,5 @@ app.controller("profileController", ["$scope", "userFactory","songFactory", "$lo
         contorller: 'playlistController'
       });
     }
+
 }])

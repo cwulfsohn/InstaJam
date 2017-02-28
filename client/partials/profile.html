@@ -64,7 +64,10 @@
       <div ng-if="containerView == 2">
           <div ng-repeat="playlist in user.playlists">
             <img ng-src="{{playlist.first_song_art}}">
-            <audio controls ng-src="{{track.song_file}}"></audio>
+            <button class="preview_button" ng-if="playlist.likes.indexOf(id) > -1" ng-click="playlistDisLike(playlist._id, id)"><span class="glyphicon glyphicon-heart"></span> {{playlist.likes.length}}</button>
+            <button class="preview_button" ng-if="playlist.likes.indexOf(id) == -1" ng-click="playlistLike(playlist._id, id)"><span class="glyphicon glyphicon-heart"></span> {{playlist.likes.length}}</button>
+            <button class="preview_button" ng-if="playlist.reposts.indexOf(id) > -1" ng-click="playlistRemoveRepost(playlist._id, id)"><span class="glyphicon glyphicon-retweet"></span> {{playlist.reposts.length}}</button>
+            <button class="preview_button" ng-if="playlist.reposts.indexOf(id) == -1" ng-click="playlistRepost(playlist._id, id)"><span class="glyphicon glyphicon-retweet"></span> {{playlist.reposts.length}}</button>
           </div>
       </div>
       <div ng-if="containerView == 3">

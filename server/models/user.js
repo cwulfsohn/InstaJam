@@ -59,6 +59,9 @@ email: {
   reposts: [{
     type: mongoose.Schema.Types.ObjectId, ref: 'Song'
   }],
+  playlist_reposts: [{
+    type: mongoose.Schema.Types.ObjectId, ref: 'Playlist'
+  }],
   description: {
     type: String
   },
