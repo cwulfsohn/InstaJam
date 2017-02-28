@@ -34,10 +34,10 @@
                     <p class="song_title">{{song.song_title}}</p>
                   </div>
                   <div class="col-xs-3">
-                    <button ng-click="switch()" class="preview_play_button" type="button" id="play" name="play"><span class="glyphicon glyphicon-{{play}}"></span></button>
+                    <button class="preview_play_button" type="button" ng-click="play_pause($index)" name="play"><span id="s{{$index}}" class="glyphicon glyphicon-play"></span></button>
                   </div>
                 </div>
-                <div id="{{song._id}}"></div>
+                <div id="w{{song._id}}"></div>
               </div>
             </div>
             <div class="row">
@@ -51,14 +51,10 @@
               <div class="timed_comments col-xs-8">
 
               </div>
-              <div class="col-xs-1" id="length"></div>
+              <div class="col-xs-1" id="l{{song._id}}"></div>
             </div>
           </div>
         </div>
-
-
-
-
       </div>
       </div>
       <div ng-if="containerView == 2">
@@ -78,4 +74,5 @@
       <a href="/#!/:user/followers">Following {{user.following.length}}</a>
       <a href="/#!/:user/tracks">Tracks {{user.uploaded_songs.length}}</a>
     </div>
+
   </div>
