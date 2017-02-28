@@ -3,10 +3,10 @@
 }
 
 body {
-  background: linear-gradient(left, #D5D5D5, #FFFFFF, #D5D5D5);
-  background: -webkit-linear-gradient(left, #D5D5D5, #FFFFFF, #D5D5D5);
-  background: -o-linear-gradient(left, #D5D5D5, #FFFFFF, #D5D5D5);
-  background: -moz-linear-gradient(left, #D5D5D5, #FFFFFF, #D5D5D5);
+  background: linear-gradient(left, #F2F2F2, #FFFFFF, #F2F2F2);
+  background: -webkit-linear-gradient(left, #F2F2F2, #FFFFFF, #F2F2F2);
+  background: -o-linear-gradient(left, #F2F2F2, #FFFFFF, #F2F2F2);
+  background: -moz-linear-gradient(left, #F2F2F2, #FFFFFF, #F2F2F2);
   padding-top: 50px;
 }
 
@@ -16,8 +16,8 @@ body {
 }
 
 .container-fluid {
-  width: 100%!important;
-  padding: 0px 10%!important;
+  width: 100%;
+  padding: 0px 10%;
 }
 
 .container {
@@ -39,9 +39,18 @@ body {
     text-shadow: none;
 }
 
-.navbar-nav > .active > a:hover, .navbar-nav > .active > a:focus, .navbar-custom .navbar-nav > li > a:hover {
+.navbar-custom .navbar-nav > .active > a:hover {
+  color: #ffffff;
+  background-color: #111111
+}
+
+.navbar-custom .navbar-nav > li > a:hover {
   color: #ffffff;
   background-color: #333333
+}
+
+.navbar-nav > .dropdown > :focus {
+  background-color: #111111
 }
 
 .navbar-custom .navbar-nav > .active > a {
@@ -79,6 +88,7 @@ background-color: #333;
 #nav-form {
    width: 45%;
    height: 100%;
+   margin-left: -7px;
    vertical-align: middle;
    text-align: center;
  }
@@ -113,7 +123,12 @@ background-color: #333;
   background-color: #111111;
 }
 
-.navbar-nav .open .dropdown-menu > li > a:hover {
+.navbar-nav > li > a:focus {
+  background-color: #111111;
+}
+
+.navbar-nav .open .dropdown-menu > li > a:hover,
+.navbar-nav .open .dropdown-menu > li > a:focus {
   color: #FFFFFF;
   background-color: #111111;
 }
@@ -132,6 +147,36 @@ background-color: #333;
   border-radius: 5px;
 }
 
+.navbar .nav > li.dropdown.open > a,
+.navbar .nav > li.dropdown.open > ul.dropdown-menu > li > a:hover {
+   color: #fff;
+   background-color: #111111;
+   border-color: #fff;
+}
+
+.navbar .nav > li.dropdown.open > ul.dropdown-menu {
+  border-right: 0px;
+}
+
+#nav-img {
+  max-height: 26px;
+  padding-right: 5px;
+}
+
+#user-dropdown {
+  padding: 13px 3px 10px 3px;
+}
+
+.navbar .nav > li.dropdown.open > ul.dropdown-menu > .divider {
+  background-color: #333333
+}
+
+.navbar-left > li {
+  border-left: 1px solid black;
+  border-right: 1px solid black;
+  width: 100px;
+  text-align: center;
+}
 
 @media (min-width: 768px) {
   .navbar-nav .open .dropdown-menu > li > a {
@@ -145,25 +190,22 @@ background-color: #333;
   }
 }
 
-@media (max-width: 908px) {
-  .navbar-nav {
-    float: none!important;
-    margin: 3px;
+@media (max-width: 949px) {
+  #nav-container {
+    width: 100%;
+    padding: 0px 10px;
   }
 
-  #nav-form {
-    min-width: 225px;
-    margin: 3px;
+  .container-fluid {
+    padding: 0px 4px;
   }
-  .navbar-collapse.collapse.in {
-      display: block;
-  }
-  .collapsing {
-      overflow: hidden;
+
+  .navbar-right {
+
   }
 }
 
-@media (max-width: 1060px) {
+@media (max-width: 1106px) {
   #nav-container {
     width: 100%;
     padding-right: 15px;
@@ -231,7 +273,7 @@ background-color: #333;
 }
 
 #tabs {
-  border-bottom: 1px solid #c5c5c5;
+  border-bottom: 1px solid #D5D5D5;
   margin-bottom: -10px
 }
 
@@ -243,9 +285,10 @@ background-color: #333;
   margin-top: 50px;
   margin-left: 10px;
   max-width: 18%;
-  height: 30%;
+  max-height: 23%;
   position: absolute;
 }
+
 #first_name{
   margin-left: 15%;
   margin-top: 5%;
@@ -254,17 +297,56 @@ background-color: #333;
 #profile_select_picture{
   position: absolute;
 }
+
 #header{
   height: 20em;
 }
+
 .cover_picture{
-width: 100%;
-max-height: 100%;
-background-position: center center;
-background-repeat: no-repeat;
-overflow: hidden;
+  width: 100%;
+  max-height: 100%;
+  background-position: center center;
+  background-repeat: no-repeat;
+  overflow: hidden;
 }
+
 .cover_picture img {
   min-height: 100%;
   min-width: 100%;
+}
+
+.headline {
+  color: #999999;
+}
+
+#right-sidebar {
+  border-left: 1px solid #D5D5D5;
+  height: 60%;
+  padding: 20px;
+}
+
+.sidebar-headlines {
+  border-bottom: 1px solid #D5D5D5;
+  text-align: center;
+}
+
+.thumb {
+  width: 24px;
+  height: 24px;
+  float: none;
+  position: relative;
+  top: 7px;
+}
+form .progress {
+  line-height: 15px;
+}
+.progress {
+  display: inline-block;
+  width: 100px;
+  border: 3px groove #CCC;
+}
+.progress div {
+  font-size: smaller;
+  background: orange;
+  width: 0;
 }

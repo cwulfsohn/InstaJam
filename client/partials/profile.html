@@ -29,7 +29,7 @@
           <button ng-click="like()">{{track.likes.length}}</button>
           <button ng-click="reposts()">{{track.reposted_by.length}}</button>
           <button ng-click="playlist()">Add to playlist</button>
-      </div>
+        </div>
       </div>
       <div ng-if="containerView == 2">
           <div ng-repeat="playlist in user.playlists">
@@ -43,6 +43,7 @@
         <p>{{reposts}}</p>
       </div>
     </div>
+  </div>
     <div id="stats" class="col-sm-4">
       <a href="/#!/:user/following">Followers {{user.followers.length}}</a>
       <a href="/#!/:user/followers">Following {{user.following.length}}</a>
