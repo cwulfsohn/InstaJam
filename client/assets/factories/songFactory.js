@@ -30,5 +30,10 @@ app.factory('songFactory', ["$http", function($http){
       callback(data.data)
     })
   }
+  factory.createPlaylist = function(playlist, callback){
+    $http.post('/createPlaylist', playlist).then(function(data){
+      callback(data.data)
+    })
+  }
   return factory;
 }])

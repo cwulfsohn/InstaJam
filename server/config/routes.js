@@ -15,5 +15,6 @@ module.exports = function(app){
   app.post('/disLike', song.disLike),
   app.post('/repost', song.repost),
   app.post('/removeRepost', song.removeRepost),
-  app.get('/playlist/:s_id/:u_id', song.showPlaylist)
+  app.get('/playlist/:s_id/:u_id', song.showPlaylist),
+  app.post('/createPlaylist', song.createPlaylist)
 }

@@ -214,11 +214,13 @@ module.exports = {
     })
   },
   showPlaylist: function(req, res){
-    User.find({_id: req.params.u_id}).populate('playlists').exec(function(err, user){
+    User.find({_id: req.params.u_id}).populate('playlists').populate({path:"playlists", populate:{path: "song"}}).exec(function(err, user){
       if(err){
         res.json({err:err})
       }
       else{
+        console.log(user)
+        console.log(user.playlists)
         Song.findOne({_id: req.params.s_id}, function(err, song){
           if(err){
             res.json({err: err})
@@ -233,5 +235,37 @@ module.exports = {
       }
     })
 
+  },
+  createPlaylist: function(req, res){
+    User.findOne({_id: req.body.user_id}, function(err, user){
+      if(err){
+        res.json({err: err})
+      }
+      else{
+        Song.findOne({_id: req.body.song_id}, function(err, song){
+          if(err){
+            res.json({err: err})
+          }
+          else{
+            var playlist = new Playlist({title: req.body.title, description: req.body.description, first_song_art: song.album_cover, _user: user._id, songs: song._id})
+            playlist.save(function(err, playlist){
+              if(err){
+                res.json({err: err})
+              }
+              else{
+                user.playlists.push(playlist._id)
+                user.save(function(err, user){
+                  if(err){
+                    res.json({err: err})
+                  }
+                  else{
+                    res.json({playlist: playlist})
+                  }
+                })
+              }
+            })
+          }
+        })
+    }})
   }
 }
