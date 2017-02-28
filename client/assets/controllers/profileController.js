@@ -1,4 +1,4 @@
-app.controller("profileController", ["$scope", "userFactory","songFactory", "$location", "$cookies", 'Upload', "$timeout", "$routeParams","$uibModal", function($scope, userFactory, songFactory, $location, $cookies, Upload, $timeout, $routeParams, $uibModal){
+app.controller("profileController", ["$scope", "userFactory","songFactory", "$location", "$cookies", 'Upload', "$timeout", "$routeParams","$uibModal", "$timeout", function($scope, userFactory, songFactory, $location, $cookies, Upload, $timeout, $routeParams, $uibModal, $timeout){
   if ($cookies.get("user")){
     $scope.currentUser = $cookies.get("user");
   }
@@ -16,7 +16,7 @@ app.controller("profileController", ["$scope", "userFactory","songFactory", "$lo
         console.log(data.err)
       }
       else{
-        $scope.user = data.user
+        $scope.user = data.user;
       }
     })
   }
@@ -25,7 +25,12 @@ app.controller("profileController", ["$scope", "userFactory","songFactory", "$lo
       $scope.containerView = 0;
     }
     else if(number == 1){
-      $scope.containerView = 1
+      $scope.containerView = 1;
+      $timeout(function(){
+        for (var i = 0; i < $scope.user.uploaded_songs.length; i++){
+          $scope.wavemaker($scope.user.uploaded_songs[i])
+        }
+      }, 500)
     }
     else if(number == 2){
       $scope.containerView = 2
@@ -55,13 +60,11 @@ app.controller("profileController", ["$scope", "userFactory","songFactory", "$lo
       }
   $scope.like = function(song_id, user_id){
     songFactory.like(song_id, user_id, function(data){
-      console.log('hello')
       $scope.showUser();
     })
   }
   $scope.disLike = function(song_id, user_id){
     songFactory.disLike(song_id, user_id, function(data){
-      console.log('hello')
       $scope.showUser();
     })
   }
@@ -74,6 +77,70 @@ app.controller("profileController", ["$scope", "userFactory","songFactory", "$lo
     songFactory.removeRepost(song_id, user_id, function(data){
       $scope.showUser();
     })
+  };
+  $scope.playlistLike = function(playlist_id, user_id){
+    songFactory.playlistLike(playlist_id, user_id, function(data){
+      $scope.showUser();
+    })
+  }
+  $scope.playlistDisLike = function(playlist_id, user_id){
+    songFactory.playlistDisLike(playlist_id, user_id, function(data){
+      $scope.showUser();
+    })
+  }
+  $scope.playlistRepost = function(playlist_id, user_id){
+    songFactory.playlistRepost(playlist_id, user_id, function(data){
+      $scope.showUser();
+    })
+  }
+  $scope.playlistRemoveRepost = function(playlist_id, user_id){
+    songFactory.playlistRemoveRepost(playlist_id, user_id, function(data){
+      $scope.showUser();
+    })
+  };
+  $scope.wavemaker = function(songId){
+  var surfers = []
+  $scope.wavemaker = function(song){
+    var id = '#w' + song._id;
+    var wavesurfer = WaveSurfer.create({
+      container: id,
+      waveColor: '#17BEBB',
+      progressColor: '#EF3E36',
+      cursorColor: '#EF3E36',
+      barWidth: 2,
+      cursorWidth:0
+        });
+    wavesurfer.load(song.song_file);
+
+    wavesurfer.on('ready', function () {
+      $("#l" + song._id).text(secondsToMinSec(wavesurfer.getDuration()));
+      $('#play').click(function() {
+        this.playPause();
+      });
+      wavesurfer.on('audioprocess', function(){
+          $("#currentTime").text("Current second:" + wavesurfer.getCurrentTime());
+      })
+    });
+    surfers.push(wavesurfer)
+  };
+  $scope.play_pause = function(index){
+    for (var i = 0; i < surfers.length; i++){
+      if (surfers[i].isPlaying() && surfers[i] != surfers[index]){
+        surfers[i].stop();
+        $('#s' + i).addClass("glyphicon-play")
+        $('#s' + i).removeClass("glyphicon-pause")
+      }
+    }
+    if ($('#s' + index).hasClass("glyphicon-play")){
+      $('#s' + index).addClass("glyphicon-pause")
+      $('#s' + index).removeClass("glyphicon-play")
+    }
+    else {
+      $('#s' + index).removeClass("glyphicon-pause")
+      $('#s' + index).addClass("glyphicon-play")
+    }
+
+    surfers[index].playPause();
   }
   $scope.open = function(song_id){
     $cookies.put('songId', song_id)
@@ -85,4 +152,12 @@ app.controller("profileController", ["$scope", "userFactory","songFactory", "$lo
         contorller: 'playlistController'
       });
     }
+
 }])
+
+function secondsToMinSec(seconds){
+  var string = ""
+  var minutes = Math.trunc(seconds/60);
+  var seconds = Math.trunc(seconds%60);
+  return string + minutes + ":" + seconds;
+}

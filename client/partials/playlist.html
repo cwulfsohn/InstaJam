@@ -1,4 +1,36 @@
+<style>
+.image{
+  width: 30px;
+  height: 30px;
+}
+</style>
 <div ng-controller="playlistController">
-  <h1>{{song_id}}</h1>
+  <button ng-click="changeView(0)">Add to Playlist</button>
+  <button ng-click="changeView(1)">Create a Playlist</button>
+  <div ng-if="containerView == 0">
+    <input type='text' placeholder="Filter Playlist" ng-model="search.$">
+    <div ng-repeat="playlist in playlists.playlists | filter:search">
+      <img class="image" ng-src="{{playlist.first_song_art}}">
+      <p>{{playlist.title}}</p>
+      <p>{{playlist.songs.length}}</p>
+      <button ng-click="addToPlaylist(song._id, playlist._id)">Add to playlist</button>
+      <hr>
+    </div>
+  </div>
+  <div ng-if="containerView == 1">
+    <form ng-submit="createPlaylist(song._id)">
+      <label>
+        Playlist Title: <input type="text" ng-model="playlist.title">
+      </label>
+      <label>
+        Playlist Description: <textarea ng-model="playlist.description"></textarea>
+      </label>
+    <input type="submit" value="Save">
+    </form>
+    <div>
+      <img class="image" ng-src="{{song.album_cover}}">
+      <p>{{song.artist_name}} - {{song.song_title}}</p>
+    </div>
+  </div>
   <button ng-click="cancel()">Cancel</button>
 </div>

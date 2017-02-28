@@ -213,8 +213,110 @@ module.exports = {
       }
     })
   },
+  playlistAddLike: function(req, res){
+    console.log(req.body)
+    Playlist.findOne({_id: req.body.p_id}, function(err, playlist){
+      if(err){
+        res.json({err: err})
+      }
+      else{
+        User.findOne({_id: req.body.u_id}, function(err, user){
+          if(err){
+            res.json({err: err})
+          }
+          else{
+            playlist.likes.push(user._id)
+            playlist.save(function(err){
+              if(err){
+                res.json({err: err})
+              }
+              else{
+                user.like_playlists.push(playlist._id)
+                user.save(function(err){
+                  if(err){
+                    res.json({err: err})
+                  }
+                  else{
+                    res.json({ok: 'works'})
+                  }
+                })
+              }
+            })
+
+          }
+        })
+      }
+    })
+  },
+  playlistDisLike: function(req, res){
+    Playlist.update({_id: req.body.p_id}, {$pull: {likes: req.body.u_id}}, {safe: true}, function(err, playlist){
+      if(err){
+        res.json({err:err})
+      }
+      else{
+        User.update({_id: req.body.u_id}, {$pull: {like_playlists: req.body.p_id}}, {safe: true}, function(err, user){
+          if(err){
+            res.json({err:err})
+          }
+        else{
+          res.json({user:user})
+        }})
+      }
+    })
+  },
+  playlistRepost: function(req, res){
+
+    Playlist.findOne({_id: req.body.p_id}, function(err, playlist){
+      if(err){
+        res.json({err: err})
+      }
+      else{
+        User.findOne({_id: req.body.u_id}, function(err, user){
+          if(err){
+            res.json({err: err})
+          }
+          else{
+            playlist.reposts.push(user._id)
+            playlist.save(function(err){
+              if(err){
+                res.json({err: err})
+              }
+              else{
+                user.playlist_reposts.push(playlist._id)
+                user.save(function(err){
+                  if(err){
+                    res.json({err: err})
+                  }
+                  else{
+                    res.json({ok: 'works'})
+                  }
+                })
+              }
+            })
+
+          }
+        })
+      }
+    })
+  },
+  playlistRemoveRepost: function(req, res){
+    Playlist.update({_id: req.body.p_id}, {$pull: {reposts: req.body.u_id}}, {safe: true}, function(err, playlist){
+      if(err){
+        res.json({err:err})
+      }
+      else{
+        User.update({_id: req.body.u_id}, {$pull: {playlist_reposts: req.body.p_id}}, {safe: true}, function(err, user){
+          if(err){
+            res.json({err:err})
+          }
+        else{
+          res.json({user:user})
+        }})
+      }
+    })
+  },
   showPlaylist: function(req, res){
-    User.find({_id: req.params.u_id}).populate('playlists').exec(function(err, user){
+    User.findOne({_id: req.params.u_id}).populate('playlists').populate({path:"playlists", populate:{path: "song"}}).exec(function(err, user){
       if(err){
         res.json({err:err})
       }
@@ -223,9 +325,6 @@ module.exports = {
           if(err){
             res.json({err: err})
           }
-          else if(!user.playlists){
-            res.json({playlists: "No Current Playlists", song: song})
-          }
           else{
             res.json({playlists: user, song: song})
           }
@@ -233,5 +332,70 @@ module.exports = {
       }
     })
 
+  },
+  createPlaylist: function(req, res){
+    User.findOne({_id: req.body.user_id}, function(err, user){
+      if(err){
+        res.json({err: err})
+      }
+      else{
+        Song.findOne({_id: req.body.song_id}, function(err, song){
+          if(err){
+            res.json({err: err})
+          }
+          else{
+            var playlist = new Playlist({title: req.body.title, description: req.body.description, first_song_art: song.album_cover, _user: user._id, songs: song._id})
+            playlist.save(function(err, playlist){
+              if(err){
+                res.json({err: err})
+              }
+              else{
+                user.playlists.push(playlist)
+                user.save(function(err, user){
+                  if(err){
+                    res.json({err: err})
+                  }
+                  else{
+                    res.json({playlist: playlist})
+                  }
+                })
+              }
+            })
+          }
+        })
+    }})
+  },
+  addToPlaylist: function(req, res){
+    Song.findOne({_id: req.body.s_id}, function(err, song){
+      if(err){
+        res.json({err: err})
+      }
+      else{
+        Playlist.findOne({_id: req.body.p_id}, function(err, playlist){
+          if(err){
+            res.json({err: err})
+          }
+          else{
+            song.in_playlists.push(playlist)
+            song.save(function(err, song){
+              if(err){
+                res.json({err: err})
+              }
+              else{
+                playlist.songs.push(song)
+                playlist.save(function(err, playlist){
+                  if(err){
+                    res.json({err: err})
+                  }
+                  else{
+                    res.json({success: 'Success'})
+                  }
+                })
+              }
+            })
+          }
+        })
+      }
+    })
   }
 }
