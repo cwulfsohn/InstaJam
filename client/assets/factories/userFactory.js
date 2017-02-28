@@ -11,5 +11,10 @@ app.factory('userFactory', ["$http", function($http){
       callback(data.data)
     })
   }
+  factory.showUser = function(user_id, callback){
+    $http.get('/showuser/'+user_id).then(function(data){
+      callback(data.data)
+    })
+  }
   return factory;
 }])

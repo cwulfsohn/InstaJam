@@ -1,0 +1,82 @@
+<style media="screen">
+.profile_picture{
+  margin-top: 50px;
+  margin-left: 10px;
+  max-width: 18%;
+  height: 30%;
+  position: absolute;
+}
+#first_name{
+  margin-left: 15%;
+  margin-top: 5%;
+  position: absolute;
+}
+#profile_select_picture{
+  position: absolute;
+}
+#header{
+  height: 20em;
+}
+.cover_picture{
+width: 100%;
+max-height: 100%;
+background-position: center center;
+background-repeat: no-repeat;
+overflow: hidden;
+}
+.cover_picture img {
+  min-height: 100%;
+  min-width: 100%;
+}
+</style>
+<div class="container">
+  <div id="header">
+    <h1 id="first_name">{{firstName}}</h1>
+      <button id="profile_select_picture" class="btn pull-left" type="file" ngf-select="uploadFiles($file, $invalidFiles, 'profile')"
+          accept="image/*" ngf-max-height="1000" ngf-max-size="1MB">
+      Profile Picture</button>
+      <img class="img-circle img-responsive profile_picture" src="{{user.profile_image}}">
+      <div class="cover_picture">
+        <button id="cover_select_picture" class="btn pull-right" type="file" ngf-select="uploadFiles($file, $invalidFiles, 'cover')"
+            accept="image/*" ngf-max-height="1000" ngf-max-size="1MB">
+        Cover Picture</button>
+        <img src="{{user.cover_image}}">
+      </div>
+  </div>
+  <hr>
+  <br><br>
+  <div id="body" class="row">
+    <div id="music_info" class="col-sm-8">
+      <a ng-click="changeView(0)">All</a>
+      <a ng-click="changeView(1)">Tracks</a>
+      <a ng-click="changeView(2)">Playlist</a>
+      <a ng-click="changeView(3)">Reposts</a>
+      <div ng-if="containerView == 0">
+      </div>
+      <div ng-if="containerView == 1">
+        <div ng-repeat="track in user.uploaded_songs">
+          <img src="{{track.album_cover}}">
+          <audio controls ng-src="{{track.song_file}}"></audio>
+          <button ng-click="like()">{{track.likes.length}}</button>
+          <button ng-click="reposts()">{{track.reposted_by.length}}</button>
+          <button ng-click="playlist()">Add to playlist</button>
+      </div>
+      <div ng-if="containerView == 2">
+          <div ng-repeat="playlist in user.playlists">
+            <p>{{playlist}}</p>
+            <img src="{{playlist.songs.album_cover}}">
+            <audio controls ng-src="{{track.song_file}}"></audio>
+          </div>
+      </div>
+      <div ng-if="containerView == 3">
+        <div ng-repeat="reposts in user.playlists">
+        <p>{{reposts}}</p>
+      </div>
+    </div>
+    <div id="stats" class="col-sm-4">
+      <a href="/#!/:user/following">Followers {{user.followers.length}}</a>
+      <a href="/#!/:user/followers">Following {{user.following.length}}</a>
+      <a href="/#!/:user/tracks">Tracks {{user.uploaded_songs.length}}</a>
+    </div>
+  </div>
+  </div>

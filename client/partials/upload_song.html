@@ -1,0 +1,61 @@
+<style media="screen">
+.thumb {
+  width: 24px;
+  height: 24px;
+  float: none;
+  position: relative;
+  top: 7px;
+}
+form .progress {
+  line-height: 15px;
+}
+.progress {
+  display: inline-block;
+  width: 100px;
+  border: 3px groove #CCC;
+}
+.progress div {
+  font-size: smaller;
+  background: orange;
+  width: 0;
+}
+</style>
+<h1 class="text-center">Upload Song</h1>
+
+<form ng-submit="uploadFiles(audioFile)">
+  <div class="form-group">
+    <label for="song_title">Song Title</label>
+    <input class="form-control" type="text" name="song_title" ng-model="song.title">
+  </div>
+  <div class="form-group">
+    <label for="artist">Artist</label>
+    <input class="form-control" type="text" name="artist" ng-model="song.artist">
+  </div>
+  <div class="form-group">
+    <label for="tags">Tags</label>
+    <input class="form-control" type="text" name="tags" ng-model="song.tags" placeholder="Bangers, Smooth, etc.">
+  </div>
+  <div class="form-group">
+    <label for="description">Description</label>
+    <textarea class="form-control" type="text" name="description" ng-model="song.description"></textarea>
+  </div>
+  <div class="form-group">
+    <label for="upload">Upload</label>
+    <input class="form-control" name='upload' type="file" accept=".mp3" ngf-max-size="60MB" ngf-select ng-model="audioFile" name="file">
+  </div>
+  <input ng-hide="newSong" class="btn btn-success" type="submit" value="Upload Song">
+</form>
+  {{errorMsg}}
+  <div ng-if="errors">
+    <p ng-repeat="error in errors track by $index">{{error}}</p>
+  </div>
+
+<form ng-if="newSong" ng-submit="addCover(coverArt)">
+  <h3 class="text-center">Add Cover Art?</h3>
+  <div class="form-group">
+    <label for="cover">Upload Image</label>
+    <input class="form-control" name='cover' type="file" accept="image/*" ngf-max-size="30MB" ngf-select ng-model="coverArt">
+  </div>
+  <input type="submit" class="btn btn-success" value="Add Cover Art">
+  <a class="btn btn-primary" href="#!/song/{{newSong._id}}">Skip</a>
+</form>

@@ -39,5 +39,15 @@ module.exports = {
         }
       }
     })
+  },
+  showUser: function(req, res){
+    User.findOne({_id: req.params.id}, function(err, user){
+      if(err){
+        res.json({err:err})
+      }
+      else{
+        res.json({user: user})
+      }
+    })
   }
 }
