@@ -422,3 +422,32 @@ form .progress {
   width: 40px;
   border: none;
 }
+
+#audio_player_preview{
+  background: #2E282A;
+  border-radius: 10px;
+  border: .5em solid #c0c0c0;
+  color: #FAD8D6;
+}
+#album_cover_preview{
+  display: inline-block;
+  vertical-align: top;
+  color: #FAD8D6;
+}
+.song_title{
+  font-size: 1.3em;
+  margin-bottom: 0em;
+  margin-top: -0.5em
+}
+.button{
+  background: #EF3E36;
+  border-radius: 90px;
+  width: 4.5em;
+  height: 4.5em;
+  border: none;
+  margin-top: 0.5em
+}
+.preview_button{
+  background: #2E282A;
+  border: none;
+}
