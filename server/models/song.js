@@ -7,17 +7,22 @@ var songSchema = mongoose.Schema({
   _user: {
     type: mongoose.Schema.Types.ObjectId, ref:'User'
   },
+  song_title: {
+    type: String, required: [true, "Title is required"]
+  },
   song_file: {
     type: String, required: [true, "File upload is required"]
   },
   album_cover: {
-    type: String
+    type: String,
+    default: "no_cover.jpg"
   },
   artist_name: {
     type: String, required: [true, "Artist name is required"]
   },
   tags: [{
-    type: String
+    type: String,
+    trim: true
   }],
   likes: [{
     type: mongoose.Schema.Types.ObjectId, ref:'User'
@@ -32,7 +37,8 @@ var songSchema = mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId, ref: "User"
   }],
   description: {
-    type: String
+    type: String,
+    maxlength: [500, "Description too long"]
   }
 }, {timestamps: true})
 
