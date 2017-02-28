@@ -439,15 +439,16 @@ form .progress {
   margin-bottom: 0em;
   margin-top: -0.5em
 }
-.button{
+.preview_play_button{
   background: #EF3E36;
   border-radius: 90px;
-  width: 4.5em;
-  height: 4.5em;
+  width: 3.5em;
+  height: 3.5em;
   border: none;
-  margin-top: 0.5em
+  margin: 0.5em 0 0 1.2em
 }
 .preview_button{
   background: #2E282A;
   border: none;
+  font-size: .8em
 }

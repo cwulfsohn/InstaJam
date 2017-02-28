@@ -16,7 +16,7 @@ app.controller("profileController", ["$scope", "userFactory","songFactory", "$lo
         console.log(data.err)
       }
       else{
-        $scope.user = data.user
+        $scope.user = data.user;
       }
     })
   }
@@ -25,7 +25,12 @@ app.controller("profileController", ["$scope", "userFactory","songFactory", "$lo
       $scope.containerView = 0;
     }
     else if(number == 1){
-      $scope.containerView = 1
+      $scope.containerView = 1;
+      console.log($scope.user.uploaded_songs);
+      for (var i = 0; i < $scope.user.uploaded_songs.length; i++){
+        console.log($scope.user.uploaded_songs);
+        $scope.wavemaker("#" + $scope.user.uploaded_songs[i]._id.toString())
+      }
     }
     else if(number == 2){
       $scope.containerView = 2
@@ -55,13 +60,11 @@ app.controller("profileController", ["$scope", "userFactory","songFactory", "$lo
       }
   $scope.like = function(song_id, user_id){
     songFactory.like(song_id, user_id, function(data){
-      console.log('hello')
       $scope.showUser();
     })
   }
   $scope.disLike = function(song_id, user_id){
     songFactory.disLike(song_id, user_id, function(data){
-      console.log('hello')
       $scope.showUser();
     })
   }
@@ -74,7 +77,28 @@ app.controller("profileController", ["$scope", "userFactory","songFactory", "$lo
     songFactory.removeRepost(song_id, user_id, function(data){
       $scope.showUser();
     })
-  }
+  };
+  $scope.wavemaker = function(songId){
+    var wavesurfer = WaveSurfer.create({
+      container: songId,
+      waveColor: '#17BEBB',
+      progressColor: '#EF3E36',
+      cursorColor: '#EF3E36',
+      barWidth: 2,
+      cursorWidth:0
+        });
+    wavesurfer.load($scope.song.song_file);
+
+    wavesurfer.on('ready', function () {
+      $("#length").text(secondsToMinSec(wavesurfer.getDuration()));
+      $('#play').click(function() {
+        wavesurfer.playPause();
+      });
+      wavesurfer.on('audioprocess', function(){
+          $("#currentTime").text("Current second:" + wavesurfer.getCurrentTime());
+      })
+    });
+  };
   $scope.open = function(song_id){
     $cookies.put('songId', song_id)
   $uibModal.open({

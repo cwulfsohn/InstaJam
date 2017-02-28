@@ -2,12 +2,12 @@
   <div id="header">
     <h1 id="first_name">{{user.firstName}}</h1>
       <button ng-if="user._id == id" id="profile_select_picture" class="btn pull-left" type="file" ngf-select="uploadFiles($file, $invalidFiles, 'profile')"
-          accept="image/*" ngf-max-height="1000" ngf-max-size="1MB">
+          accept="image/*" ngf-max-height="1000" ngf-max-size="10MB">
       Profile Picture</button>
       <img class="img-circle img-responsive profile_picture" src="{{user.profile_image}}">
       <div class="cover_picture">
         <button ng-if="user._id == id" id="cover_select_picture" class="btn pull-right" type="file" ngf-select="uploadFiles($file, $invalidFiles, 'cover')"
-            accept="image/*" ngf-max-height="1000" ngf-max-size="1MB">
+            accept="image/*" ngf-max-height="1000" ngf-max-size="10MB">
         Cover Picture</button>
         <img src="{{user.cover_image}}">
       </div>
@@ -23,14 +23,42 @@
       <div ng-if="containerView == 0">
       </div>
       <div ng-if="containerView == 1">
-        <div ng-repeat="track in user.uploaded_songs">
-          <img ng-src="{{track.album_cover}}">
-          <audio controls ng-src="{{track.song_file}}"></audio>
-          <button ng-if="track.likes.indexOf(id) > -1" ng-click="disLike(track._id, id)">Likes {{track.likes.length}}</button>
-          <button ng-if="track.likes.indexOf(id) == -1" ng-click="like(track._id, id)">Likes {{track.likes.length}}</button>
-          <button ng-if="track.reposted_by.indexOf(id) > -1" ng-click="removeRepost(track._id, id)">Reposts {{track.reposted_by.length}}</button>
-          <button ng-if="track.reposted_by.indexOf(id) == -1" ng-click="repost(track._id, id)">Reposts {{track.reposted_by.length}}</button>
-          <button type="button" class="btn btn-default" ng-click="open(track._id)">Add a playlist</button>
+        <div ng-repeat="song in user.uploaded_songs">
+          <div id="audio_player_preview">
+            <div class="row">
+              <img class="col-xs-3" id="album_cover_preview" ng-src="{{song.album_cover}}" alt="Album Cover">
+              <div class="col-xs-9">
+                <div class="row">
+                  <div class="col-xs-9">
+                    <p>{{song.artist_name}}</p>
+                    <p class="song_title">{{song.song_title}}</p>
+                  </div>
+                  <div class="col-xs-3">
+                    <button ng-click="switch()" class="preview_play_button" type="button" id="play" name="play"><span class="glyphicon glyphicon-{{play}}"></span></button>
+                  </div>
+                </div>
+                <div id="{{song._id}}"></div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-xs-3">
+                <button class="preview_button" ng-if="song.likes.indexOf(id) > -1" ng-click="disLike(song._id, id)"><span class="glyphicon glyphicon-heart"></span> {{song.likes.length}}</button>
+                <button class="preview_button" ng-if="song.likes.indexOf(id) == -1" ng-click="like(song._id, id)"><span class="glyphicon glyphicon-heart"></span> {{song.likes.length}}</button>
+                <button class="preview_button" ng-if="song.reposted_by.indexOf(id) > -1" ng-click="removeRepost(song._id, id)"><span class="glyphicon glyphicon-retweet"></span> {{song.reposted_by.length}}</button>
+                <button class="preview_button" ng-if="song.reposted_by.indexOf(id) == -1" ng-click="repost(song._id, id)"><span class="glyphicon glyphicon-retweet"></span> {{song.reposted_by.length}}</button>
+                <button class="preview_button" type="button" name="button"><span class="glyphicon glyphicon-plus"></span></button>
+              </div>
+              <div class="timed_comments col-xs-8">
+
+              </div>
+              <div class="col-xs-1" id="length"></div>
+            </div>
+          </div>
+        </div>
+
+
+
+
       </div>
       </div>
       <div ng-if="containerView == 2">
