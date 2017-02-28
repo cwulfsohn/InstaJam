@@ -16,6 +16,7 @@ app.controller("userController", ["$scope", "userFactory", "$location", "$cookie
       }
       else {
         $cookies.put("user", data.user.firstName);
+        $cookies.put("id", data.user._id);
         $location.url('/success')
       }
     })
@@ -23,7 +24,9 @@ app.controller("userController", ["$scope", "userFactory", "$location", "$cookie
   $scope.login = function(){
     userFactory.login($scope.userLogin, function(data){
       if(data.user){
+        console.log(data.user);
         $cookies.put("user", data.user[0].firstName);
+        $cookies.put("id", data.user[0]._id);
         $location.url('/success');
       }
       else {

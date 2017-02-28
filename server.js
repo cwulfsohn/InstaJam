@@ -7,6 +7,8 @@ var root = __dirname;
 
 app.use(express.static(path.join(root, "client")));
 app.use(express.static(path.join(root, "bower_components")));
+app.use(express.static(path.join(root, "server/static/audio")));
+app.use(express.static(path.join(root, "server/static/images")));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 

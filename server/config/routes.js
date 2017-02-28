@@ -5,5 +5,7 @@ var song = require('../controllers/songs.js')
 module.exports = function(app){
   app.post('/users/new', user.create),
   app.post('/users', user.login),
-  app.post('/songs/new', multipartyMiddleware, song.uploadFile)
+  app.post('/songs/new', multipartyMiddleware, song.uploadFile),
+  app.post('/songs/new/art', multipartyMiddleware, song.uploadArt),
+  app.get('/song/:id', song.show)
 }
