@@ -37,7 +37,7 @@
     </form>
     <div class="comment" ng-repeat="comment in song.comments">
       <p>{{comment.content}} at {{comment.time_marker | secToMinSec}}</p>
-      <p>- {{comment._user.firstName}}</p>
+      <p>- {{comment._user.username}}</p>
     </div>
   </div>
 </div>

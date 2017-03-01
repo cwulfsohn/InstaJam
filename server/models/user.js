@@ -5,6 +5,13 @@ require('./comment')
 require('./playlist')
 
 var UserSchema = mongoose.Schema({
+  username: {
+    type: String,
+    required: [true, "Username required"],
+    unique: [true, "Username has already been taken"],
+    minlength: 2,
+    trim: true
+  },
   firstName: {
   type: String,
   required: [true, "First name required"],
@@ -33,11 +40,13 @@ email: {
     type: String,
     required: [true, "password required"],
     trim: true,
-    minlength: 8
+    minlength: [8, "password must be 8 characters long"]
   },
-  birthday: {
-    type: Date,
-    required: [true, "birthday required"]
+  age: {
+    type: Number,
+    required: [true, "age required"],
+    min: [12, "Must be older than 12"],
+    max: [100, "Must be younger than 100"]
   },
   profile_image: {
     type: String,

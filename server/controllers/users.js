@@ -9,11 +9,12 @@ module.exports = {
     }
     else{
       var user = new User({
+        username: req.body.username,
         firstName : req.body.firstName,
         lastName : req.body.lastName,
         email : req.body.email,
         password : req.body.password,
-        birthday : req.body.birthday
+        age : req.body.age
       });
       user.save(function(err, user){
         if(err){

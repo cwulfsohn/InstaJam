@@ -65,7 +65,7 @@ body {
     background: -moz-linear-gradient(bottom, #FF3300, #FF7700);
     background: -o-linear-gradient(bottom, #FF3300, #FF7700);
     text-shadow: none;
-    font-family: "Brush Script MT", cursive;
+    font-family: cursive;
 }
 
 #main-nav {
@@ -394,9 +394,19 @@ background-color: #333;
   position: absolute;
 }
 
-#profile_name{
+#username{
   left: 245px;
   bottom: 170px;
+  position: absolute;
+  background-color: #000;
+  opacity: .7;
+  color: #FFF;
+  padding: 5px;
+  font-weight: bold;
+}
+#profile_name{
+  left: 245px;
+  bottom: 130px;
   position: absolute;
   background-color: #000;
   opacity: .7;
@@ -415,8 +425,6 @@ background-color: #333;
 .cover_picture{
   width: 100%;
   max-height: 100%;
-  background-position: center center;
-  background-repeat: no-repeat;
   overflow: hidden;
 }
 
