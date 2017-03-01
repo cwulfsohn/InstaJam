@@ -25,6 +25,26 @@ app.factory('songFactory', ["$http", function($http){
       callback(data.data)
     })
   }
+  factory.playlistLike = function(playlist_id, user_id, callback){
+    $http.post('/playlist/like', {p_id: playlist_id, u_id: user_id}).then(function(data){
+      callback(data.data)
+    })
+  }
+  factory.playlistDisLike = function(playlist_id, user_id, callback){
+    $http.post('/playlist/disLike', {p_id: playlist_id, u_id: user_id}).then(function(data){
+      callback(data.data)
+    })
+  }
+  factory.playlistRepost = function(playlist_id, user_id, callback){
+    $http.post('/playlist/repost', {p_id: playlist_id, u_id: user_id}).then(function(data){
+      callback(data.data)
+    })
+  }
+  factory.playlistRemoveRepost = function(playlist_id, user_id, callback){
+    $http.post('/playlist/removeRepost', {p_id: playlist_id, u_id: user_id}).then(function(data){
+      callback(data.data)
+    })
+  }
   factory.showPlaylists = function(song_id, user_id, callback){
     $http.get('/playlist/'+song_id+"/"+user_id).then(function(data){
       callback(data.data)
@@ -38,6 +58,10 @@ app.factory('songFactory', ["$http", function($http){
   factory.createComment = function(comment, callback){
     $http.post('/comment', comment).then(function(data){
       console.log(data);
+    })
+  }
+  factory.addToPlaylist = function(song_id, playlist_id, callback){
+    $http.post("/addToPlaylist", {s_id: song_id, p_id: playlist_id}).then(function(data){
       callback(data.data)
     })
   }

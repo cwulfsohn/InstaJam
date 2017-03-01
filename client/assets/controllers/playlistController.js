@@ -17,7 +17,6 @@ app.controller("playlistController", ["$scope", "userFactory","songFactory", "$c
           console.log(data.err)
         }
         else{
-          console.log(data.playlists)
           $scope.playlists = data.playlists
           $scope.song = data.song
           $cookies.remove('songId')
@@ -33,12 +32,22 @@ app.controller("playlistController", ["$scope", "userFactory","songFactory", "$c
           console.log(data.err)
         }
         else{
-          console.log(data.playlist)
           $scope.containerView = 2;
+          $scope.showPlaylists();
         }
       })
     }
     $scope.cancel = function(){
-      $uibModal.dismiss()
+    }
+    $scope.addToPlaylist = function(song_id, playlist_id){
+      songFactory.addToPlaylist(song_id, playlist_id, function(data){
+        if(data.err){
+          console.log(data.err)
+        }
+        else{
+          console.log(data.playlist)
+          $scope.showPlaylists();
+        }
+      })
     }
 }])
