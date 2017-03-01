@@ -143,10 +143,19 @@ app.controller("profileController", ["$scope", "userFactory","songFactory", "$lo
         ariaLabelledBy: 'modal-title-top',
         ariaDescribedBy: 'modal-body-top',
         templateUrl: './partials/playlist.html',
-        contorller: 'playlistController'
+        controller: 'playlistController'
       });
     }
-
+    $scope.follow = function(user_id){
+      userFactory.follow(user_id, $scope.id, function(data){
+        if(data.err){
+          console.log(data.err)
+        }
+        else{
+          $scope.showUser();
+        }
+    })
+  }
 }])
 
 function secondsToMinSec(seconds){

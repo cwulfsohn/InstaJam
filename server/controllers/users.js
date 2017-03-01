@@ -49,5 +49,39 @@ module.exports = {
         res.json({user: user})
       }
     })
+  },
+  addFollow: function(req, res){
+    User.findOne({_id: req.body.follow}, function(err, follow){
+      if(err){
+        res.json({err:err})
+      }
+      else{
+        User.findOne({_id: req.body.follower}, function(err, follower){
+          if(err){
+            res.json({err: err})
+          }
+          else{
+            follow.followers.push(follower)
+            follow.save(function(err, follow_user){
+              if(err){
+                res.json({err: err})
+              }
+              else{
+                follower.following.push(follow)
+                follower.save(function(err, follower_user){
+                  if(err){
+                    res.json({err: err})
+                  }
+                  else{
+                    console.log('works')
+                    res.json({works: "works"})
+                  }
+                })
+              }
+            })
+          }
+        })
+      }
+    })
   }
 }

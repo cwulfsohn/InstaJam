@@ -38,7 +38,6 @@ app.controller("playlistController", ["$scope", "userFactory","songFactory", "$c
       })
     }
     $scope.cancel = function(){
-      $uibModal.dismiss()
     }
     $scope.addToPlaylist = function(song_id, playlist_id){
       songFactory.addToPlaylist(song_id, playlist_id, function(data){
