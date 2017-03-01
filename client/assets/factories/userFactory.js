@@ -16,6 +16,11 @@ app.factory('userFactory', ["$http", function($http){
       callback(data.data)
     })
   }
+  factory.showOneUser = function(user_id, callback){
+    $http.get('/showoneuser/'+user_id).then(function(data){
+      callback(data.data)
+    })
+  }
   factory.follow = function(follow_user_id, follower_user_id, callback){
     $http.post("/follow", {follow: follow_user_id, follower: follower_user_id}).then(function(data){
       callback(data.data)

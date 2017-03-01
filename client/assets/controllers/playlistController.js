@@ -1,4 +1,4 @@
-app.controller("playlistController", ["$scope", "userFactory","songFactory", "$cookies","$uibModal", function($scope, userFactory, songFactory, $cookies, $uibModal){
+app.controller("playlistController", ["$uibModalInstance", "$scope", "userFactory","songFactory", "$cookies","$uibModal", function($uibModalInstance, $scope, userFactory, songFactory, $cookies, $uibModal){
     $scope.song_id = $cookies.get('songId')
     $scope.user_id = $cookies.get('id')
     $scope.containerView = 0;
@@ -38,6 +38,7 @@ app.controller("playlistController", ["$scope", "userFactory","songFactory", "$c
       })
     }
     $scope.cancel = function(){
+      $uibModalInstance.dismiss()
     }
     $scope.addToPlaylist = function(song_id, playlist_id){
       songFactory.addToPlaylist(song_id, playlist_id, function(data){
@@ -50,4 +51,5 @@ app.controller("playlistController", ["$scope", "userFactory","songFactory", "$c
         }
       })
     }
+    console.log($scope.$parent);
 }])

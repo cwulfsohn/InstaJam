@@ -179,6 +179,7 @@ app.controller("profileController", ["$scope", "userFactory","songFactory", "$lo
           console.log(data.err)
         }
         else{
+          console.log(data.work)
           $scope.showUser();
         }
     })

@@ -8,6 +8,7 @@ module.exports = function(app){
   app.post('/users', user.login),
   app.post('/image/new/:id', multipartyMiddleware, image.uploadFile),
   app.get('/showuser/:id', user.showUser)
+  app.get('/showoneuser/:id', user.showOneUser)
   app.post('/songs/new', multipartyMiddleware, song.uploadFile),
   app.post('/songs/new/art', multipartyMiddleware, song.uploadArt),
   app.get('/song/:id', song.show),

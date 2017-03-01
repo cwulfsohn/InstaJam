@@ -25,6 +25,10 @@ app.config(function ($routeProvider) {
   templateUrl: 'partials/song.html',
   controller: 'songController'
 })
+.when('/social/:firstName/:id/:number', {
+  templateUrl: 'partials/social.html',
+  controller: "socialController"
+})
 .otherwise({
   redirectTo: "/"
 })
