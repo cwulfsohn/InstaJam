@@ -65,7 +65,7 @@ body {
     background: -moz-linear-gradient(bottom, #FF3300, #FF7700);
     background: -o-linear-gradient(bottom, #FF3300, #FF7700);
     text-shadow: none;
-    font-family: cursive;
+    font-family: "Brush Script MT", cursive;
 }
 
 #main-nav {
@@ -168,8 +168,9 @@ background-color: #333;
 }
 
 .sm-user-img {
-  max-height: 26px;
-  padding-right: 5px;
+  height: 26px;
+  width: 26px;
+  margin-right: 5px;
 }
 
 #user-dropdown {
@@ -385,6 +386,7 @@ background-color: #333;
   left: 20px;
   bottom: 25px;
   width: 200px;
+  height: 200px;
   position: absolute;
 }
 

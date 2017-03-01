@@ -51,7 +51,7 @@
               <button class="preview_button" ng-if="song.likes.indexOf(id) == -1" ng-click="like(song._id, id)"><span class="glyphicon glyphicon-heart"></span> {{song.likes.length}}</button>
               <button class="preview_button" ng-if="song.reposted_by.indexOf(id) > -1" ng-click="removeRepost(song._id, id)"><span class="glyphicon glyphicon-retweet"></span> {{song.reposted_by.length}}</button>
               <button class="preview_button" ng-if="song.reposted_by.indexOf(id) == -1" ng-click="repost(song._id, id)"><span class="glyphicon glyphicon-retweet"></span> {{song.reposted_by.length}}</button>
-              <button ng-click="open(song._id)"><span class="glyphicon glyphicon-plus"></span></button>
+              <button class="preview_button" ng-click="open(song._id)"><span class="glyphicon glyphicon-plus"></span></button>
             </div>
             <div id="t{{$index}}" class="col-xs-8"></div>
             <div class="col-xs-1" id="l{{song._id}}"></div>
