@@ -3,6 +3,8 @@ var fs = require('fs');
 var path = require("path");
 var User = mongoose.model('User');
 var Song = mongoose.model('Song');
+var TimedComment = mongoose.model('TimedComment');
+var Comment = mongoose.model('Comment');
 var Playlist = mongoose.model('Playlist');
 var static_folder = "../static/audio";
 var static_images = "../static/images"
@@ -102,7 +104,8 @@ module.exports = {
     })
   },
   show: function(req, res){
-    Song.findOne({_id:req.params.id}).populate("_user").exec( function(err, song){
+    Song.findOne({_id:req.params.id}).populate("_user").populate('comments')
+    .populate({path: "comments", populate:{path: "_user"}}).exec( function(err, song){
       if (err){
         res.json({err:err});
       }
@@ -332,6 +335,50 @@ module.exports = {
       }
     })
 
+  },
+  createComment: function(req, res){
+    Song.findOne({_id: req.body.song}, function(err, song){
+      if (err){
+        res.json({err:err})
+      }
+      else {
+        User.findOne({_id:req.body.user}, function(err, user){
+          if(err){
+            res.json({err:err})
+          }
+          else {
+            var comment = new Comment({
+              content: req.body.content,
+              time_marker: Math.floor(req.body.time_marker),
+              _user: user._id,
+              _song: song._id
+            });
+            comment.save(function(err, comment){
+              if (err){
+                res.json({err:err})
+              }
+              else {
+                song.comments.push(comment);
+                var timedComment = new TimedComment({
+                  time: Math.floor(req.body.time_marker),
+                  comment: comment.content,
+                  user: user.firstName
+                })
+                song.timedComments.push(timedComment)
+                song.save(function(err, song){
+                  if (err){
+                    res.json({err:err})
+                  }
+                  else {
+                    res.json({comment:comment, song:song})
+                  }
+                })
+              }
+            })
+          }
+        })
+      }
+    })
   },
   createPlaylist: function(req, res){
     User.findOne({_id: req.body.user_id}, function(err, user){

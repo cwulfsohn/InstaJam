@@ -10,6 +10,7 @@
             <p class="song_title">{{song.song_title}}</p>
           </div>
           <div class="col-xs-2">
+            <button ng-click="switch()" type="button" class="preview_play_button" id="play" name="play"><span class="glyphicon glyphicon-{{play}}"></span></button>
             <button ng-click="switch()" class="play-button img-circle" type="button" id="play" name="play"><span class="glyphicon glyphicon-play"></span></button>
           </div>
         </div>
@@ -24,10 +25,20 @@
         <button class="preview_button" ng-if="song.reposted_by.indexOf(id) == -1" ng-click="repost(song._id, id)"><span class="glyphicon glyphicon-retweet"></span> {{song.reposted_by.length}}</button>
         <button class="preview_button" type="button" name="button"><span class="glyphicon glyphicon-plus"></span>Playlist</button>
       </div>
-      <div class="timed_comments col-xs-8">
-
+      <div id="timed_comments" class="col-xs-8">
       </div>
       <div class="col-xs-1" id="length"></div>
+    </div>
+  </div>
+  <div id="song_comments">
+    <h4>Comments</h4>
+    <form ng-submit="addComment(song._id)">
+      <input type="text" ng-model="comment.content">
+      <input type="submit" value="Comment">
+    </form>
+    <div class="comment" ng-repeat="comment in song.comments">
+      <p>{{comment.content}}</p>
+      <p>- {{comment._user.firstName}}</p>
     </div>
   </div>
 </div>
