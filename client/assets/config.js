@@ -25,6 +25,10 @@ app.config(function ($routeProvider) {
   templateUrl: 'partials/song.html',
   controller: 'songController'
 })
+.when('/search/:term', {
+  templateUrl: 'partials/search.html',
+  controller: 'searchController'
+})
 .otherwise({
   redirectTo: "/"
 })

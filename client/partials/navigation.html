@@ -16,7 +16,7 @@
         </ul>
         <form id="nav-form" class="navbar-form navbar-left">
           <input id="nav-search" type="text" class="form-control" placeholder="Search" ng-model="searchTerm">
-          <input id="invisible-submit" type="submit" ng-click="search()">
+          <a id="invisible-submit" type="submit" href="/search/{{searchTerm}}"></a>
         </form>
         <ul class="nav navbar-nav navbar-right">
           <li><a ng-href="#!/upload">Upload</a></li>

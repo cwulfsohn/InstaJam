@@ -268,7 +268,6 @@ module.exports = {
     })
   },
   playlistRepost: function(req, res){
-
     Playlist.findOne({_id: req.body.p_id}, function(err, playlist){
       if(err){
         res.json({err: err})
@@ -444,5 +443,30 @@ module.exports = {
         })
       }
     })
+  },
+  search: function (req, res) {
+    var results = {}
+    Song.find({"artist_name": {"$regex": req.params.search_term, "$options": "i" } }, function (err, artists) {
+      if (err) {
+        console.log(err);
+      } else {
+        results.artists = artists;
+      }
+      Song.find({"song_title": {"$regex": req.params.search_term, "$options": "i" } }, function (err, songs) {
+        if (err) {
+          console.log(err);
+        } else {
+          results.songs = songs;
+        }
+        Song.find({"tags": {"$regex": req.params.search_term, "$options": "i" } }, function (err, tags) {
+          if (err) {
+            console.log(err);
+          } else {
+            results.tags = tags;
+          }
+          res.json(results);
+        })
+      });
+    });
   }
 }
