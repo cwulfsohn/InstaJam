@@ -42,7 +42,7 @@ module.exports = {
     })
   },
   showUser: function(req, res){
-    User.findOne({_id: req.params.id}).populate("uploaded_songs").populate("playlists").populate("reposts").exec(function(err, user){
+    User.findOne({_id: req.params.id}).populate("uploaded_songs").populate("playlists").populate({path: "playlists", populate: {path:"_user"}}).populate({path: "playlists", populate: {path:"songs"}}).populate("reposts").exec(function(err, user){
       if(err){
         res.json({err:err})
       }
