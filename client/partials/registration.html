@@ -5,6 +5,9 @@
   </ul>
 </div>
 <form ng-submit="register()" name="regForm">
+  <label for="username">
+    Username <input type="text" name="username" ng-model="user.username">
+  </label>
   <label for="email">
     Email <input type="text" name="email" ng-model="user.email">
   </label>
@@ -20,8 +23,8 @@
   <label for="confirmPassword">
     Confirm Password <input type="password" name="confirmPassword" ng-model="user.confirmPassword">
   </label>
-  <label for="birthday">
-    Birthday <input type="date" name="birthday" ng-model="user.birthday">
+  <label for="age">
+    Age <input type="number" name="age" ng-model="user.age" min: 0 max: 90>
   </label>
   <input type="submit" value="Register">
 </form>

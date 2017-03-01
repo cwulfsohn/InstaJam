@@ -13,7 +13,7 @@ app.config(function ($routeProvider) {
   templateUrl: "partials/userHome.html",
   controller: "successController"
 })
-.when("/profile/:firstName/:id", {
+.when("/profile/:username/:id", {
   templateUrl: "partials/profile.html",
   controller: "profileController"
 })
@@ -25,7 +25,7 @@ app.config(function ($routeProvider) {
   templateUrl: 'partials/song.html',
   controller: 'songController'
 })
-.when('/social/:firstName/:id/:number', {
+.when('/social/:username/:id/:number', {
   templateUrl: 'partials/social.html',
   controller: "socialController"
 })
@@ -36,4 +36,23 @@ app.config(function ($routeProvider) {
 .otherwise({
   redirectTo: "/"
 })
+})
+.filter('secToMinSec', function(){
+  return function(number){
+    if(isNaN(number) || number < 1) {
+      return number;
+    } else {
+      var string = ""
+      var minutes = Math.trunc(number/60);
+      if (minutes < 1){
+        minutes = "00"
+      }
+      var seconds = Math.trunc(number%60);
+      if (seconds < 10){
+        seconds = "0" + seconds
+      }
+      return string + minutes + ":" + seconds;
+
+    }
+  }
 })
