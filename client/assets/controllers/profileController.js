@@ -26,11 +26,21 @@ app.controller("profileController", ["$scope", "userFactory","songFactory", "$lo
     }
     else if(number == 1){
       $scope.containerView = 1;
+      $scope.current = 0
       $timeout(function(){
         for (var i = 0; i < $scope.user.uploaded_songs.length; i++){
           $scope.wavemaker($scope.user.uploaded_songs[i])
         }
-      }, 500)
+      }, 500);
+      for (var i = 0; i < $scope.user.uploaded_songs.length; i++){
+        var song = $scope.user.uploaded_songs[i]
+        song.well_timed_comments = {}
+        console.log(song);
+        for (var j = 0; j < song.timedComments.length; j++){
+          song.well_timed_comments[song.timedComments[j].time] = song.timedComments[j].comment + " -" + song.timedComments[j].user
+        }
+      }
+      console.log($scope.user.uploaded_songs);
     }
     else if(number == 2){
       $scope.containerView = 2
@@ -78,6 +88,9 @@ app.controller("profileController", ["$scope", "userFactory","songFactory", "$lo
       $scope.showUser();
     })
   };
+  $scope.check = function(){
+    console.log($scope.current);
+  }
   var surfers = []
   $scope.wavemaker = function(song){
     var id = '#w' + song._id;
@@ -93,16 +106,24 @@ app.controller("profileController", ["$scope", "userFactory","songFactory", "$lo
 
     wavesurfer.on('ready', function () {
       $("#l" + song._id).text(secondsToMinSec(wavesurfer.getDuration()));
-      $('#play').click(function() {
-        this.playPause();
-      });
-      wavesurfer.on('audioprocess', function(){
-          $("#currentTime").text("Current second:" + wavesurfer.getCurrentTime());
+      console.log(surfers[$scope.current]);
+      $('.preview_play_button').on("click", function(){
+        surfers[$scope.current].on('audioprocess', function(){
+          if ($scope.user.uploaded_songs[$scope.current].well_timed_comments[Math.floor(surfers[$scope.current].getCurrentTime())]){
+            $("#t" + $scope.current).text($scope.user.uploaded_songs[$scope.current].well_timed_comments[Math.floor(surfers[$scope.current].getCurrentTime())]);
+          }
+          else {
+            $("#timed_comments").text(" ")
+          }
+        })
       })
     });
     surfers.push(wavesurfer)
   };
   $scope.play_pause = function(index){
+    console.log($scope.current);
+    $scope.current = index;
+    console.log($scope.current);
     for (var i = 0; i < surfers.length; i++){
       if (surfers[i].isPlaying() && surfers[i] != surfers[index]){
         surfers[i].stop();

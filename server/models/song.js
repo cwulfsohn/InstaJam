@@ -3,6 +3,12 @@ require('./user')
 require('./comment')
 require('./playlist')
 
+var timedCommentSchema = mongoose.Schema({
+  time: Number,
+  comment: String,
+  user: String
+})
+
 var songSchema = mongoose.Schema({
   _user: {
     type: mongoose.Schema.Types.ObjectId, ref:'User'
@@ -39,7 +45,9 @@ var songSchema = mongoose.Schema({
   description: {
     type: String,
     maxlength: [500, "Description too long"]
-  }
+  },
+  timedComments: [timedCommentSchema]
 }, {timestamps: true})
 
 mongoose.model("Song", songSchema)
+mongoose.model("TimedComment", timedCommentSchema)

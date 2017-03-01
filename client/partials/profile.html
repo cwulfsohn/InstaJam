@@ -31,7 +31,7 @@
                 <div class="row">
                   <div class="col-xs-9">
                     <p>{{song.artist_name}}</p>
-                    <p class="song_title">{{song.song_title}}</p>
+                    <p class="song_title"><a href="#!/song/{{song._id}}">{{song.song_title}}</a></p>
                   </div>
                   <div class="col-xs-3">
                     <button class="preview_play_button" type="button" ng-click="play_pause($index)" name="play"><span id="s{{$index}}" class="glyphicon glyphicon-play"></span></button>
@@ -48,11 +48,12 @@
                 <button class="preview_button" ng-if="song.reposted_by.indexOf(id) == -1" ng-click="repost(song._id, id)"><span class="glyphicon glyphicon-retweet"></span> {{song.reposted_by.length}}</button>
                 <button class="preview_button" type="button" name="button"><span class="glyphicon glyphicon-plus"></span></button>
               </div>
-              <div class="timed_comments col-xs-8">
+              <div id="t{{$index}}" class="col-xs-8">
 
               </div>
               <div class="col-xs-1" id="l{{song._id}}"></div>
             </div>
+            <button ng-click="check()" type="button" name="button">CLICK</button>
           </div>
         </div>
       </div>

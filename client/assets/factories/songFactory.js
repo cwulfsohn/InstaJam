@@ -35,5 +35,11 @@ app.factory('songFactory', ["$http", function($http){
       callback(data.data)
     })
   }
+  factory.createComment = function(comment, callback){
+    $http.post('/comment', comment).then(function(data){
+      console.log(data);
+      callback(data.data)
+    })
+  }
   return factory;
 }])

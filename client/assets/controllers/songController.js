@@ -3,6 +3,7 @@ app.controller("songController", ["$scope", "songFactory", "$location", "$cookie
     $scope.currentUser = $cookies.get("user");
     $scope.id = $cookies.get("id");
     $scope.wave = false;
+    $scope.comment = {};
   }
   else {
     $location.url('/')
@@ -25,14 +26,20 @@ app.controller("songController", ["$scope", "songFactory", "$location", "$cookie
     songFactory.getSong($routeParams.id, function(data){
       $scope.play = "play"
       $scope.song = data.song;
+      $scope.song.well_timed_comments = {};
+      $scope.comment = {};
       if ($scope.wave == false){
         $scope.wavemaker();
         $scope.wave = true;
       }
+      for (var i = 0; i < $scope.song.comments.length; i++){
+        $scope.song.well_timed_comments[$scope.song.timedComments[i].time] = $scope.song.timedComments[i].comment + " -" + $scope.song.timedComments[i].user
+      }
     });
   };
+  var wavesurfer;
   $scope.wavemaker = function(){
-    var wavesurfer = WaveSurfer.create({
+    wavesurfer = WaveSurfer.create({
       container: '#waveform_preview',
       waveColor: '#17BEBB',
       progressColor: '#EF3E36',
@@ -48,9 +55,22 @@ app.controller("songController", ["$scope", "songFactory", "$location", "$cookie
         wavesurfer.playPause();
       });
       wavesurfer.on('audioprocess', function(){
-          $("#currentTime").text("Current second:" + wavesurfer.getCurrentTime());
+        if ($scope.song.well_timed_comments[Math.floor(wavesurfer.getCurrentTime())]){
+          $("#timed_comments").text($scope.song.well_timed_comments[Math.floor(wavesurfer.getCurrentTime())]);
+        }
+        else {
+          $("#timed_comments").text(" ")
+        }
       })
     });
+  };
+  $scope.addComment = function(id){
+    $scope.comment.time_marker = wavesurfer.getCurrentTime()
+    $scope.comment.song = id;
+    $scope.comment.user = $scope.id
+    songFactory.createComment($scope.comment, function(data){
+      $scope.getSong();
+    })
   };
   $scope.getSong();
   $scope.like = function(song_id, user_id){

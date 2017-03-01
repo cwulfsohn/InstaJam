@@ -14,7 +14,8 @@ var commentSchema = mongoose.Schema({
   },
   _replies: [{
     type: mongoose.Schema.Types.ObjectId, ref:'Reply'
-  }]
+  }],
+  time_marker: Number,
 }, {timestamps: true})
 
 var replySchema = mongoose.Schema({
