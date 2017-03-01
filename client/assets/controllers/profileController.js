@@ -98,7 +98,6 @@ app.controller("profileController", ["$scope", "userFactory","songFactory", "$lo
       $scope.showUser();
     })
   };
-  $scope.wavemaker = function(songId){
   var surfers = []
   $scope.wavemaker = function(song){
     var id = '#w' + song._id;
@@ -149,7 +148,7 @@ app.controller("profileController", ["$scope", "userFactory","songFactory", "$lo
         ariaLabelledBy: 'modal-title-top',
         ariaDescribedBy: 'modal-body-top',
         templateUrl: './partials/playlist.html',
-        contorller: 'playlistController'
+        controller: 'playlistController'
       });
     }
 
