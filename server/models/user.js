@@ -27,7 +27,7 @@ email: {
   type: String,
   required: [true, "email required"],
   trim: true,
-  unique: true,
+  unique: [true, "email has been taken"],
   minlength: 2,
   validate: [{
     validator: function( number ) {

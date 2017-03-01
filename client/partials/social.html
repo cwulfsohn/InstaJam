@@ -4,38 +4,48 @@
     <h3 id="profile_name">{{user.username}}</h3>
       <img class="img-circle profile_picture" src="{{user.profile_image}}">
   </div>
-  <div id="body">
     <ul class="nav nav-pills tabs">
       <li><a ng-click="changeView(1)"><h4>Likes</h4></a></li>
       <li><a ng-click="changeView(2)"><h4>Following</h4></a></li>
       <li><a ng-click="changeView(3)"><h4>Followers</h4></a></li>
     </ul>
+    <div id="body">
     <div ng-if="containerView == 1">
     </div>
     <div ng-if="containerView == 2">
-      <div class="following" ng-repeat="following in user.following">
-        <a href="/#!/profile/{{following.firstName}}/{{following._id}}">
+      <div class="following col-lg-2" ng-repeat="following in user.following">
+        <a href="/#!/profile/{{following.username}}/{{following._id}}">
         <img class="img-circle follow_image img-responsive" ng-src="{{following.profile_image}}">
         <p class="text-center">{{following.username}}</p>
         </a>
       </div>
     </div>
     <div ng-if="containerView == 3">
-      <h1>Nothin</h1>
+      <div class="following" ng-repeat="follower in user.followers">
+        <a href="/#!/profile/{{follower.username}}/{{follower._id}}">
+        <img class="img-circle follow_image img-responsive" ng-src="{{follower.profile_image}}">
+        <p class="text-center social_username">{{follower.username}}</p>
+        </a>
+        
+      </div>
     </div>
   </div>
 </div>
 <style>
 .following{
-  width: 20%;
-  height: 20%;
+  margin-top: 20px;
+  margin-bottom: 10px;
   display: inline-block;
+  font-size: 20px;
 }
 .follow_image{
-  width: 100px;
-  height: 100px;
+  width: 200px;
+  height: 200px;
 }
 .img-responsive{
   margin: 0 auto;
+}
+.social_username{
+  font-size: 20px;
 }
 </style>

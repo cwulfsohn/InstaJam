@@ -5,4 +5,4 @@ app.controller("searchController", ["$scope", "userFactory", "$location", "$cook
     console.log("Results are", Results);
   })
 
-}
+}])

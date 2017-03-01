@@ -81,7 +81,7 @@
           <tr>
             <td class="user-stats-info light-gray-right-border"><a href="/#!/social/{{user.username}}/{{user._id}}/3"><h5>Followers</h5> <h4>{{user.followers.length}}</h4></a></td>
             <td class="user-stats-info light-gray-right-border"><a href="/#!/social/{{user.username}}/{{user._id}}/2"><h5>Following</h5> <h4>{{user.following.length}}</h4></a></td>
-            <td class="user-stats-info"><a href="/#!/social/{{user.username}}/{{user._id}}/1"><h5>Tracks</h5> <h4>{{user.uploaded_songs.length}}</h4></a></td>
+            <td class="user-stats-info"><a ng-click="changeView(1)"><h5>Tracks</h5> <h4>{{user.uploaded_songs.length}}</h4></a></td>
           </tr>
         </table>
       </div>
