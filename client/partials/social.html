@@ -1,0 +1,41 @@
+<navigation></navigation>
+<div class="container">
+  <div id="header">
+    <h3 id="profile_name">{{user.firstName}} {{user.lastName}}</h3>
+      <img class="img-circle profile_picture" src="{{user.profile_image}}">
+  </div>
+  <div id="body">
+    <ul class="nav nav-pills tabs">
+      <li><a ng-click="changeView(1)"><h4>Likes</h4></a></li>
+      <li><a ng-click="changeView(2)"><h4>Following</h4></a></li>
+      <li><a ng-click="changeView(3)"><h4>Followers</h4></a></li>
+    </ul>
+    <div ng-if="containerView == 1">
+    </div>
+    <div ng-if="containerView == 2">
+      <div class="following" ng-repeat="following in user.following">
+        <a href="/#!/profile/{{following.firstName}}/{{following._id}}">
+        <img class="img-circle follow_image img-responsive" ng-src="{{following.profile_image}}">
+        <p class="text-center">{{following.firstName}} {{following.lastName}}</p>
+        </a>
+      </div>
+    </div>
+    <div ng-if="containerView == 3">
+      <h1>Nothin</h1>
+    </div>
+  </div>
+</div>
+<style>
+.following{
+  width: 20%;
+  height: 20%;
+  display: inline-block;
+}
+.follow_image{
+  width: 50%;
+  height: 20%;
+}
+.img-responsive{
+  margin: 0 auto;
+}
+</style>

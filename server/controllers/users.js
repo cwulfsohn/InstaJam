@@ -50,6 +50,16 @@ module.exports = {
       }
     })
   },
+  showOneUser: function(req, res){
+    User.findOne({_id: req.params.id}).populate("uploaded_songs").populate("playlists").populate("reposts").populate("followers").populate("following").exec(function(err, user){
+      if(err){
+        res.json({err:err})
+      }
+      else{
+        res.json({user: user})
+      }
+    })
+  },
   addFollow: function(req, res){
     User.findOne({_id: req.body.follow}, function(err, follow){
       if(err){
@@ -85,6 +95,20 @@ module.exports = {
     })
   },
   unFollow: function(req, res){
-    
+    User.update({_id: req.body.follow}, {$pull: {followers: req.body.follower}}, {safe: true}, function(err, follow){
+      if(err){
+        res.json({err: err})
+      }
+      else{
+        User.update({_id: req.body.follower}, {$pull: {following: req.body.follow}}, {safe: true}, function(err, follower){
+          if(err){
+            res.json({err: err})
+          }
+          else{
+            res.json({work: "Works"})
+          }
+        })
+      }
+    })
   }
 }
