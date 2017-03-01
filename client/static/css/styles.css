@@ -236,6 +236,13 @@ background-color: #333;
     position: absolute;
   }
 
+  .navbar-brand {
+      position: absolute;
+      left: 50%;
+      margin-left: -50px;  /* 50% of your logo width */
+      display: block;
+  }
+
   .navbar-custom .navbar-nav > li > a {
     min-width: 80%;
     text-align: center;
@@ -278,9 +285,19 @@ background-color: #333;
 
 #main-content {
   padding: 0px 20px 0px 0px;
+  min-height: 450px;
 }
 
 #main-content > a {
+  padding-left: 0px;
+}
+
+#profile-content {
+  padding: 0px 20px 0px 0px;
+  min-height: 450px;
+}
+
+#profile-content > a {
   padding-left: 0px;
 }
 
@@ -303,27 +320,61 @@ background-color: #333;
 }
 
 
-.tabs > li.active > a > h3,
-.tabs > li.active > a:hover > h3{
+#user-links > .tabs > li.active > a > h3,
+#user-links > .tabs > li.active > a:hover > h3{
   padding-bottom: 10px;
   border-bottom: 1px solid #FF5547;
   margin-bottom: 0px;
 }
 
-.tabs > li > a:focus > h3,
-.tabs > li > a:hover > h3 {
+#user-links > .tabs > li > a:focus > h3,
+#user-links > .tabs > li > a:hover > h3 {
   padding-bottom: 10px;
   border-bottom: 1px solid #000000;
   margin-bottom: 0px;
 }
 
-.tabs {
+#profile-links > .tabs > li.active > a > h4,
+#profile-links > .tabs > li.active > a:hover > h4{
+  padding-bottom: 10px;
+  border-bottom: 1px solid #FF5547;
+  margin-bottom: 0px;
+}
+
+#profile-links > .tabs > li > a:focus > h4,
+#profile-links > .tabs > li > a:hover > h4 {
+  padding-bottom: 10px;
+  border-bottom: 1px solid #000000;
+  margin-bottom: 0px;
+}
+
+
+#user-links > .tabs {
   border-bottom: 1px solid #D5D5D5;
-  margin-bottom: -10px
+  margin-bottom: -10px;
+  margin-right: -15px;
 }
 
 #user-links {
   margin-bottom: 20px
+}
+
+#profile-links {
+  margin: 15px
+}
+
+#profile-links > .tabs {
+  border-bottom: 1px solid #D5D5D5;
+  margin-bottom: -10px;
+  margin-right: 20px;
+}
+
+.song-area {
+  margin: 5px 0px 15px;
+}
+
+.profile-buttons {
+  margin: -24px 25px 0px -15px;
 }
 
 .profile_picture{
@@ -334,10 +385,14 @@ background-color: #333;
   position: absolute;
 }
 
-#first_name{
+#profile_name{
   margin-left: 15%;
   margin-top: 5%;
   position: absolute;
+  background-color: #000;
+  opacity: .7;
+  color: #FFF;
+  padding: 5px;
 }
 #profile_select_picture{
   position: absolute;
@@ -355,7 +410,7 @@ background-color: #333;
   overflow: hidden;
 }
 
-.cover_picture img {
+.cover_image {
   min-height: 100%;
   min-width: 100%;
 }
@@ -364,15 +419,17 @@ background-color: #333;
   color: #999999;
 }
 
+.light-gray-right-border {
+  border-right: 1px solid #D5D5D5;
+}
+
 #right-sidebar {
-  border-left: 1px solid #D5D5D5;
   height: 60%;
   padding: 20px;
 }
 
 .sidebar-headlines {
   border-bottom: 1px solid #D5D5D5;
-  text-align: center;
 }
 
 .thumb {
@@ -409,10 +466,13 @@ form .progress {
 .stream-song-art {
   margin-top: 10px;
   margin-right: 5px;
+  display: inline-block;
 }
 
 .song-content {
   margin-top: 15px;
+  display: inline-block;
+  vertical-align: top;
 }
 
 .play-button {
@@ -423,7 +483,7 @@ form .progress {
   border: none;
 }
 
-#audio_player_preview{
+.audio_player_preview{
   background: #2E282A;
   border-radius: 10px;
   border: .5em solid #c0c0c0;
@@ -451,4 +511,18 @@ form .progress {
   background: #2E282A;
   border: none;
   font-size: .8em
+}
+
+.user-stats-info {
+  padding-right: 15px;
+  padding-left: 10px;
+}
+
+.user-stats-info:first-child {
+  padding-left: 0px;
+}
+
+.user-stats-info > a {
+  text-decoration: none;
+  color: #B2B2B2;
 }
