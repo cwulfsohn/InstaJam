@@ -59,7 +59,11 @@ body {
 }
 
 .navbar-custom .navbar-brand {
-    color:#C5C5C5;
+    color:#FFFFFF;
+    background: linear-gradient(bottom, #FF3300, #FF7700);
+    background: -webkit-linear-gradient(bottom, #FF3300, #FF7700);
+    background: -moz-linear-gradient(bottom, #FF3300, #FF7700);
+    background: -o-linear-gradient(bottom, #FF3300, #FF7700);
     text-shadow: none;
     font-family: cursive;
 }
@@ -378,16 +382,15 @@ background-color: #333;
 }
 
 .profile_picture{
-  margin-top: 50px;
-  margin-left: 10px;
-  max-width: 18%;
-  max-height: 23%;
+  left: 20px;
+  bottom: 25px;
+  width: 200px;
   position: absolute;
 }
 
 #profile_name{
-  margin-left: 15%;
-  margin-top: 5%;
+  left: 245px;
+  bottom: 170px;
   position: absolute;
   background-color: #000;
   opacity: .7;
@@ -399,7 +402,8 @@ background-color: #333;
 }
 
 #header{
-  height: 20em;
+  height: 28%;
+  position: relative;
 }
 
 .cover_picture{
