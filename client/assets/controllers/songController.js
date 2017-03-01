@@ -3,7 +3,6 @@ app.controller("songController", ["$scope", "songFactory", "$location", "$cookie
     $scope.currentUser = $cookies.get("user");
     $scope.id = $cookies.get("id");
     $scope.wave = false;
-    $scope.comment = {};
   }
   else {
     $location.url('/')

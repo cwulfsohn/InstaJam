@@ -57,7 +57,7 @@ app.factory('songFactory', ["$http", function($http){
   }
   factory.createComment = function(comment, callback){
     $http.post('/comment', comment).then(function(data){
-      console.log(data);
+      callback()
     })
   }
   factory.addToPlaylist = function(song_id, playlist_id, callback){
