@@ -23,4 +23,8 @@ app.controller("navController", ["$scope", "userFactory", "$location", "$cookies
       console.log("User is", $scope.user)
     }
   })
+
+  $scope.go = function (path) {
+    $location.path('/search/' + path);
+  }
 }]);

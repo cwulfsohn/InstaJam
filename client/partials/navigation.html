@@ -14,9 +14,9 @@
           <li class="active"><a href="#!/success">Home<span class="sr-only">(current)</span></a></li>
           <li><a href="#">Collection</a></li>
         </ul>
-        <form id="nav-form" class="navbar-form navbar-left">
+        <form id="nav-form" class="navbar-form navbar-left" ng-submit="go(searchTerm)">
           <input id="nav-search" type="text" class="form-control" placeholder="Search" ng-model="searchTerm">
-          <a id="invisible-submit" type="submit" href="/search/{{searchTerm}}"></a>
+          <input id="invisible-submit" type="submit">
         </form>
         <ul class="nav navbar-nav navbar-right">
           <li><a ng-href="#!/upload">Upload</a></li>

@@ -65,7 +65,7 @@ body {
     background: -moz-linear-gradient(bottom, #FF3300, #FF7700);
     background: -o-linear-gradient(bottom, #FF3300, #FF7700);
     text-shadow: none;
-    font-family: "Brush Script MT", cursive;
+    font-family: cursive;
 }
 
 #main-nav {
@@ -411,8 +411,6 @@ background-color: #333;
 .cover_picture{
   width: 100%;
   max-height: 100%;
-  background-position: center center;
-  background-repeat: no-repeat;
   overflow: hidden;
 }
 
