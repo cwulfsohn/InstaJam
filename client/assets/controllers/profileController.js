@@ -14,8 +14,11 @@ app.controller("profileController", ["$scope", "userFactory","songFactory", "$lo
       }
     })
   }
-  $scope.changeView = function(number){
-    if(number == 0){
+  $scope.changeView = function(number, view){
+    if (number == view){
+      return;
+    }
+    else if(number == 0){
       $scope.containerView = 0;
     }
     else if(number == 1){
@@ -29,6 +32,16 @@ app.controller("profileController", ["$scope", "userFactory","songFactory", "$lo
       for (var i = 0; i < $scope.user.uploaded_songs.length; i++){
         var song = $scope.user.uploaded_songs[i]
         song.well_timed_comments = {}
+        if (song.likes.indexOf($scope.id) > -1){
+          song.likeFlag = true;
+        } else {
+          song.likeFlag = false;
+        }
+        if (song.reposted_by.indexOf($scope.id) > -1){
+          song.repostFlag = true;
+        } else {
+          song.repostFlag = false;
+        }
         for (var j = 0; j < song.timedComments.length; j++){
           song.well_timed_comments[song.timedComments[j].time] = song.timedComments[j].comment + " -" + song.timedComments[j].user
         }
@@ -60,24 +73,24 @@ app.controller("profileController", ["$scope", "userFactory","songFactory", "$lo
           });
           };
       }
-  $scope.like = function(song_id, user_id){
+  $scope.like = function(song_id, user_id, index){
     songFactory.like(song_id, user_id, function(data){
-      $scope.showUser();
+      $scope.user.uploaded_songs[index].likeFlag = true;
     })
   }
-  $scope.disLike = function(song_id, user_id){
+  $scope.disLike = function(song_id, user_id, index){
     songFactory.disLike(song_id, user_id, function(data){
-      $scope.showUser();
+      $scope.user.uploaded_songs[index].likeFlag = false;
     })
   }
-  $scope.repost = function(song_id, user_id){
+  $scope.repost = function(song_id, user_id, index){
     songFactory.repost(song_id, user_id, function(data){
-      $scope.showUser();
+      $scope.user.uploaded_songs[index].repostFlag = true;
     })
   }
-  $scope.removeRepost = function(song_id, user_id){
+  $scope.removeRepost = function(song_id, user_id, index){
     songFactory.removeRepost(song_id, user_id, function(data){
-      $scope.showUser();
+      $scope.user.uploaded_songs[index].repostFlag = false;
     })
   };
   $scope.playlistLike = function(playlist_id, user_id){
@@ -102,7 +115,7 @@ app.controller("profileController", ["$scope", "userFactory","songFactory", "$lo
   };
   var surfers = []
   $scope.wavemaker = function(song){
-    var id = '#w' + song._id;
+    var id = '.w' + song._id;
     var wavesurfer = WaveSurfer.create({
       container: id,
       backend: 'MediaElement',

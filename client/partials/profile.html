@@ -15,10 +15,10 @@
   </div>
   <div id="profile-links" class="col-sm-12">
     <ul class="nav nav-pills tabs">
-      <li class="active"><a ng-click="changeView(0)"><h4>All</h4></a></li>
-      <li><a ng-click="changeView(1)"><h4>Tracks</h4></a></li>
-      <li><a ng-click="changeView(2)"><h4>Playlist</h4></a></li>
-      <li><a ng-click="changeView(3)"><h4>Reposts</h4></a></li>
+      <li class="active"><a ng-click="changeView(0, containerView)"><h4>All</h4></a></li>
+      <li><a ng-click="changeView(1, containerView)"><h4>Tracks</h4></a></li>
+      <li><a ng-click="changeView(2, containerView)"><h4>Playlist</h4></a></li>
+      <li><a ng-click="changeView(3, containerView)"><h4>Reposts</h4></a></li>
     </ul>
     <span ng-if="user._id !== id"><button ng-if="user.followers.indexOf(id) == -1" ng-click="follow(user._id)"class="pull-right profile-buttons">Follow</button></span>
     <span ng-if="user._id !== id"><button ng-if="user.followers.indexOf(id) > -1" ng-click="unfollow(user._id)"class="pull-right profile-buttons">Unfollow</button></span>
@@ -42,15 +42,15 @@
                   <button class="preview_play_button" type="button" ng-click="play_pause($index)" name="play"><span id="s{{$index}}" class="glyphicon glyphicon-play"></span></button>
                 </div>
               </div>
-              <div id="w{{song._id}}"></div>
+              <div class="w{{song._id}}"></div>
             </div>
           </div>
           <div class="row">
             <div class="col-xs-3">
-              <button class="preview_button" ng-if="song.likes.indexOf(id) > -1" ng-click="disLike(song._id, id)"><span class="glyphicon glyphicon-heart"></span> {{song.likes.length}}</button>
-              <button class="preview_button" ng-if="song.likes.indexOf(id) == -1" ng-click="like(song._id, id)"><span class="glyphicon glyphicon-heart"></span> {{song.likes.length}}</button>
-              <button class="preview_button" ng-if="song.reposted_by.indexOf(id) > -1" ng-click="removeRepost(song._id, id)"><span class="glyphicon glyphicon-retweet"></span> {{song.reposted_by.length}}</button>
-              <button class="preview_button" ng-if="song.reposted_by.indexOf(id) == -1" ng-click="repost(song._id, id)"><span class="glyphicon glyphicon-retweet"></span> {{song.reposted_by.length}}</button>
+              <button class="preview_button" ng-if="song.likeFlag" ng-click="disLike(song._id, id, $index)"><span class="glyphicon glyphicon-heart red"></span></button>
+              <button class="preview_button" ng-if="song.likeFlag === false" ng-click="like(song._id, id, $index)"><span class="glyphicon glyphicon-heart"></span> </button>
+              <button class="preview_button" ng-if="song.repostFlag" ng-click="removeRepost(song._id, id, $index)"><span class="glyphicon glyphicon-retweet red"></span></button>
+              <button class="preview_button" ng-if="song.repostFlag === false" ng-click="repost(song._id, id, $index)"><span class="glyphicon glyphicon-retweet"></span></button>
               <button class="preview_button" ng-click="open(song._id)"><span class="glyphicon glyphicon-plus"></span></button>
             </div>
             <div id="t{{$index}}" class="col-xs-8"></div>
