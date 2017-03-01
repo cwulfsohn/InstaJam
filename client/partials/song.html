@@ -1,6 +1,6 @@
 <navigation></navigation>
 <div class="container">
-  <div id="audio_player_preview">
+  <div class="audio_player_preview">
     <div class="row">
       <img class="col-xs-3" id="album_cover_preview" ng-src="{{song.album_cover}}" alt="Album Cover">
       <div class="col-xs-9">
@@ -11,7 +11,6 @@
           </div>
           <div class="col-xs-2">
             <button ng-click="switch()" type="button" class="preview_play_button" id="play" name="play"><span class="glyphicon glyphicon-{{play}}"></span></button>
-            <button ng-click="switch()" class="play-button img-circle" type="button" id="play" name="play"><span class="glyphicon glyphicon-play"></span></button>
           </div>
         </div>
         <div id="waveform_preview"></div>
