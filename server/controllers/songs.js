@@ -464,8 +464,22 @@ module.exports = {
           } else {
             results.tags = tags;
           }
-          res.json(results);
-        })
+          User.find({"username": {"$regex": req.params.search_term, "$options": "i"} }, function (err, users) {
+            if (err) {
+              console.log(err);
+            } else {
+              results.users = users;
+            }
+            Playlist.find({"title": {"$regex": req.params.search_term, "$options": "i"} }, function (err, playlist_titles) {
+              if (err) {
+                console.log(err);
+              } else {
+                results.playlist_titles = playlist_titles;
+              }
+              res.json(results);
+            });
+          });
+        });
       });
     });
   }

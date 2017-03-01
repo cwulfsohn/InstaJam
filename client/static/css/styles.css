@@ -273,6 +273,17 @@ background-color: #333;
     width: 35%
   }
 }
+
+@media (min-width: 1500px) {
+  .container-fluid {
+    width: 1230px;
+    padding: 0px;
+    margin: 0 auto;
+  }
+  .container {
+    width: 1200px;
+  }
+}
 .dropdown-toggle {
   color: #000000
 }
@@ -294,6 +305,21 @@ background-color: #333;
 }
 
 #main-content > a {
+  padding-left: 0px;
+}
+
+#search-results {
+  padding: 10px 20px 0px 0px;
+  min-height: 450px;
+}
+
+#search-headline {
+  border-bottom: 1px solid #D5D5D5;
+  margin-bottom: 10px;
+  padding-left: 0px;
+}
+
+#search-results > a {
   padding-left: 0px;
 }
 
@@ -438,6 +464,11 @@ background-color: #333;
 }
 
 #right-sidebar {
+  height: 60%;
+  padding: 20px;
+}
+
+#left-sidebar {
   height: 60%;
   padding: 20px;
 }
