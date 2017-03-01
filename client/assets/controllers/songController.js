@@ -3,6 +3,7 @@ app.controller("songController", ["$scope", "songFactory", "$location", "$cookie
     $scope.currentUser = $cookies.get("user");
     $scope.id = $cookies.get("id");
     $scope.wave = false;
+    $scope.audio_ready = false
   }
   else {
     $location.url('/')
@@ -36,10 +37,15 @@ app.controller("songController", ["$scope", "songFactory", "$location", "$cookie
       }
     });
   };
+  $scope.updateAudio = function(){
+    console.log("hey");
+    $scope.audio_ready = true;
+  }
   var wavesurfer;
   $scope.wavemaker = function(){
     wavesurfer = WaveSurfer.create({
       container: '#waveform_preview',
+      backend: 'MediaElement',
       waveColor: '#17BEBB',
       progressColor: '#EF3E36',
       cursorColor: '#EF3E36',
@@ -49,6 +55,8 @@ app.controller("songController", ["$scope", "songFactory", "$location", "$cookie
     wavesurfer.load($scope.song.song_file);
 
     wavesurfer.on('ready', function () {
+      $scope.updateAudio();
+      console.log($scope.audio_ready);
       $("#length").text(secondsToMinSec(wavesurfer.getDuration()));
       $('#play').click(function() {
         wavesurfer.playPause();
@@ -98,5 +106,11 @@ function secondsToMinSec(seconds){
   var string = ""
   var minutes = Math.trunc(seconds/60);
   var seconds = Math.trunc(seconds%60);
+  if (minutes < 1){
+    minutes = "00"
+  }
+  if (seconds < 10){
+    seconds = "0" + seconds
+  }
   return string + minutes + ":" + seconds;
 }

@@ -29,12 +29,10 @@ app.controller("profileController", ["$scope", "userFactory","songFactory", "$lo
       for (var i = 0; i < $scope.user.uploaded_songs.length; i++){
         var song = $scope.user.uploaded_songs[i]
         song.well_timed_comments = {}
-        console.log(song);
         for (var j = 0; j < song.timedComments.length; j++){
           song.well_timed_comments[song.timedComments[j].time] = song.timedComments[j].comment + " -" + song.timedComments[j].user
         }
       }
-      console.log($scope.user.uploaded_songs);
     }
     else if(number == 2){
       $scope.containerView = 2
@@ -107,6 +105,7 @@ app.controller("profileController", ["$scope", "userFactory","songFactory", "$lo
     var id = '#w' + song._id;
     var wavesurfer = WaveSurfer.create({
       container: id,
+      backend: 'MediaElement',
       waveColor: '#17BEBB',
       progressColor: '#EF3E36',
       cursorColor: '#EF3E36',
@@ -117,7 +116,6 @@ app.controller("profileController", ["$scope", "userFactory","songFactory", "$lo
 
     wavesurfer.on('ready', function () {
       $("#l" + song._id).text(secondsToMinSec(wavesurfer.getDuration()));
-      console.log(surfers[$scope.current]);
       $('.preview_play_button').on("click", function(){
         surfers[$scope.current].on('audioprocess', function(){
           if ($scope.user.uploaded_songs[$scope.current].well_timed_comments[Math.floor(surfers[$scope.current].getCurrentTime())]){
@@ -132,9 +130,7 @@ app.controller("profileController", ["$scope", "userFactory","songFactory", "$lo
     surfers.push(wavesurfer)
   };
   $scope.play_pause = function(index){
-    console.log($scope.current);
     $scope.current = index;
-    console.log($scope.current);
     for (var i = 0; i < surfers.length; i++){
       if (surfers[i].isPlaying() && surfers[i] != surfers[index]){
         surfers[i].stop();

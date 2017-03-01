@@ -29,3 +29,22 @@ app.config(function ($routeProvider) {
   redirectTo: "/"
 })
 })
+.filter('secToMinSec', function(){
+  return function(number){
+    if(isNaN(number) || number < 1) {
+      return number;
+    } else {
+      var string = ""
+      var minutes = Math.trunc(number/60);
+      if (minutes < 1){
+        minutes = "00"
+      }
+      var seconds = Math.trunc(number%60);
+      if (seconds < 10){
+        seconds = "0" + seconds
+      }
+      return string + minutes + ":" + seconds;
+
+    }
+  }
+})

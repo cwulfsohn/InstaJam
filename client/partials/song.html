@@ -10,7 +10,7 @@
             <p class="song_title">{{song.song_title}}</p>
           </div>
           <div class="col-xs-2">
-            <button ng-click="switch()" type="button" class="preview_play_button" id="play" name="play"><span class="glyphicon glyphicon-{{play}}"></span></button>
+            <button ng-click="switch()" ng-if="audio_ready" type="button" class="preview_play_button" id="play" name="play"><span class="glyphicon glyphicon-{{play}}"></span></button>
           </div>
         </div>
         <div id="waveform_preview"></div>
@@ -30,13 +30,13 @@
     </div>
   </div>
   <div id="song_comments">
-    <h4>Comments</h4>
-    <form ng-submit="addComment(song._id)">
+    <h4 ng-click="test()">Comments</h4>
+    <form ng-submit="addComment(song._id)" ng-if="audio_ready">
       <input type="text" ng-model="comment.content">
       <input type="submit" value="Comment">
     </form>
     <div class="comment" ng-repeat="comment in song.comments">
-      <p>{{comment.content}}</p>
+      <p>{{comment.content}} at {{comment.time_marker | secToMinSec}}</p>
       <p>- {{comment._user.firstName}}</p>
     </div>
   </div>
