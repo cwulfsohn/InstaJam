@@ -390,9 +390,19 @@ background-color: #333;
   position: absolute;
 }
 
-#profile_name{
+#username{
   left: 245px;
   bottom: 170px;
+  position: absolute;
+  background-color: #000;
+  opacity: .7;
+  color: #FFF;
+  padding: 5px;
+  font-weight: bold;
+}
+#profile_name{
+  left: 245px;
+  bottom: 130px;
   position: absolute;
   background-color: #000;
   opacity: .7;

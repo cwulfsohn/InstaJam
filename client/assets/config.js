@@ -13,7 +13,7 @@ app.config(function ($routeProvider) {
   templateUrl: "partials/userHome.html",
   controller: "successController"
 })
-.when("/profile/:firstName/:id", {
+.when("/profile/:username/:id", {
   templateUrl: "partials/profile.html",
   controller: "profileController"
 })
@@ -25,7 +25,7 @@ app.config(function ($routeProvider) {
   templateUrl: 'partials/song.html',
   controller: 'songController'
 })
-.when('/social/:firstName/:id/:number', {
+.when('/social/:username/:id/:number', {
   templateUrl: 'partials/social.html',
   controller: "socialController"
 })

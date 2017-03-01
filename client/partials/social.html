@@ -1,7 +1,7 @@
 <navigation></navigation>
 <div class="container">
   <div id="header">
-    <h3 id="profile_name">{{user.firstName}} {{user.lastName}}</h3>
+    <h3 id="profile_name">{{user.username}}</h3>
       <img class="img-circle profile_picture" src="{{user.profile_image}}">
   </div>
   <div id="body">
@@ -16,7 +16,7 @@
       <div class="following" ng-repeat="following in user.following">
         <a href="/#!/profile/{{following.firstName}}/{{following._id}}">
         <img class="img-circle follow_image img-responsive" ng-src="{{following.profile_image}}">
-        <p class="text-center">{{following.firstName}} {{following.lastName}}</p>
+        <p class="text-center">{{following.username}}</p>
         </a>
       </div>
     </div>
@@ -32,8 +32,8 @@
   display: inline-block;
 }
 .follow_image{
-  width: 50%;
-  height: 20%;
+  width: 100px;
+  height: 100px;
 }
 .img-responsive{
   margin: 0 auto;
