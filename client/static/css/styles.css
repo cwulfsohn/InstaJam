@@ -78,6 +78,10 @@ body {
 
 }
 
+.red {
+  color: red;
+}
+
 .navbar .navbar-fluid {
 background-color: #333;
 }

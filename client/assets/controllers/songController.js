@@ -37,10 +37,6 @@ app.controller("songController", ["$scope", "songFactory", "$location", "$cookie
       }
     });
   };
-  $scope.updateAudio = function(){
-    console.log("hey");
-    $scope.audio_ready = true;
-  }
   var wavesurfer;
   $scope.wavemaker = function(){
     wavesurfer = WaveSurfer.create({
@@ -55,8 +51,9 @@ app.controller("songController", ["$scope", "songFactory", "$location", "$cookie
     wavesurfer.load($scope.song.song_file);
 
     wavesurfer.on('ready', function () {
-      $scope.updateAudio();
-      console.log($scope.audio_ready);
+      $scope.$apply(function(){
+        $scope.audio_ready = true;
+      })
       $("#length").text(secondsToMinSec(wavesurfer.getDuration()));
       $('#play').click(function() {
         wavesurfer.playPause();
