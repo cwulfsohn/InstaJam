@@ -67,7 +67,7 @@ app.factory('songFactory', ["$http", function($http){
   }
   factory.search = function (search_term, callback) {
     $http.get('/search/'+search_term).then(function(data){
-      calback(data.data);
+      callback(data.data);
     })
   }
   return factory;

@@ -23,4 +23,9 @@ app.controller("navController", ["$scope", "userFactory", "$location", "$cookies
       console.log("User is", $scope.user)
     }
   })
+
+  $scope.search = function (search_term) {
+    $location.url('search/'+search_term)
+  }
+
 }]);

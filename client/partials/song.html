@@ -18,9 +18,9 @@
     </div>
     <div class="row">
       <div class="col-xs-3">
-        <button class="preview_button" ng-if="song.likes.indexOf(id) > -1" ng-click="disLike(song._id, id)"><span class="glyphicon glyphicon-heart"></span> {{song.likes.length}}</button>
+        <button class="preview_button" ng-if="song.likes.indexOf(id) > -1" ng-click="disLike(song._id, id)"><span class="glyphicon glyphicon-heart red"></span> {{song.likes.length}}</button>
         <button class="preview_button" ng-if="song.likes.indexOf(id) == -1" ng-click="like(song._id, id)"><span class="glyphicon glyphicon-heart"></span> {{song.likes.length}}</button>
-        <button class="preview_button" ng-if="song.reposted_by.indexOf(id) > -1" ng-click="removeRepost(song._id, id)"><span class="glyphicon glyphicon-retweet"></span> {{song.reposted_by.length}}</button>
+        <button class="preview_button" ng-if="song.reposted_by.indexOf(id) > -1" ng-click="removeRepost(song._id, id)"><span class="glyphicon glyphicon-retweet red"></span> {{song.reposted_by.length}}</button>
         <button class="preview_button" ng-if="song.reposted_by.indexOf(id) == -1" ng-click="repost(song._id, id)"><span class="glyphicon glyphicon-retweet"></span> {{song.reposted_by.length}}</button>
         <button class="preview_button" type="button" name="button"><span class="glyphicon glyphicon-plus"></span>Playlist</button>
       </div>
