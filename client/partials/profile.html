@@ -20,7 +20,7 @@
       <li><a ng-click="changeView(2)"><h4>Playlist</h4></a></li>
       <li><a ng-click="changeView(3)"><h4>Reposts</h4></a></li>
     </ul>
-    <button class="pull-right profile-buttons">Follow</button>
+    <span ng-if="user._id !== id"><button ng-if="user._id !== id" ng-click="follow(user._id)"class="pull-right profile-buttons">Follow</button></span>
     <button class="pull-right profile-buttons">Edit</button>
   </div>
   <div id="profile-content" class="col-sm-8 col-xs-12 light-gray-right-border">
@@ -43,7 +43,6 @@
               </div>
               <div id="w{{song._id}}"></div>
             </div>
-<<<<<<< HEAD
             <div class="row">
               <div class="col-xs-3">
                 <button class="preview_button" ng-if="song.likes.indexOf(id) > -1" ng-click="disLike(song._id, id)"><span class="glyphicon glyphicon-heart"></span> {{song.likes.length}}</button>
@@ -53,7 +52,6 @@
                 <button ng-click="open(song._id)"><span class="glyphicon glyphicon-plus"></span></button>
               </div>
               <div class="timed_comments col-xs-8">
-=======
           </div>
           <div class="row">
             <div class="col-xs-3">
@@ -64,7 +62,6 @@
               <button class="preview_button" type="button" name="button"><span class="glyphicon glyphicon-plus"></span></button>
             </div>
             <div class="timed_comments col-xs-8">
->>>>>>> 61ba820dc7739748c4ba172201de489b1df279fc
 
             </div>
             <div class="col-xs-1" id="l{{song._id}}"></div>

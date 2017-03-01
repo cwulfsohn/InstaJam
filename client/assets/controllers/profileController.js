@@ -146,7 +146,16 @@ app.controller("profileController", ["$scope", "userFactory","songFactory", "$lo
         controller: 'playlistController'
       });
     }
-
+    $scope.follow = function(user_id){
+      userFactory.follow(user_id, $scope.id, function(data){
+        if(data.err){
+          console.log(data.err)
+        }
+        else{
+          $scope.showUser();
+        }
+    })
+  }
 }])
 
 function secondsToMinSec(seconds){
