@@ -174,7 +174,7 @@ app.controller("profileController", ["$scope", "userFactory","songFactory", "$lo
     })
   }
     $scope.unfollow = function(user_id){
-      userFactory.follow(user_id, $scope.id, function(data){
+      userFactory.unfollow(user_id, $scope.id, function(data){
         if(data.err){
           console.log(data.err)
         }

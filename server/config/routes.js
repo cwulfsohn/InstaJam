@@ -23,5 +23,6 @@ module.exports = function(app){
   app.post('/createPlaylist', song.createPlaylist),
   app.post('/comment', song.createComment)
   app.post('/addToPlaylist', song.addToPlaylist),
-  app.post('/follow', user.addFollow)
+  app.post('/follow', user.addFollow),
+  app.post('/unfollow', user.unFollow)
 }

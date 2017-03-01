@@ -83,5 +83,8 @@ module.exports = {
         })
       }
     })
+  },
+  unFollow: function(req, res){
+    
   }
 }

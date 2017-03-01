@@ -21,5 +21,10 @@ app.factory('userFactory', ["$http", function($http){
       callback(data.data)
     })
   }
+  factory.unfollow = function(follow_user_id, follower_user_id, callback){
+    $http.post("/unfollow", {follow: follow_user_id, follower: follower_user_id}).then(function(data){
+      callback(data.data)
+    })
+  }
   return factory;
 }])
