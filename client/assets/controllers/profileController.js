@@ -10,6 +10,7 @@ app.controller("profileController", ["$scope", "userFactory","songFactory", "$lo
         console.log(data.err)
       }
       else{
+        console.log(data.user)
         $scope.user = data.user;
       }
     })
