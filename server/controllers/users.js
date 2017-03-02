@@ -53,7 +53,8 @@ module.exports = {
     })
   },
   showOneUser: function(req, res){
-    User.findOne({_id: req.params.id}).populate("uploaded_songs").populate("playlists").populate("reposts").populate("followers").populate("following").exec(function(err, user){
+    User.findOne({_id: req.params.id}).populate("uploaded_songs").populate("playlists").populate("reposts").populate("followers").populate("following")
+    .populate("like_songs").populate({path: "like_songs", populate: {path:"_user"}}).populate("like_playlists").populate({path: "like_playlists", populate: {path:"_user"}}).populate({path: "like_playlists", populate: {path:"songs"}}).exec(function(err, user){
       if(err){
         res.json({err:err})
       }

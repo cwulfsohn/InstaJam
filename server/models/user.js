@@ -88,10 +88,4 @@ email: {
   }]
 },{timestamps: true});
 
-UserSchema.pre('save', function(done){
-  this.password = bcrypt.hashSync(this.password, bcrypt.genSaltSync(8));
-  done();
-
-})
-
 mongoose.model('User', UserSchema);

@@ -3,6 +3,7 @@ app.controller("profileController", ["$scope", "userFactory","songFactory", "$lo
   $scope.profile_id = $routeParams.id;
   $scope.id = $cookies.get('id');
   $scope.firstName = $cookies.get('user');
+  var surfers = [];
   $scope.showUser = function(){
     userFactory.showUser($scope.profile_id, function(data){
       if(data.err){
@@ -198,7 +199,46 @@ app.controller("profileController", ["$scope", "userFactory","songFactory", "$lo
       $scope.user.playlists[index].repostFlag = false;
     })
   };
-  var surfers = []
+  $scope.likeRepost = function(song_id, user_id, index){
+    songFactory.like(song_id, user_id, function(data){
+      $scope.user.reposts[index].likeFlag = true;
+    })
+  }
+  $scope.disLikeRepost = function(song_id, user_id, index){
+    songFactory.disLike(song_id, user_id, function(data){
+      $scope.user.reposts[index].likeFlag = false;
+    })
+  }
+  $scope.repostRepost = function(song_id, user_id, index){
+    songFactory.repost(song_id, user_id, function(data){
+      $scope.user.reposts[index].repostFlag = true;
+    })
+  }
+  $scope.removeRepostRepost = function(song_id, user_id, index){
+    songFactory.removeRepost(song_id, user_id, function(data){
+      $scope.user.reposts[index].repostFlag = false;
+    })
+  };
+  $scope.playlistLikeRepost = function(playlist_id, user_id, index){
+    songFactory.playlistLike(playlist_id, user_id, function(data){
+      $scope.user.playlist_reposts[index].likeFlag = true;
+    })
+  }
+  $scope.playlistDisLikeRepost = function(playlist_id, user_id, index){
+    songFactory.playlistDisLike(playlist_id, user_id, function(data){
+      $scope.user.playlist_reposts[index].likeFlag = false;
+    })
+  }
+  $scope.playlistRepostRepost = function(playlist_id, user_id, index){
+    songFactory.playlistRepost(playlist_id, user_id, function(data){
+      $scope.user.playlist_reposts[index].repostFlag = true;
+    })
+  }
+  $scope.playlistRemoveRepostRepost = function(playlist_id, user_id, index){
+    songFactory.playlistRemoveRepost(playlist_id, user_id, function(data){
+      $scope.user.playlist_reposts[index].repostFlag = false;
+    })
+  };
   $scope.wavemaker = function(song, play=-2, alt_id=false){
     if (alt_id){
       var id = '.w' + alt_id;
@@ -340,5 +380,11 @@ function secondsToMinSec(seconds){
   var string = ""
   var minutes = Math.trunc(seconds/60);
   var seconds = Math.trunc(seconds%60);
+  if (minutes < 1){
+    minutes = "00"
+  }
+  if (seconds < 10){
+    seconds = "0" + seconds
+  }
   return string + minutes + ":" + seconds;
 }
