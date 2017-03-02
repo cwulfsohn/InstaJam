@@ -1,7 +1,9 @@
 app.controller("socialController", ["$scope", "userFactory","songFactory", "$location", "$cookies", 'Upload', "$timeout", "$routeParams","$uibModal", "$timeout", function($scope, userFactory, songFactory, $location, $cookies, Upload, $timeout, $routeParams, $uibModal, $timeout){
   $scope.profile_id = $routeParams.id;
   if ($routeParams.number == 2 || $routeParams.number == 3){
+    console.log($routeParams.number)
     $scope.containerView = $routeParams.number;
+    console.log($scope.containerView);
   }
   else{
     $scope.containerView = 1
