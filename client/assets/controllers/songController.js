@@ -3,15 +3,19 @@ app.controller("songController", ["$scope", "songFactory", "$location", "$cookie
     $scope.currentUser = $cookies.get("user");
     $scope.id = $cookies.get("id");
     $scope.wave = false;
-    $scope.audio_ready = false
+    $scope.audio_ready = false;
+  } else {
+    $location.url('/home')
   }
 
   $scope.switch = function(){
-    if ($scope.play == "play"){
-      $scope.play = "pause";
+    if ($('#play_symbol').hasClass("glyphicon-play")){
+      $('#play_symbol').removeClass("glyphicon-play")
+      $('#play_symbol').addClass("glyphicon-pause")
     }
     else {
-      $scope.play = "play"
+      $('#play_symbol').removeClass("glyphicon-pause")
+      $('#play_symbol').addClass("glyphicon-play")
     }
   };
 
@@ -27,6 +31,18 @@ app.controller("songController", ["$scope", "songFactory", "$location", "$cookie
       }
       for (var i = 0; i < $scope.song.comments.length; i++){
         $scope.song.well_timed_comments[$scope.song.timedComments[i].time] = $scope.song.timedComments[i].comment + " -" + $scope.song.timedComments[i].user
+      }
+      $scope.likeFlag = false;
+      for (var i = 0; i < $scope.song.likes.length; i++) {
+        if ($scope.song.likes[i]._id == $scope.id){
+          $scope.likeFlag = true;
+        }
+      }
+      $scope.repostFlag = false;
+      for (var i = 0; i < $scope.song.reposted_by.length; i++) {
+        if ($scope.song.reposted_by[i]._id == $scope.id){
+          $scope.repostFlag = true;
+        }
       }
     });
   };
@@ -63,6 +79,11 @@ app.controller("songController", ["$scope", "songFactory", "$location", "$cookie
         else {
           $("#timed_comments").text(" ")
         }
+      })
+      wavesurfer.on("finish", function(){
+          wavesurfer.stop();
+          $('#play_symbol').removeClass("glyphicon-pause")
+          $('#play_symbol').addClass("glyphicon-play")
       })
     });
   };
@@ -105,6 +126,9 @@ app.controller("songController", ["$scope", "songFactory", "$location", "$cookie
   }
   $scope.changeTime = function(time){
     console.log(wavesurfer);
+  }
+  $scope.tagSearch = function(tag){
+    $location.url('/search/' + tag)
   }
 }])
 
