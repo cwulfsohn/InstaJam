@@ -3,7 +3,6 @@ app.controller("profileController", ["$scope", "userFactory","songFactory", "$lo
   $scope.profile_id = $routeParams.id;
   $scope.id = $cookies.get('id');
   $scope.firstName = $cookies.get('user');
-  $scope.containerView = 1;
   $scope.showUser = function(){
     userFactory.showUser($scope.profile_id, function(data){
       if(data.err){
@@ -11,6 +10,7 @@ app.controller("profileController", ["$scope", "userFactory","songFactory", "$lo
       }
       else{
         $scope.user = data.user;
+        $scope.changeView(1, 0);
       }
     })
   }
@@ -35,7 +35,7 @@ app.controller("profileController", ["$scope", "userFactory","songFactory", "$lo
           for (var i = 0; i < $scope.user.uploaded_songs.length; i++){
             $scope.wavemaker($scope.user.uploaded_songs[i])
           }
-        }, 500);
+        }, 200);
         for (var i = 0; i < $scope.user.uploaded_songs.length; i++){
           var song = $scope.user.uploaded_songs[i]
           song.well_timed_comments = {}
