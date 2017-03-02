@@ -339,19 +339,18 @@ app.controller("profileController", ["$scope", "userFactory","songFactory", "$lo
         ariaLabelledBy: 'modal-title-top',
         ariaDescribedBy: 'modal-body-top',
         templateUrl: './partials/playlist.html',
-        controller: 'playlistController',
+        controller: 'playlistController'
       });
     }
 
-  $scope.edit = function(song_id){
-    $cookies.put('songId', song_id)
+  $scope.edit = function(){
   $scope.modalInstance = $uibModal.open({
         animation: true,
         ariaLabelledBy: 'modal-title-top',
         ariaDescribedBy: 'modal-body-top',
         templateUrl: './partials/edit.html',
-        controller: 'editUserController',
-      });
+        controller: 'editUserController'
+      })
     }
     $scope.follow = function(user_id){
       userFactory.follow(user_id, $scope.id, function(data){

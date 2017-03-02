@@ -8,7 +8,6 @@ var UserSchema = mongoose.Schema({
   username: {
     type: String,
     required: [true, "Username required"],
-    unique: [true, "Username has already been taken"],
     minlength: 2,
     trim: true
   },
@@ -27,7 +26,6 @@ email: {
   type: String,
   required: [true, "email required"],
   trim: true,
-  unique: [true, "email has been taken"],
   minlength: 2,
   validate: [{
     validator: function( number ) {
