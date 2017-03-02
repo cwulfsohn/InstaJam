@@ -31,11 +31,12 @@
     <div class="col-sm-12" ng-if="containerView == 1">
       <div class="song-area" ng-repeat="song in user.uploaded_songs">
         <div class="audio_player_preview">
-          <div class="row">
-            <img class="col-xs-3" id="album_cover_preview" ng-src="{{song.album_cover}}" alt="Album Cover">
-            <div class="col-xs-9">
+
+
               <div class="row">
-                <div class="col-xs-9">
+                <img class="col-xs-3" id="album_cover_preview" ng-src="{{song.album_cover}}" alt="Album Cover">
+
+                <div class="col-xs-6">
                   <p>{{song.artist_name}}</p>
                   <p class="song_title"><a href="#!/song/{{song._id}}">{{song.song_title}}</a></p>
                 </div>
@@ -44,8 +45,8 @@
                 </div>
               </div>
               <div class="w{{song._id}}"></div>
-            </div>
-          </div>
+
+
           <div class="row">
             <div class="col-xs-3">
               <button class="preview_button" ng-if="song.likeFlag" uib-tooltip="unlike" ng-click="disLike(song._id, id, $index)"><span class="glyphicon glyphicon-heart red"></span></button>
@@ -54,8 +55,8 @@
               <button class="preview_button" ng-if="song.repostFlag === false" uib-tooltip="post" ng-click="repost(song._id, id, $index)"><span class="glyphicon glyphicon-retweet"></span></button>
               <button class="preview_button" uib-tooltip="add to playlist" ng-click="open(song._id)"><span class="glyphicon glyphicon-plus"></span></button>
             </div>
-            <div id="t{{$index}}" class="col-xs-8"></div>
-            <div class="col-xs-1" id="l{{song._id}}"></div>
+            <div id="t{{$index}}" class="col-xs-7"></div>
+            <div class="col-xs-2" id="l{{song._id}}"></div>
           </div>
         </div>
       </div>
@@ -73,7 +74,7 @@
                   <button class="preview_play_button" type="button" ng-click="play_pause($index, playlist.current_song.song, playlist)" name="play"><span id="s{{$index}}" class="glyphicon glyphicon-play"></span></button>
                 </div>
               </div>
-              <div class="w{{playlist.songs[0]._id}}"></div>
+              <div class="w{{playlist._id}}"></div>
               <div class="row">
                 <p class="col-xs-6 text-center">{{playlist.current_song.song.artist_name}}</p>
                 <p class="col-xs-6 text-center"><a href="#!/song/{{playlist.current_song.song._id}}">{{playlist.current_song.song.song_title}}</a></p>
@@ -113,19 +114,15 @@
           <div class="audio_player_preview">
             <div class="row">
               <img class="col-xs-3" id="album_cover_preview" ng-src="{{song.album_cover}}" alt="Album Cover">
-              <div class="col-xs-9">
-                <div class="row">
-                  <div class="col-xs-9">
-                    <p>{{song.artist_name}}</p>
-                    <p class="song_title"><a href="#!/song/{{song._id}}">{{song.song_title}}</a></p>
-                  </div>
-                  <div class="col-xs-3">
-                    <button class="preview_play_button" type="button" ng-click="play_pause($index, song)" name="play"><span id="s{{$index}}" class="glyphicon glyphicon-play"></span></button>
-                  </div>
-                </div>
-                <div class="w{{song._id}}"></div>
+              <div class="col-xs-6">
+                <p>{{song.artist_name}}</p>
+                <p class="song_title"><a href="#!/song/{{song._id}}">{{song.song_title}}</a></p>
+              </div>
+              <div class="col-xs-3">
+                <button class="preview_play_button" type="button" ng-click="play_pause($index, song)" name="play"><span id="s{{$index}}" class="glyphicon glyphicon-play"></span></button>
               </div>
             </div>
+                <div class="w{{song._id}}"></div>
             <div class="row">
               <div class="col-xs-3">
                 <button class="preview_button" ng-if="song.likeFlag" ng-click="disLike(song._id, id, $index)"><span class="glyphicon glyphicon-heart red"></span></button>
@@ -134,8 +131,8 @@
                 <button class="preview_button" ng-if="song.repostFlag === false" ng-click="repost(song._id, id, $index)"><span class="glyphicon glyphicon-retweet"></span></button>
                 <button class="preview_button" ng-click="open(song._id)"><span class="glyphicon glyphicon-plus"></span></button>
               </div>
-              <div id="t{{$index}}" class="col-xs-8"></div>
-              <div class="col-xs-1" id="l{{song._id}}"></div>
+              <div id="t{{$index}}" class="col-xs-7"></div>
+              <div class="col-xs-2" id="l{{song._id}}"></div>
             </div>
           </div>
       </div>
