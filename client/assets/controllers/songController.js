@@ -9,11 +9,13 @@ app.controller("songController", ["$scope", "songFactory", "$location", "$cookie
   }
 
   $scope.switch = function(){
-    if ($scope.play == "play"){
-      $scope.play = "pause";
+    if ($('#play_symbol').hasClass("glyphicon-play")){
+      $('#play_symbol').removeClass("glyphicon-play")
+      $('#play_symbol').addClass("glyphicon-pause")
     }
     else {
-      $scope.play = "play"
+      $('#play_symbol').removeClass("glyphicon-pause")
+      $('#play_symbol').addClass("glyphicon-play")
     }
   };
 
@@ -77,6 +79,11 @@ app.controller("songController", ["$scope", "songFactory", "$location", "$cookie
         else {
           $("#timed_comments").text(" ")
         }
+      })
+      wavesurfer.on("finish", function(){
+          wavesurfer.stop();
+          $('#play_symbol').removeClass("glyphicon-pause")
+          $('#play_symbol').addClass("glyphicon-play")
       })
     });
   };

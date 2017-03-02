@@ -10,7 +10,7 @@
             <p class="song_title">{{song.song_title}}</p>
           </div>
           <div class="col-xs-4 col-sm-2">
-            <button ng-click="switch()" ng-if="audio_ready" type="button" class="preview_play_button" id="play" name="play"><span class="glyphicon glyphicon-{{play}}"></span></button>
+            <button ng-click="switch()" ng-if="audio_ready" type="button" class="preview_play_button" id="play" name="play"><span id="play_symbol" class="glyphicon glyphicon-play"></span></button>
           </div>
         </div>
         <div id="waveform_preview"></div>
