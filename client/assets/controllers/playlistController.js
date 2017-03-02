@@ -32,7 +32,7 @@ app.controller("playlistController", ["$scope", "userFactory","songFactory", "$c
           console.log(data.err)
         }
         else{
-          $scope.containerView = 2;
+          $scope.containerView = 0;
           $scope.showPlaylists();
         }
       })

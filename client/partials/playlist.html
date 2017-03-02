@@ -1,36 +1,83 @@
 <style>
-.image{
-  width: 30px;
-  height: 30px;
+.create_playlist_cover{
+  width: 25px;
+  height: 25px;
+  display: inline-block;
+  vertical-align: top;
+}
+.existing_playlist_cover{
+  width: 160px;
+  height: 120px;
+  display: inline-block;
+  vertical-align: top;
+}
+.binding_title{
+  font-weight: bolder;
+}
+.songname{
+  display: inline-block;
+
+}
+.playlist_tab{
+  margin-bottom: 30px;
+}
+.add_playlist_button{
+  display: inline-block;
+}
+.existing_playlists{
+  display: inline-block;
+  vertical-align: top;
+  width: 600px;
+}
+.existing_playlist_text{
+  font-size: 14px;
 }
 </style>
 <div ng-controller="playlistController">
-  <button ng-click="changeView(0)">Add to Playlist</button>
-  <button ng-click="changeView(1)">Create a Playlist</button>
+  <div class="playlist_tab">
+    <uib-tabset id="home-tabs" active="activePill" vertical="false" type="pills">
+      <uib-tab heading="Add to a Playlist" ng-click="changeView(0)"></uib-tab>
+      <uib-tab heading="Create a Playlist" ng-click="changeView(1)"></uib-tab>
+    </uib-tabset>
+  </div>
   <div ng-if="containerView == 0">
-    <input type='text' placeholder="Filter Playlist" ng-model="search.$">
+    <input type='text' class="form-control" placeholder="Filter Playlist" ng-model="search.$">
+    <hr>
     <div ng-repeat="playlist in playlists.playlists | filter:search">
-      <img class="image" ng-src="{{playlist.first_song_art}}">
-      <p>{{playlist.title}}</p>
-      <p>{{playlist.songs.length}}</p>
-      <button ng-click="addToPlaylist(song._id, playlist._id)">Add to playlist</button>
+      <div class="existing_playlists row">
+        <img class="col-sm-4 existing_playlist_cover" ng-src="{{playlist.first_song_art}}">
+        <div class="col-sm-4">
+          <p class="existing_playlist_text">Playlist title: <span class="binding_title">{{playlist.title}}</span></p>
+          <p class="existing_playlist_text"># of songs: {{playlist.songs.length}}</p>
+        </div>
+        <button class="col-sm-4 btn pull-right add_playlist_button" ng-click="addToPlaylist(song._id, playlist._id)">Add song to playlist</button>
+      </div>
       <hr>
     </div>
+    <button ng-click="cancel()" class="btn">Done</button>
   </div>
   <div ng-if="containerView == 1">
     <form ng-submit="createPlaylist(song._id)">
-      <label>
-        Playlist Title: <input type="text" ng-model="playlist.title">
-      </label>
-      <label>
-        Playlist Description: <textarea ng-model="playlist.description"></textarea>
-      </label>
-    <input type="submit" value="Save">
+      <div class="form-group">
+        <label>
+          Playlist Title: <input class="form-control" type="text" ng-model="playlist.title">
+        </label>
+      </div>
+      <div class="form-group">
+        <label class="form-group">
+          Playlist Description: <textarea class="form-control" cols=60 ng-model="playlist.description"></textarea>
+        </label>
+      </div>
+      <input type="submit" value="Save">
     </form>
     <div>
-      <img class="image" ng-src="{{song.album_cover}}">
-      <p>{{song.artist_name}} - {{song.song_title}}</p>
+      <hr>
+      <legend>
+      <h5>Adding song to new playlist: <span class="binding_title">{{playlist.title}}</span></h5>
+      <hr>
+      <img class="create_playlist_cover" ng-src="{{song.album_cover}}">
+      <p class="songname">{{song.artist_name}} - {{song.song_title}}</p>
+      </legend>
     </div>
   </div>
-  <button ng-click="cancel()">Done</button>
 </div>
