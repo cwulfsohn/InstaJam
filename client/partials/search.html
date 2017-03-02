@@ -110,14 +110,15 @@
     </div><!-- end view 0 -->
     <div ng-if="view == 1">
       <h4>{{ total_users }} Users:</h4>
-      <div class="search-result" ng-repeat="user in results.users">
+      <div class="search-result" ng-repeat="user in results.users track by $index">
         <div class="col-md-4 col-xs-6">
           <img class="search-profile-image img-circle" ng-src="{{ user.profile_image }}" alt="User Profile Image">
         </div>
         <div class="search-result-info col-md-8 col-xs-6">
           <h5><a ng-href="#!/profile/{{user.firstName}}/{{user._id}}">{{ user.username }}</a></h5>
-          <p>Followers: {{ user.followers.length }}</p>
-          <button>Follow</button>
+          <p>Followers: {{ user.followercount}}</p>
+          <span ng-if="user._id !== id"><button ng-if="user.followercheck == true" ng-click="follow(user._id, $index)">Follow</button></span>
+          <span ng-if="user._id !== id"><button ng-if="user.followercheck == false" ng-click="unfollow(user._id, $index)">Unfollow</button></span>
         </div>
       </div>
     </div>

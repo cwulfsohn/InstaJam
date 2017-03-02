@@ -1,4 +1,4 @@
-app.controller("searchController", ["$scope", "userFactory", "songFactory", "$location", "$cookies", "$routeParams", "$timeout", function($scope, userFactory, songFactory, $location, $cookies, $routeParams, $timeout){
+app.controller("searchController", ["$scope", "userFactory", "songFactory", "$location", "$cookies", "$routeParams", "$timeout","$uibModal", function($scope, userFactory, songFactory, $location, $cookies, $routeParams, $timeout, $uibModal){
   $scope.search_query = $routeParams.term;
   $scope.total_tracks = 0;
   $scope.total_playlists = 0;
@@ -11,6 +11,7 @@ app.controller("searchController", ["$scope", "userFactory", "songFactory", "$lo
     $scope.total_tracks = results.songs.length + results.songs_by_artist.length + results.tags.length;;
     $scope.total_playlists = results.playlists.length;
     $scope.total_users = results.users.length;
+    console.log(results.users)
     $scope.changeView(0)
   })
   $scope.changeView = function (view) {
@@ -48,7 +49,18 @@ app.controller("searchController", ["$scope", "userFactory", "songFactory", "$lo
           song.well_timed_comments[song.timedComments[j].time] = song.timedComments[j].comment + " -" + song.timedComments[j].user
         }
       }
-    }
+    } else if(view == 1){
+          for(var k = 0; k < $scope.results.users.length; k++){
+            $scope.results.users[k].followercount = $scope.results.users[k].followers.length
+            if($scope.results.users[k].followers.indexOf($scope.id) !== -1){
+              $scope.results.users[k].followercheck = false
+            }
+            else{
+              $scope.results.users[k].followercheck = true
+            }
+            console.log($scope.results.users[k])
+          }
+        }
     else if(view == 2){
       $scope.containerView = 2
       $scope.current = {index: 0, song: {}, playlist: {}};
@@ -212,6 +224,45 @@ app.controller("searchController", ["$scope", "userFactory", "songFactory", "$lo
       $scope.results.playlists[index].repostFlag = false;
     })
   };
+
+  $scope.follow = function(user_id, index){
+    userFactory.follow(user_id, $scope.id, function(data){
+      if(data.err){
+        console.log(data.err)
+      }
+      else{
+        $scope.results.users[index].followercheck = false
+        $scope.results.users[index].followercount += 1
+      }
+  })
+}
+  $scope.unfollow = function(user_id, index){
+    userFactory.unfollow(user_id, $scope.id, function(data){
+      if(data.err){
+        console.log(data.err)
+      }
+      else{
+        $scope.results.users[index].followercheck = true
+        $scope.results.users[index].followercount -= 1
+      }
+  })
+}
+$scope.open = function(song_id){
+  console.log(song_id)
+  $cookies.put('songId', song_id)
+$scope.modalInstance = $uibModal.open({
+      animation: true,
+      ariaLabelledBy: 'modal-title-top',
+      ariaDescribedBy: 'modal-body-top',
+      templateUrl: './partials/playlist.html',
+      controller: 'playlistController'
+    });
+    $scope.modalInstance.result.then(function(hello){
+      console.log('closed')
+    }, function(){
+      $location.url('/profile/'+$scope.user.username+"1"+"/"+$scope.user._id)
+    })
+  }
 }]);
 
 function secondsToMinSec(seconds){
