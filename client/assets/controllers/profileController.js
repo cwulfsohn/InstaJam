@@ -3,7 +3,7 @@ app.controller("profileController", ["$scope", "userFactory","songFactory", "$lo
   $scope.profile_id = $routeParams.id;
   $scope.id = $cookies.get('id');
   $scope.firstName = $cookies.get('user');
-  $scope.containerView = 1;
+  var surfers = [];
   $scope.showUser = function(){
     userFactory.showUser($scope.profile_id, function(data){
       if(data.err){
@@ -12,6 +12,7 @@ app.controller("profileController", ["$scope", "userFactory","songFactory", "$lo
       else{
         console.log(data.user)
         $scope.user = data.user;
+        $scope.changeView(1, 0);
       }
     })
   }
@@ -36,7 +37,7 @@ app.controller("profileController", ["$scope", "userFactory","songFactory", "$lo
           for (var i = 0; i < $scope.user.uploaded_songs.length; i++){
             $scope.wavemaker($scope.user.uploaded_songs[i])
           }
-        }, 500);
+        }, 200);
         for (var i = 0; i < $scope.user.uploaded_songs.length; i++){
           var song = $scope.user.uploaded_songs[i]
           song.well_timed_comments = {}
@@ -198,7 +199,46 @@ app.controller("profileController", ["$scope", "userFactory","songFactory", "$lo
       $scope.user.playlists[index].repostFlag = false;
     })
   };
-  var surfers = []
+  $scope.likeRepost = function(song_id, user_id, index){
+    songFactory.like(song_id, user_id, function(data){
+      $scope.user.reposts[index].likeFlag = true;
+    })
+  }
+  $scope.disLikeRepost = function(song_id, user_id, index){
+    songFactory.disLike(song_id, user_id, function(data){
+      $scope.user.reposts[index].likeFlag = false;
+    })
+  }
+  $scope.repostRepost = function(song_id, user_id, index){
+    songFactory.repost(song_id, user_id, function(data){
+      $scope.user.reposts[index].repostFlag = true;
+    })
+  }
+  $scope.removeRepostRepost = function(song_id, user_id, index){
+    songFactory.removeRepost(song_id, user_id, function(data){
+      $scope.user.reposts[index].repostFlag = false;
+    })
+  };
+  $scope.playlistLikeRepost = function(playlist_id, user_id, index){
+    songFactory.playlistLike(playlist_id, user_id, function(data){
+      $scope.user.playlist_reposts[index].likeFlag = true;
+    })
+  }
+  $scope.playlistDisLikeRepost = function(playlist_id, user_id, index){
+    songFactory.playlistDisLike(playlist_id, user_id, function(data){
+      $scope.user.playlist_reposts[index].likeFlag = false;
+    })
+  }
+  $scope.playlistRepostRepost = function(playlist_id, user_id, index){
+    songFactory.playlistRepost(playlist_id, user_id, function(data){
+      $scope.user.playlist_reposts[index].repostFlag = true;
+    })
+  }
+  $scope.playlistRemoveRepostRepost = function(playlist_id, user_id, index){
+    songFactory.playlistRemoveRepost(playlist_id, user_id, function(data){
+      $scope.user.playlist_reposts[index].repostFlag = false;
+    })
+  };
   $scope.wavemaker = function(song, play=-2, alt_id=false){
     if (alt_id){
       var id = '.w' + alt_id;
@@ -299,19 +339,18 @@ app.controller("profileController", ["$scope", "userFactory","songFactory", "$lo
         ariaLabelledBy: 'modal-title-top',
         ariaDescribedBy: 'modal-body-top',
         templateUrl: './partials/playlist.html',
-        controller: 'playlistController',
+        controller: 'playlistController'
       });
     }
 
-  $scope.edit = function(song_id){
-    $cookies.put('songId', song_id)
+  $scope.edit = function(){
   $scope.modalInstance = $uibModal.open({
         animation: true,
         ariaLabelledBy: 'modal-title-top',
         ariaDescribedBy: 'modal-body-top',
         templateUrl: './partials/edit.html',
-        controller: 'editUserController',
-      });
+        controller: 'editUserController'
+      })
     }
     $scope.follow = function(user_id){
       userFactory.follow(user_id, $scope.id, function(data){
@@ -340,5 +379,11 @@ function secondsToMinSec(seconds){
   var string = ""
   var minutes = Math.trunc(seconds/60);
   var seconds = Math.trunc(seconds%60);
+  if (minutes < 1){
+    minutes = "00"
+  }
+  if (seconds < 10){
+    seconds = "0" + seconds
+  }
   return string + minutes + ":" + seconds;
 }

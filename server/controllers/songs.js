@@ -453,19 +453,19 @@ module.exports = {
   },
   search: function (req, res) {
     var results = {}
-      Song.find({"song_title": {"$regex": req.params.search_term, "$options": "i" } }, function (err, songs) {
+      Song.find({"song_title": {"$regex": req.params.search_term, "$options": "i" } }).populate("_user").exec( function (err, songs) {
         if (err) {
           console.log(err);
         } else {
           results.songs = songs;
         }
-        Song.find({"artist_name": {"$regex": req.params.search_term, "$options": "i" } }, function (err, songs_by_artist) {
+        Song.find({"artist_name": {"$regex": req.params.search_term, "$options": "i" } }).populate("_user").exec( function (err, songs_by_artist) {
           if (err) {
             console.log(err);
           } else {
             results.songs_by_artist = songs_by_artist;
           }
-        Song.find({"tags": {"$regex": req.params.search_term, "$options": "i" } }, function (err, tags) {
+        Song.find({"tags": {"$regex": req.params.search_term, "$options": "i" } }).populate("_user").exec( function (err, tags) {
           if (err) {
             console.log(err);
           } else {
@@ -477,7 +477,8 @@ module.exports = {
             } else {
               results.users = users;
             }
-            Playlist.find({"title": {"$regex": req.params.search_term, "$options": "i"} }, function (err, playlists) {
+            Playlist.find({"title": {"$regex": req.params.search_term, "$options": "i"} })
+            .populate("songs").populate("_user").exec(function (err, playlists) {
               if (err) {
                 console.log(err);
               } else {

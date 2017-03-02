@@ -24,7 +24,7 @@
             <a id="user-dropdown" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img class="img-circle sm-user-img" ng-src="{{currentUser.profile_image}}">{{currentUser.firstName}} {{currentUser.lastName}}<span class="caret"></span></a>
             <ul class="dropdown-menu">
               <li><a ng-href="#!/profile/{{currentUser.firstName}}/{{currentUser_id}}">Profile</a></li>
-              <li><a>Likes</a></li>
+              <li><a href="#!/social/{{currentUser.username}}/{{currentUser_id}}/1">Likes</a></li>
               <li><a>Playlists</a></li>
               <li role="separator" class="divider"></li>
               <li><a href="#">Tracks</a></li>

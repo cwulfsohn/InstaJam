@@ -7,11 +7,19 @@ app.controller("userController", ["$scope", "userFactory", "$location", "$cookie
   $scope.userLogin = {}
   $scope.register = function(){
     userFactory.create($scope.user, function(data){
-      console.log("Hello");
+      console.log(data)
       if (data.err){
         $scope.errors = [];
-        for (key in data.err.errors){
-          $scope.errors.push(data.err.errors[key].message)
+        if(data.err == "Email has been taken"){
+          $scope.errors.push(data.err)
+        }
+        else if(data.err == "Username has been taken"){
+          $scope.errors.push(data.err)
+        }
+        else{
+          for (key in data.err.errors){
+            $scope.errors.push(data.err.errors[key].message)
+          }
         }
       }
       else if (data.badPass){
