@@ -271,12 +271,12 @@ app.controller("profileController", ["$scope", "userFactory","songFactory", "$lo
   }
   $scope.open = function(song_id){
     $cookies.put('songId', song_id)
-  $uibModal.open({
+  $scope.modalInstance = $uibModal.open({
         animation: true,
         ariaLabelledBy: 'modal-title-top',
         ariaDescribedBy: 'modal-body-top',
         templateUrl: './partials/playlist.html',
-        controller: 'playlistController'
+        controller: 'playlistController',
       });
     }
     $scope.follow = function(user_id){

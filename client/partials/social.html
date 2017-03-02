@@ -13,34 +13,35 @@
     <div ng-if="containerView == 1">
     </div>
     <div ng-if="containerView == 2">
-      <div class="following col-lg-4 following_button" ng-repeat="following in user.following">
+      <div class="following col-lg-3 following_button" ng-repeat="following in user.following">
         <a href="/#!/profile/{{following.username}}/{{following._id}}">
         <img class="img-circle follow_image img-responsive" ng-src="{{following.profile_image}}">
         <p class="text-center">{{following.username}}</p>
         </a>
-        <span ng-if="following._id !== id"><button ng-if="following.followingcheck == false" ng-click="follow(following._id)">Follow</button></span>
-        <span ng-if="following._id !== id"><button ng-if="following.followingcheck == true" ng-click="unfollow(following._id)">Unfollow</button></span>
+        <span ng-if="following._id !== id"><button class="btn btn-outline-secondary center-block" ng-if="following.followingcheck == false" ng-click="follow(following._id)">Follow</button></span>
+        <span ng-if="following._id !== id"><button class="btn btn-outline-secondary center-block" ng-if="following.followingcheck == true" ng-click="unfollow(following._id)">Unfollow</button></span>
         <a ng-if="following._id == id" class="ui-following" href="/#!/profile/{{following.username}}/{{following._id}}">Return to your Profile</a>
       </div>
     </div>
     <div ng-if="containerView == 3">
-      <div class="following following_button" ng-repeat="follower in user.followers">
+      <div class="following col-lg-3 following_button" ng-repeat="follower in user.followers">
         <a href="/#!/profile/{{follower.username}}/{{follower._id}}">
         <img class="img-circle follow_image img-responsive" ng-src="{{follower.profile_image}}">
         <p class="text-center social_username">{{follower.username}}</p>
         </a>
-        <span ng-if="follower._id !== id"><button ng-if="follower.followingcheck == false" ng-click="follow(follower._id)">Follow</button></span>
-        <span ng-if="follower._id !== id"><button ng-if="follower.followingcheck == true" ng-click="unfollow(follower._id)">Unfollow</button></span>
-        <a id="return" ng-if="follower._id == id" href="/#!/profile/{{follower.username}}/{{follower._id}}">Return to your Profile</a>
+        <span ng-if="follower._id !== id"><button class="btn btn-outline-secondary center-block" ng-if="follower.followingcheck == false" ng-click="follow(follower._id)">Follow</button></span>
+        <span ng-if="follower._id !== id"><button class="btn btn-outline-secondary center-block" ng-if="follower.followingcheck == true" ng-click="unfollow(follower._id)">Unfollow</button></span>
+        <a id="return" class="center-block" ng-if="follower._id == id" href="/#!/profile/{{follower.username}}/{{follower._id}}">Return to your Profile</a>
       </div>
     </div>
   </div>
 </div>
-
 <style>
 .following{
-  margin-top: 20px;
-  margin-bottom: 10px;
+  margin-top: 15px;
+  margin-bottom: 20px;
+  top: 30px;
+  height: 240px;
   display: inline-block;
   font-size: 20px;
 }
@@ -58,12 +59,18 @@
   display: none;
 }
 .following_button:hover button{
- display: block;
+  width: 70px;
+  height: 30px;
+  font-size: 12px;
+  display: block;
 }
 .following_button #return{
   display: none;
 }
 .following_button:hover #return{
- display: block;
+  width: 120px;
+  height: 10px;
+  font-size: 12px;
+  display: block;
 }
 </style>

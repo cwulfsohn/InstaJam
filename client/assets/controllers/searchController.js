@@ -8,7 +8,6 @@ app.controller("searchController", ["$scope", "userFactory", "songFactory", "$lo
     $scope.view = view;
   };
 
-
   songFactory.search($routeParams.term, function(results) {
     $scope.results = results;
     $scope.total_tracks = results.songs.length + results.songs_by_artist.length + results.tags.length;;
