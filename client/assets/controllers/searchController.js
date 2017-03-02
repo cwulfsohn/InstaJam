@@ -190,7 +190,6 @@ app.controller("searchController", ["$scope", "userFactory", "songFactory", "$lo
   };
   $scope.like = function(song_id, user_id, index, type){
     songFactory.like(song_id.slice(1), user_id, function(data){
-      console.log(data);
       $scope.results[type][index].likeFlag = true;
     })
   }

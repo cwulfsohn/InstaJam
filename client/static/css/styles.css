@@ -26,7 +26,9 @@ body {
 .comment_picture{
   height: 4em;
   width: 4em;
-  border-radius: 90px
+  border-radius: 90px;
+  display: inline-block;
+  vertical-align: top;
 }
 
 .song_comment_user{
@@ -34,6 +36,32 @@ body {
   width: 8em;
   border-radius: 90px;
   margin: 0 auto;
+}
+
+.song_repost_div{
+  display: inline-block;
+  vertical-align: top;
+  margin-left: .2em;
+}
+
+.song_repost_div p{
+  font-size: .8em
+}
+
+.tag{
+  background: grey;
+  color: white;
+  padding: .2em .8em;
+  border-radius: 20px
+}
+
+.centered_bit{
+  margin: 0 auto;
+}
+
+.mini_playlist{
+  height: 5em;
+  width: 5em;
 }
 
 .container-fluid {
