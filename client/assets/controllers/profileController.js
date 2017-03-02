@@ -3,7 +3,7 @@ app.controller("profileController", ["$scope", "userFactory","songFactory", "$lo
   $scope.profile_id = $routeParams.id;
   $scope.id = $cookies.get('id');
   $scope.firstName = $cookies.get('user');
-  $scope.containerView = 0;
+  $scope.containerView = 1;
   $scope.showUser = function(){
     userFactory.showUser($scope.profile_id, function(data){
       if(data.err){
@@ -59,7 +59,7 @@ app.controller("profileController", ["$scope", "userFactory","songFactory", "$lo
         $scope.current = {index: 0, song: {}};
         $timeout(function(){
           for (var i = 0; i < $scope.user.playlists.length; i++){
-            $scope.wavemaker($scope.user.playlists[i].songs[0])
+            $scope.wavemaker($scope.user.playlists[i].songs[0], -3, $scope.user.playlists[i]._id)
           }
         }, 500);
         for (var i = 0; i < $scope.user.playlists.length; i++){
@@ -206,14 +206,13 @@ app.controller("profileController", ["$scope", "userFactory","songFactory", "$lo
         })
       })
       surfers[$scope.current.index].on("finish", function(){
-        console.log($scope.current);
         if (!$.isEmptyObject($scope.current.playlist)){
           $scope.$apply(function(){
             $scope.current.playlist.current_song.song = $scope.current.playlist.songs[$scope.current.playlist.current_song.index + 1];
             $scope.current.playlist.current_song.index = $scope.current.playlist.current_song.index + 1;
             $scope.current.song = $scope.current.playlist.current_song.song;
             surfers[$scope.current.index].destroy();
-            $scope.wavemaker($scope.current.song, $scope.current.index, $scope.current.playlist.songs[0]._id);
+            $scope.wavemaker($scope.current.song, $scope.current.index, $scope.current.playlist._id);
           })
         }
       })
@@ -266,7 +265,7 @@ app.controller("profileController", ["$scope", "userFactory","songFactory", "$lo
       $scope.current.playlist.current_song.song = $scope.current.song;
       $scope.current.playlist.current_song.index = songIndex
       surfers[playlistIndex].destroy();
-      $scope.wavemaker($scope.current.song, $scope.current.index, $scope.current.playlist.songs[0]._id);
+      $scope.wavemaker($scope.current.song, $scope.current.index, $scope.current.playlist._id);
 
   }
   $scope.open = function(song_id){
