@@ -5,10 +5,10 @@
       <h2 id="social_profile_name">{{user.firstName}} {{user.lastName}}</h2>
       <a  href="/#!/profile/{{user.username}}/{{user._id}}"><img class="img-circle social_profile_picture" src="{{user.profile_image}}"></a>
     </div>
-    <uib-tabset id="social-tabs" active="activePill" vertical="false" type="pills">
-      <uib-tab index="1" heading="Likes" data-ng-click="changeView(1)"></uib-tab>
-      <uib-tab index="2" heading="Following" data-ng-click="changeView(2)"></uib-tab>
-      <uib-tab index="3" heading="Followers" data-ng-click="changeView(3)"></uib-tab>
+    <uib-tabset id="social-tabs" active="containerView" vertical="false" type="pills">
+      <uib-tab index="1" heading="Likes" ng-click="changeView(1)"></uib-tab>
+      <uib-tab index="2" heading="Following" ng-click="changeView(2)"></uib-tab>
+      <uib-tab index="3" heading="Followers" ng-click="changeView(3)"></uib-tab>
     </uib-tabset>
   </div>
   <div id="social-results">
