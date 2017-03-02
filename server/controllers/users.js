@@ -8,25 +8,41 @@ module.exports = {
       res.json({badPass:"Passwords don't match"})
     }
     else{
-      var user = new User({
-        username: req.body.username,
-        firstName : req.body.firstName,
-        lastName : req.body.lastName,
-        email : req.body.email,
-        password : req.body.password,
-        age : req.body.age
-      });
-      user.password = bcrypt.hashSync(user.password, bcrypt.genSaltSync(8));
-      user.save(function(err, user){
+      User.find({}, function(err, checkuser){
         if(err){
-          res.json({err:err})
+          res.json({err: err})
         }
-        else {
-          res.json({user:user})
+        else{
+          for(var i = 0; i < checkuser.length; i++){
+            if(req.body.username == checkuser[i].username){
+              res.json({err:"Username has been taken"})
+              return
+            }
+            else if(req.body.email == checkuser[i].email){
+              res.json({err:"Email has been taken"})
+              return
+            }
+          }
+            var user = new User({
+              username: req.body.username,
+              firstName : req.body.firstName,
+              lastName : req.body.lastName,
+              email : req.body.email,
+              password : req.body.password,
+              age : req.body.age
+            });
+            user.password = bcrypt.hashSync(user.password, bcrypt.genSaltSync(8));
+            user.save(function(err, user){
+              if(err){
+                res.json({err:err})
+              }
+              else {
+                res.json({user:user})
+              }
+          })
         }
       })
-    }
-  },
+    }},
   login: function(req, res){
     User.findOne({email: req.body.email}, function(err, user){
       if(err){
