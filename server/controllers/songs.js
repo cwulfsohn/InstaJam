@@ -105,7 +105,9 @@ module.exports = {
   },
   show: function(req, res){
     Song.findOne({_id:req.params.id}).populate("_user").populate('comments')
-    .populate({path: "comments", populate:{path: "_user"}}).exec( function(err, song){
+    .populate({path: "comments", populate:{path: "_user"}})
+    .populate("likes").populate("in_playlists").populate({path: "in_playlists", populate:{path: "_user"}})
+    .populate("reposted_by").exec( function(err, song){
       if (err){
         res.json({err:err});
       }
@@ -115,7 +117,6 @@ module.exports = {
     })
   },
   addLike: function(req, res){
-    console.log(req.body)
     Song.findOne({_id: req.body.s_id}, function(err, song){
       if(err){
         res.json({err: err})
@@ -409,7 +410,15 @@ module.exports = {
                     res.json({err: err})
                   }
                   else{
-                    res.json({playlist: playlist})
+                    song.in_playlists.push(playlist);
+                    song.save(function(err, song){
+                      if (err){
+                        res.json({err:err})
+                      }
+                      else {
+                        res.json({playlist: playlist})
+                      }
+                    })
                   }
                 })
               }

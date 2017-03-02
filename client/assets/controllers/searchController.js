@@ -24,17 +24,21 @@ app.controller("searchController", ["$scope", "userFactory", "songFactory", "$lo
     }
     if(view == 0){
       $scope.current = {index: 0, song: {}}
+      for (var i = 0; i < $scope.results.songs_by_artist.length; i++) {
+        $scope.results.songs_by_artist[i]._id = "a" + $scope.results.songs_by_artist[i]._id
+      }
+      for (var i = 0; i < $scope.results.tags.length; i++) {
+        $scope.results.tags[i]._id = "t" + $scope.results.tags[i]._id
+      }
       $scope.searchSongs = $scope.results.songs_by_artist.concat($scope.results.songs.concat($scope.results.tags))
       $timeout(function(){
         for (var i = 0; i < $scope.searchSongs.length; i++){
-          console.log($scope.searchSongs);
           $scope.wavemaker($scope.searchSongs[i])
         }
       }, 200);
       for (var i = 0; i < $scope.searchSongs.length; i++){
         var song = $scope.searchSongs[i]
         song.well_timed_comments = {}
-        console.log(song.likes);
         if (song.likes.indexOf($scope.id) > -1){
           song.likeFlag = true;
         } else {
@@ -185,22 +189,23 @@ app.controller("searchController", ["$scope", "userFactory", "songFactory", "$lo
 
   };
   $scope.like = function(song_id, user_id, index, type){
-    songFactory.like(song_id, user_id, function(data){
+    songFactory.like(song_id.slice(1), user_id, function(data){
+      console.log(data);
       $scope.results[type][index].likeFlag = true;
     })
   }
   $scope.disLike = function(song_id, user_id, index, type){
-    songFactory.disLike(song_id, user_id, function(data){
+    songFactory.disLike(song_id.slice(1), user_id, function(data){
       $scope.results[type][index].likeFlag = false;
     })
   }
   $scope.repost = function(song_id, user_id, index, type){
-    songFactory.repost(song_id, user_id, function(data){
+    songFactory.repost(song_id.slice(1), user_id, function(data){
       $scope.results[type][index].repostFlag = true;
     })
   }
   $scope.removeRepost = function(song_id, user_id, index, type){
-    songFactory.removeRepost(song_id, user_id, function(data){
+    songFactory.removeRepost(song_id.slice(1), user_id, function(data){
       $scope.results[type][index].repostFlag = false;
     })
   };
