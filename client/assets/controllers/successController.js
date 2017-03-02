@@ -3,15 +3,6 @@ app.controller("successController", ["$scope", "userFactory", "$location", "$coo
     $scope.currentUser = $cookies.get("user");
     $scope.currentUser_id = $cookies.get('id');
   }
-  else {
-    $location.url('/')
-  }
-
-  $scope.logout = function(){
-    $scope.currentUser = {};
-    $cookies.remove("user");
-    $location.url('/');
-  }
 
   userFactory.showUser($scope.currentUser_id, function(data){
     if(data.err){
