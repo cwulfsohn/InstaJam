@@ -31,5 +31,10 @@ app.factory('userFactory', ["$http", function($http){
       callback(data.data)
     })
   }
+  factory.editUser = function(user, callback){
+    $http.post('/editUser', user).then(function(data){
+      callback(data.data)
+    })
+  }
   return factory;
 }])

@@ -16,6 +16,7 @@ module.exports = {
         password : req.body.password,
         age : req.body.age
       });
+      user.password = bcrypt.hashSync(user.password, bcrypt.genSaltSync(8));
       user.save(function(err, user){
         if(err){
           res.json({err:err})
@@ -108,6 +109,42 @@ module.exports = {
           }
           else{
             res.json({work: "Works"})
+          }
+        })
+      }
+    })
+  },
+  editUser: function(req, res){
+    User.find({}, function(err, checkuser){
+      if(err){
+        res.json({err: err})
+      }
+      else{
+        console.log('hello')
+        for(var i = 0; i < checkuser.length; i++){
+          if(req.body.username == checkuser[i].username){
+            res.json({err: "Username is taken"})
+            return
+          }
+        }
+        User.findOne({_id: req.body._id}, function(err, user){
+          if(err){
+            res.json({err: err})
+          }
+          else{
+            user.username = req.body.username
+            user.firstName = req.body.firstName
+            user.lastName = req.body.lastName
+            user.description = req.body.description
+            user.save(function(err, user){
+              if(err){
+                res.json({err: err})
+              }
+              else{
+              console.log(user)
+              res.json({user: user})
+            }
+            })
           }
         })
       }
