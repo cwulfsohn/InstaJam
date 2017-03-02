@@ -268,4 +268,19 @@ $scope.playlistRemoveRepost = function(playlist_id, user_id, index){
     $scope.user.like_playlists[index].repostFlag = false;
   })
 };
+$scope.open = function(song_id){
+  $cookies.put('songId', song_id)
+$scope.modalInstance = $uibModal.open({
+      animation: true,
+      ariaLabelledBy: 'modal-title-top',
+      ariaDescribedBy: 'modal-body-top',
+      templateUrl: './partials/playlist.html',
+      controller: 'playlistController'
+    });
+    $scope.modalInstance.result.then(function(hello){
+      console.log('closed')
+    }, function(){
+      $location.url('/profile/'+$scope.user.username+"1"+"/"+$scope.user._id)
+    })
+  }
 }])
