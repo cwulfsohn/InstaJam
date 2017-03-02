@@ -25,7 +25,7 @@ body {
   margin: 0 auto;
   padding: 0;
   background-color: #FFFFFF;
-  height: 1000px;
+  height: 100%;
 }
 
 .nav-span {
@@ -39,6 +39,7 @@ body {
 .nav>li>a {
   padding: 15px 5px;
 }
+
 .navbar-custom {
     background-color:#333333;
     color:#C5C5C5;
@@ -245,7 +246,7 @@ background-color: #333;
     background-color: #333333;
   }
 
-  .nav-pills > li.active > a::after {
+  #result-tabs > .nav-pills > li.active > a::after {
      content:"";
      position: absolute;
      left: 100%;
@@ -318,12 +319,12 @@ background-color: #333;
     margin: 0 auto;
   }
 
-  .nav-pills > li.active,
-  .nav-pills > li {
+  #result-tabs >.nav-pills > li.active,
+  #result-tabs > .nav-pills > li {
     display: inline-block;
   }
 
-  .nav-pills {
+  #result-tabs >.nav-pills {
     text-align: center;
   }
 
@@ -361,30 +362,6 @@ background-color: #333;
   .search-result {
     text-align: center;
   }
-}
-
-.nav-pills > li {
-  width: 100px;
-}
-
-.nav-pills > li.active > a,
-.nav-pills > li.active > a:focus,
-.nav-pills > li.active > a:hover {
-  background-color: #FF5500;
-  height: 30px;
-  width: 100px;
-  padding: 5px;
-  border-radius: 0px;
-}
-
-.nav-pills > li > a,
-.nav-pills > li > a:focus,
-.nav-pills > li > a:hover {
-  background-color: #FFFFFF;
-  color: #000000;
-  height: 30px;
-  width: 100px;
-  padding: 5px;
 }
 
 .dropdown-toggle {
@@ -435,37 +412,75 @@ background-color: #333;
   padding-left: 0px;
 }
 
-.tabs > li.active > a,
-.tabs > li.active > a:focus,
-.tabs > li.active > a:hover{
-  color: #FF5547;
-  background-color: #FFFFFF;
-  padding-left: 0px;
-  padding-bottom: 0px;
+#result-tabs >.nav-pills > li {
+  width: 100px;
 }
 
-.tabs > li > a,
-.tabs > li > a:focus,
-.tabs > li > a:hover{
+#result-tabs > .nav-pills > li.active > a,
+#result-tabs > .nav-pills > li.active > a:focus,
+#result-tabs > .nav-pills > li.active > a:hover {
+  background-color: #FF5500;
+  height: 30px;
+  width: 100px;
+  padding: 5px;
+  border-radius: 0px;
+  color: #FFFFFF;
+}
+
+#result-tabs > .nav-pills > li > a,
+#result-tabs > .nav-pills > li > a:focus,
+#result-tabs > .nav-pills > li > a:hover {
+  background-color: #FFFFFF;
   color: #000000;
-  background-color: #FFFFFF;
-  padding-left: 0px;
-  padding-bottom: 0px;
+  height: 30px;
+  width: 100px;
+  padding: 5px;
 }
 
-
-#user-links > .tabs > li.active > a > h3,
-#user-links > .tabs > li.active > a:hover > h3{
+#home-tabs > .nav-pills > li.active > a,
+#home-tabs > .nav-pills > li.active > a:hover{
   padding-bottom: 10px;
   border-bottom: 1px solid #FF5547;
   margin-bottom: 0px;
+  background-color: #FFFFFF;
+  border-radius: 0px;
 }
 
-#user-links > .tabs > li > a:focus > h3,
-#user-links > .tabs > li > a:hover > h3 {
+#home-tabs >.nav-pills > li > a:hover {
   padding-bottom: 10px;
   border-bottom: 1px solid #000000;
   margin-bottom: 0px;
+  border-radius: 0px;
+}
+
+#home-tabs > .nav-pills {
+  border-bottom: 1px solid #D5D5D5;
+  margin-bottom: -10px;
+  margin-right: -15px;
+}
+
+#home-tabs >.nav-pills > li.active > a,
+#home-tabs >.nav-pills > li.active > a:focus,
+#home-tabs >.nav-pills > li.active > a:hover{
+  color: #FF5547;
+  background-color: #FFFFFF;
+  padding: 0px;
+}
+
+#home-tabs >.nav-pills > li > a,
+#home-tabs >.nav-pills > li > a:focus,
+#home-tabs >.nav-pills > li > a:hover{
+  color: #000000;
+  background-color: #FFFFFF;
+  padding-left: 10px;
+  padding-bottom: 0px;
+  font-size: 1.65em;
+  padding: 0px;
+  margin: 25px 15px 0px 0px;
+}
+
+#user-links {
+  margin-bottom: 20px
 }
 
 #profile-links > .tabs > li.active > a > h4,
@@ -480,17 +495,6 @@ background-color: #333;
   padding-bottom: 10px;
   border-bottom: 1px solid #000000;
   margin-bottom: 0px;
-}
-
-
-#user-links > .tabs {
-  border-bottom: 1px solid #D5D5D5;
-  margin-bottom: -10px;
-  margin-right: -15px;
-}
-
-#user-links {
-  margin-bottom: 20px
 }
 
 #profile-links {
@@ -547,10 +551,10 @@ background-color: #333;
   position: relative;
 }
 
-.cover_picture{
+.cover_picture {
   width: 100%;
-  max-height: 100%;
-  overflow: hidden;
+  height: 280px;
+  overflow: scroll;
 }
 
 .cover_image {

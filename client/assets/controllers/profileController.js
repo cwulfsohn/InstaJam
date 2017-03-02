@@ -3,7 +3,7 @@ app.controller("profileController", ["$scope", "userFactory","songFactory", "$lo
   $scope.profile_id = $routeParams.id;
   $scope.id = $cookies.get('id');
   $scope.firstName = $cookies.get('user');
-  $scope.containerView = 0;
+  $scope.containerView = 1;
   $scope.showUser = function(){
     userFactory.showUser($scope.profile_id, function(data){
       if(data.err){

@@ -2,11 +2,11 @@
 <div class="container">
   <div id="main-content" class="col-sm-8 col-xs-12 light-gray-right-border">
     <div id="user-links" class="col-sm-12">
-      <ul class="nav nav-pills tabs">
-        <li class="active"><a href="#"><h3>Stream</h3></a></li>
-        <li><a href="#"><h3>Charts</h3></a></li>
-        <li><a href="#"><h3>Discover</h3></a></li>
-      </ul>
+      <uib-tabset id="home-tabs" active="activePill" vertical="false" type="pills">
+        <uib-tab index="0" heading="Stream" data-ng-click="changeView(0)"></uib-tab>
+        <uib-tab index="1" heading="Charts" data-ng-click="changeView(1)"></uib-tab>
+        <uib-tab index="2" heading="Discover" data-ng-click="changeView(2)"></uib-tab>
+      </uib-tabset>
     </div>
     <div class="col-sm-12">
       <h4 class="headline">Hear the latest from the people you're following: </h4>
