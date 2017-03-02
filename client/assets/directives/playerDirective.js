@@ -7,7 +7,7 @@
     return {
       restrict: 'EA',
       templateUrl: '../partials/player.html',
-      controller: 'mediaPlayerController'
+      controller: 'playerController'
     };
   }
 
