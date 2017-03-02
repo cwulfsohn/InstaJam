@@ -56,11 +56,37 @@ app.controller("profileController", ["$scope", "userFactory","songFactory", "$lo
       }
       else if(number == 2){
         $scope.containerView = 2
-        
+        $scope.current = {index: 0, song: {}};
+        $timeout(function(){
+          for (var i = 0; i < $scope.user.playlists.length; i++){
+            $scope.wavemaker($scope.user.playlists[i].songs[0])
+          }
+        }, 500);
+        for (var i = 0; i < $scope.user.playlists.length; i++){
+          var playlist = $scope.user.playlists[i];
+          playlist.current_song = {song: playlist.songs[0], index: 0}
+          if (playlist.likes.indexOf($scope.id) > -1){
+            playlist.likeFlag = true;
+          } else {
+            playlist.likeFlag = false;
+          }
+          if (playlist.reposts.indexOf($scope.id) > -1){
+            playlist.repostFlag = true;
+          } else {
+            playlist.repostFlag = false;
+          }
+          for (var j = 0; j < playlist.songs.length; j++) {
+            var song = playlist.songs[j];
+            song.well_timed_comments = {};
+            for (var k = 0; k < song.timedComments.length; k++){
+              song.well_timed_comments[song.timedComments[k].time] = song.timedComments[k].comment + " -" + song.timedComments[k].user
+            }
+          }
+        }
       }
       else{
         $scope.containerView = 3
-        $scope.current = {index: 0, song: {}};
+        $scope.current = {index: 0, song: {}, playlist: {}};
         $timeout(function(){
           for (var i = 0; i < $scope.user.reposts.length; i++){
             $scope.wavemaker($scope.user.reposts[i])
@@ -125,29 +151,34 @@ app.controller("profileController", ["$scope", "userFactory","songFactory", "$lo
       $scope.user.uploaded_songs[index].repostFlag = false;
     })
   };
-  $scope.playlistLike = function(playlist_id, user_id){
+  $scope.playlistLike = function(playlist_id, user_id, index){
     songFactory.playlistLike(playlist_id, user_id, function(data){
-      $scope.showUser();
+      $scope.user.playlists[index].likeFlag = true;
     })
   }
-  $scope.playlistDisLike = function(playlist_id, user_id){
+  $scope.playlistDisLike = function(playlist_id, user_id, index){
     songFactory.playlistDisLike(playlist_id, user_id, function(data){
-      $scope.showUser();
+      $scope.user.playlists[index].likeFlag = false;
     })
   }
-  $scope.playlistRepost = function(playlist_id, user_id){
+  $scope.playlistRepost = function(playlist_id, user_id, index){
     songFactory.playlistRepost(playlist_id, user_id, function(data){
-      $scope.showUser();
+      $scope.user.playlists[index].repostFlag = true;
     })
   }
-  $scope.playlistRemoveRepost = function(playlist_id, user_id){
+  $scope.playlistRemoveRepost = function(playlist_id, user_id, index){
     songFactory.playlistRemoveRepost(playlist_id, user_id, function(data){
-      $scope.showUser();
+      $scope.user.playlists[index].repostFlag = false;
     })
   };
   var surfers = []
-  $scope.wavemaker = function(song){
-    var id = '.w' + song._id;
+  $scope.wavemaker = function(song, play=-2, alt_id=false){
+    if (alt_id){
+      var id = '.w' + alt_id;
+    }
+    else {
+      var id = '.w' + song._id;
+    }
     var wavesurfer = WaveSurfer.create({
       container: id,
       backend: 'MediaElement',
@@ -160,6 +191,9 @@ app.controller("profileController", ["$scope", "userFactory","songFactory", "$lo
     wavesurfer.load(song.song_file);
 
     wavesurfer.on('ready', function () {
+      if (play > -1){
+        wavesurfer.play()
+      }
       $("#l" + song._id).text(secondsToMinSec(wavesurfer.getDuration()));
       $('.preview_play_button').on("click", function(){
         surfers[$scope.current.index].on('audioprocess', function(){
@@ -171,11 +205,28 @@ app.controller("profileController", ["$scope", "userFactory","songFactory", "$lo
           }
         })
       })
+      surfers[$scope.current.index].on("finish", function(){
+        console.log($scope.current);
+        if (!$.isEmptyObject($scope.current.playlist)){
+          $scope.$apply(function(){
+            $scope.current.playlist.current_song.song = $scope.current.playlist.songs[$scope.current.playlist.current_song.index + 1];
+            $scope.current.playlist.current_song.index = $scope.current.playlist.current_song.index + 1;
+            $scope.current.song = $scope.current.playlist.current_song.song;
+            surfers[$scope.current.index].destroy();
+            $scope.wavemaker($scope.current.song, $scope.current.index, $scope.current.playlist.songs[0]._id);
+          })
+        }
+      })
     });
-    surfers.push(wavesurfer)
+    if (play > -1){
+      surfers[$scope.current.index] = wavesurfer
+    }
+    else {
+      surfers.push(wavesurfer);
+    }
   };
-  $scope.play_pause = function(index, song){
-    $scope.current = {index:index, song:song};
+  $scope.play_pause = function(index, song, playlist={}){
+    $scope.current = {index:index, song:song, playlist: playlist};
     for (var i = 0; i < surfers.length; i++){
       if (surfers[i].isPlaying() && surfers[i] != surfers[index]){
         surfers[i].stop();
@@ -191,8 +242,32 @@ app.controller("profileController", ["$scope", "userFactory","songFactory", "$lo
       $('#s' + index).removeClass("glyphicon-pause")
       $('#s' + index).addClass("glyphicon-play")
     }
-
     surfers[index].playPause();
+  };
+  $scope.changeSongPlaylist = function(playlistIndex, songIndex, song, playlist){
+    console.log(playlistIndex, songIndex, song, playlist);
+    $scope.current = {index:playlistIndex, song:song, playlist: playlist};
+    for (var i = 0; i < surfers.length; i++){
+      if (surfers[i].isPlaying() && surfers[i] != surfers[playlistIndex]){
+        surfers[i].stop();
+        $('#s' + i).addClass("glyphicon-play")
+        $('#s' + i).removeClass("glyphicon-pause")
+      }
+    }
+    if ($('#s' + playlistIndex).hasClass("glyphicon-play")){
+      $('#s' + playlistIndex).addClass("glyphicon-pause")
+      $('#s' + playlistIndex).removeClass("glyphicon-play")
+    }
+    else {
+      $('#s' + playlistIndex).removeClass("glyphicon-pause")
+      $('#s' + playlistIndex).addClass("glyphicon-play")
+    }
+
+      $scope.current.playlist.current_song.song = $scope.current.song;
+      $scope.current.playlist.current_song.index = songIndex
+      surfers[playlistIndex].destroy();
+      $scope.wavemaker($scope.current.song, $scope.current.index, $scope.current.playlist.songs[0]._id);
+
   }
   $scope.open = function(song_id){
     $cookies.put('songId', song_id)
