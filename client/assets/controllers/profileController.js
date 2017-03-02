@@ -56,7 +56,7 @@ app.controller("profileController", ["$scope", "userFactory","songFactory", "$lo
       }
       else if(number == 2){
         $scope.containerView = 2
-        $scope.current = {index: 0, song: {}};
+        $scope.current = {index: 0, song: {}, playlist: {}};
         $timeout(function(){
           for (var i = 0; i < $scope.user.playlists.length; i++){
             $scope.wavemaker($scope.user.playlists[i].songs[0], -3, $scope.user.playlists[i]._id)
@@ -107,6 +107,32 @@ app.controller("profileController", ["$scope", "userFactory","songFactory", "$lo
           }
           for (var j = 0; j < song.timedComments.length; j++){
             song.well_timed_comments[song.timedComments[j].time] = song.timedComments[j].comment + " -" + song.timedComments[j].user
+          }
+        }
+        $timeout(function(){
+          for (var i = 0; i < $scope.user.playlist_reposts.length; i++){
+            $scope.wavemaker($scope.user.playlist_reposts[i].songs[0], -3, $scope.user.playlist_reposts[i]._id)
+          }
+        }, 500);
+        for (var i = 0; i < $scope.user.playlist_reposts.length; i++){
+          var playlist = $scope.user.playlist_reposts[i];
+          playlist.current_song = {song: playlist.songs[0], index: 0}
+          if (playlist.likes.indexOf($scope.id) > -1){
+            playlist.likeFlag = true;
+          } else {
+            playlist.likeFlag = false;
+          }
+          if (playlist.reposts.indexOf($scope.id) > -1){
+            playlist.repostFlag = true;
+          } else {
+            playlist.repostFlag = false;
+          }
+          for (var j = 0; j < playlist.songs.length; j++) {
+            var song = playlist.songs[j];
+            song.well_timed_comments = {};
+            for (var k = 0; k < song.timedComments.length; k++){
+              song.well_timed_comments[song.timedComments[k].time] = song.timedComments[k].comment + " -" + song.timedComments[k].user
+            }
           }
         }
       }
@@ -196,7 +222,7 @@ app.controller("profileController", ["$scope", "userFactory","songFactory", "$lo
       }
       $("#l" + song._id).text(secondsToMinSec(wavesurfer.getDuration()));
       $('.preview_play_button').on("click", function(){
-        surfers[$scope.current.index].on('audioprocess', function(){
+        wavesurfer.on('audioprocess', function(){
           if ($scope.current.song.well_timed_comments[Math.floor(surfers[$scope.current.index].getCurrentTime())]){
             $("#t" + $scope.current.index).text($scope.current.song.well_timed_comments[Math.floor(surfers[$scope.current.index].getCurrentTime())]);
           }
@@ -205,8 +231,8 @@ app.controller("profileController", ["$scope", "userFactory","songFactory", "$lo
           }
         })
       })
-      surfers[$scope.current.index].on("finish", function(){
-        if (!$.isEmptyObject($scope.current.playlist)){
+      wavesurfer.on("finish", function(){
+        if (!$.isEmptyObject($scope.current.playlist) && ($scope.current.playlist.songs[$scope.current.playlist.current_song.index + 1] != undefined)){
           $scope.$apply(function(){
             $scope.current.playlist.current_song.song = $scope.current.playlist.songs[$scope.current.playlist.current_song.index + 1];
             $scope.current.playlist.current_song.index = $scope.current.playlist.current_song.index + 1;
@@ -214,6 +240,11 @@ app.controller("profileController", ["$scope", "userFactory","songFactory", "$lo
             surfers[$scope.current.index].destroy();
             $scope.wavemaker($scope.current.song, $scope.current.index, $scope.current.playlist._id);
           })
+        }
+        else {
+          surfers[$scope.current.index].stop();
+          $('#s' + $scope.current.index).removeClass("glyphicon-pause")
+          $('#s' + $scope.current.index).addClass("glyphicon-play")
         }
       })
     });
@@ -226,6 +257,7 @@ app.controller("profileController", ["$scope", "userFactory","songFactory", "$lo
   };
   $scope.play_pause = function(index, song, playlist={}){
     $scope.current = {index:index, song:song, playlist: playlist};
+    console.log($scope.current.index);
     for (var i = 0; i < surfers.length; i++){
       if (surfers[i].isPlaying() && surfers[i] != surfers[index]){
         surfers[i].stop();
@@ -244,7 +276,6 @@ app.controller("profileController", ["$scope", "userFactory","songFactory", "$lo
     surfers[index].playPause();
   };
   $scope.changeSongPlaylist = function(playlistIndex, songIndex, song, playlist){
-    console.log(playlistIndex, songIndex, song, playlist);
     $scope.current = {index:playlistIndex, song:song, playlist: playlist};
     for (var i = 0; i < surfers.length; i++){
       if (surfers[i].isPlaying() && surfers[i] != surfers[playlistIndex]){
@@ -252,14 +283,6 @@ app.controller("profileController", ["$scope", "userFactory","songFactory", "$lo
         $('#s' + i).addClass("glyphicon-play")
         $('#s' + i).removeClass("glyphicon-pause")
       }
-    }
-    if ($('#s' + playlistIndex).hasClass("glyphicon-play")){
-      $('#s' + playlistIndex).addClass("glyphicon-pause")
-      $('#s' + playlistIndex).removeClass("glyphicon-play")
-    }
-    else {
-      $('#s' + playlistIndex).removeClass("glyphicon-pause")
-      $('#s' + playlistIndex).addClass("glyphicon-play")
     }
 
       $scope.current.playlist.current_song.song = $scope.current.song;

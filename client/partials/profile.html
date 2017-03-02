@@ -31,22 +31,17 @@
     <div class="col-sm-12" ng-if="containerView == 1">
       <div class="song-area" ng-repeat="song in user.uploaded_songs">
         <div class="audio_player_preview">
-
-
-              <div class="row">
-                <img class="col-xs-3" id="album_cover_preview" ng-src="{{song.album_cover}}" alt="Album Cover">
-
-                <div class="col-xs-6">
-                  <p>{{song.artist_name}}</p>
-                  <p class="song_title"><a href="#!/song/{{song._id}}">{{song.song_title}}</a></p>
-                </div>
-                <div class="col-xs-3">
-                  <button class="preview_play_button" type="button" ng-click="play_pause($index, song)" name="play"><span id="s{{$index}}" class="glyphicon glyphicon-play"></span></button>
-                </div>
-              </div>
-              <div class="w{{song._id}}"></div>
-
-
+          <div class="row">
+            <img class="col-xs-3" id="album_cover_preview" ng-src="{{song.album_cover}}" alt="Album Cover">
+            <div class="col-xs-6">
+              <p>{{song.artist_name}}</p>
+              <p class="song_title"><a href="#!/song/{{song._id}}">{{song.song_title}}</a></p>
+            </div>
+            <div class="col-xs-3">
+              <button class="preview_play_button" type="button" ng-click="play_pause($index, song)" name="play"><span id="s{{$index}}" class="glyphicon glyphicon-play"></span></button>
+            </div>
+          </div>
+          <div class="w{{song._id}}"></div>
           <div class="row">
             <div class="col-xs-3">
               <button class="preview_button" ng-if="song.likeFlag" uib-tooltip="unlike" ng-click="disLike(song._id, id, $index)"><span class="glyphicon glyphicon-heart red"></span></button>
@@ -104,12 +99,11 @@
                   </div>
                 </div>
               </div>
-
-
             </div>
           </div>
       </div>
       <div class="col-sm-12" ng-if="containerView == 3">
+        <h3>Reposted Songs</h3>
         <div ng-repeat="song in user.reposts">
           <div class="audio_player_preview">
             <div class="row">
@@ -135,6 +129,51 @@
               <div class="col-xs-2" id="l{{song._id}}"></div>
             </div>
           </div>
+      </div>
+      <h3>Reposted Playlists</h3>
+      <div ng-repeat="playlist in user.playlist_reposts">
+        <div class="audio_player_preview">
+          <div class="row">
+            <img class="col-xs-3" id="album_cover_preview" ng-src="{{playlist.first_song_art}}" alt="Album Cover">
+            <div class="col-xs-6">
+              <p>{{playlist.title}}</p>
+              <p class="song_title">By <a href="#!/profile/{{playlist._user.username}}/{{playlist._user._id}}">{{playlist._user.username}}</a></p>
+            </div>
+            <div class="col-xs-3">
+              <button class="preview_play_button" type="button" ng-click="play_pause(($index + user.reposts.length), playlist.current_song.song, playlist)" name="play"><span id="s{{$index + user.reposts.length}}" class="glyphicon glyphicon-play"></span></button>
+            </div>
+          </div>
+          <div class="w{{playlist._id}}"></div>
+          <div class="row">
+            <p class="col-xs-6 text-center">{{playlist.current_song.song.artist_name}}</p>
+            <p class="col-xs-6 text-center"><a href="#!/song/{{playlist.current_song.song._id}}">{{playlist.current_song.song.song_title}}</a></p>
+          </div>
+          <div class="row">
+            <div class="col-xs-3">
+              <button class="preview_button" ng-if="playlist.likeFlag" ng-click="playlistDisLike(playlist._id, id, $index)"><span class="glyphicon glyphicon-heart red"></span></button>
+              <button class="preview_button" ng-if="playlist.likeFlag === false" ng-click="playlistLike(playlist._id, id, $index)"><span class="glyphicon glyphicon-heart"></span> </button>
+              <button class="preview_button" ng-if="playlist.repostFlag" ng-click="playlistRemoveRepost(playlist._id, id, $index)"><span class="glyphicon glyphicon-retweet red"></span></button>
+              <button class="preview_button" ng-if="playlist.repostFlag === false" ng-click="playlistRepost(playlist._id, id, $index)"><span class="glyphicon glyphicon-retweet"></span></button>                </div>
+            <div id="t{{$index}}" class="col-xs-8"></div>
+            <div class="col-xs-1" id="l{{song._id}}"></div>
+          </div>
+          <div id="tracklist">
+            <div ng-repeat="song in playlist.songs" ng-if="song != playlist.current_song.song" class="row">
+              <div class="col-xs-1">
+                <p>{{$index + 1}}</p>
+              </div>
+              <div class="col-xs-4">
+                <p>{{song.song_title}}</p>
+              </div>
+              <div class="col-xs-4">
+                <p>{{song.artist_name}}</p>
+              </div>
+              <div class="col-xs-2">
+                <button class="preview_button" ng-click="changeSongPlaylist(($parent.$parent.$index + user.reposts.length), $index, song, playlist)" type="button" name="button"><span class="glyphicon glyphicon-play"></span></button>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
     </div>

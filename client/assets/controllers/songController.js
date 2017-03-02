@@ -72,6 +72,9 @@ app.controller("songController", ["$scope", "songFactory", "$location", "$cookie
           $scope.errors.push(data.data.err.errors[key].message);
         }
       }
+      else {
+        $scope.getSong();
+      }
     })
   };
   $scope.getSong();
