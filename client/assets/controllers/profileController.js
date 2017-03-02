@@ -9,6 +9,7 @@ app.controller("profileController", ["$scope", "userFactory","songFactory", "$lo
         console.log(data.err)
       }
       else{
+        console.log(data.user)
         $scope.user = data.user;
         $scope.changeView(1, 0);
       }
@@ -299,6 +300,17 @@ app.controller("profileController", ["$scope", "userFactory","songFactory", "$lo
         ariaDescribedBy: 'modal-body-top',
         templateUrl: './partials/playlist.html',
         controller: 'playlistController',
+      });
+    }
+
+  $scope.edit = function(song_id){
+    $cookies.put('songId', song_id)
+  $scope.modalInstance = $uibModal.open({
+        animation: true,
+        ariaLabelledBy: 'modal-title-top',
+        ariaDescribedBy: 'modal-body-top',
+        templateUrl: './partials/edit.html',
+        controller: 'editUserController',
       });
     }
     $scope.follow = function(user_id){

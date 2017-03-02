@@ -22,7 +22,7 @@
     </uib-tabset>
     <span ng-if="user._id !== id"><button ng-if="user.followers.indexOf(id) == -1" ng-click="follow(user._id)"class="pull-right profile-buttons">Follow</button></span>
     <span ng-if="user._id !== id"><button ng-if="user.followers.indexOf(id) > -1" ng-click="unfollow(user._id)"class="pull-right profile-buttons">Unfollow</button></span>
-    <button class="pull-right profile-buttons">Edit</button>
+    <button class="pull-right profile-buttons" ng-click="edit()">Edit</button>
   </div>
   <div id="profile-content" class="col-sm-8 col-xs-12 light-gray-right-border">
     <div class="col-sm-12" ng-if="containerView == 0">
@@ -32,11 +32,11 @@
         <div class="audio_player_preview">
           <div class="row">
             <img class="col-xs-3" id="album_cover_preview" ng-src="{{song.album_cover}}" alt="Album Cover">
-            <div class="col-xs-5 col-sm-6">
+            <div class="col-xs-6">
               <p>{{song.artist_name}}</p>
               <p class="song_title"><a href="#!/song/{{song._id}}">{{song.song_title}}</a></p>
             </div>
-            <div class="col-xs-4 col-sm-3">
+            <div class="col-xs-3">
               <button class="preview_play_button" type="button" ng-click="play_pause($index, song)" name="play"><span id="s{{$index}}" class="glyphicon glyphicon-play"></span></button>
             </div>
           </div>
@@ -60,11 +60,11 @@
             <div class="audio_player_preview">
               <div class="row">
                 <img class="col-xs-3" id="album_cover_preview" ng-src="{{playlist.first_song_art}}" alt="Album Cover">
-                <div class="col-xs-5 col-sm-6">
+                <div class="col-xs-6">
                   <p>{{playlist.title}}</p>
                   <p class="song_title">By <a href="#!/profile/{{playlist._user.username}}/{{playlist._user._id}}">{{playlist._user.username}}</a></p>
                 </div>
-                <div class="col-xs-4 col-sm-3">
+                <div class="col-xs-3">
                   <button class="preview_play_button" type="button" ng-click="play_pause($index, playlist.current_song.song, playlist)" name="play"><span id="s{{$index}}" class="glyphicon glyphicon-play"></span></button>
                 </div>
               </div>
@@ -107,11 +107,11 @@
           <div class="audio_player_preview">
             <div class="row">
               <img class="col-xs-3" id="album_cover_preview" ng-src="{{song.album_cover}}" alt="Album Cover">
-              <div class="col-xs-5 col-sm-6">
+              <div class="col-xs-6">
                 <p>{{song.artist_name}}</p>
                 <p class="song_title"><a href="#!/song/{{song._id}}">{{song.song_title}}</a></p>
               </div>
-              <div class="col-xs-3 col-sm-3">
+              <div class="col-xs-3">
                 <button class="preview_play_button" type="button" ng-click="play_pause($index, song)" name="play"><span id="s{{$index}}" class="glyphicon glyphicon-play"></span></button>
               </div>
             </div>
@@ -134,11 +134,11 @@
         <div class="audio_player_preview">
           <div class="row">
             <img class="col-xs-3" id="album_cover_preview" ng-src="{{playlist.first_song_art}}" alt="Album Cover">
-            <div class="col-xs-5 col-sm-6">
+            <div class="col-xs-6">
               <p>{{playlist.title}}</p>
               <p class="song_title">By <a href="#!/profile/{{playlist._user.username}}/{{playlist._user._id}}">{{playlist._user.username}}</a></p>
             </div>
-            <div class="col-xs-4 col-sm-3">
+            <div class="col-xs-3">
               <button class="preview_play_button" type="button" ng-click="play_pause(($index + user.reposts.length), playlist.current_song.song, playlist)" name="play"><span id="s{{$index + user.reposts.length}}" class="glyphicon glyphicon-play"></span></button>
             </div>
           </div>

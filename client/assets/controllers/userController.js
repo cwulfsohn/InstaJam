@@ -28,12 +28,12 @@ app.controller("userController", ["$scope", "userFactory", "$location", "$cookie
   $scope.login = function(){
     userFactory.login($scope.userLogin, function(data){
       if(data.user){
-        $cookies.put("id", data.user[0]._id);
-        $cookies.put("user", data.user[0].firstName);
+        $cookies.put("id", data.user._id);
+        $cookies.put("user", data.user.firstName);
         console.log($cookies.get('user'), $cookies.get('id'))
         console.log(data.user);
-        $cookies.put("user", data.user[0].firstName);
-        $cookies.put("id", data.user[0]._id);
+        $cookies.put("user", data.user.firstName);
+        $cookies.put("id", data.user._id);
         $location.url('/success');
       }
       else {
