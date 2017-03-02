@@ -1,50 +1,139 @@
 <navigation></navigation>
 <div class="container">
   <div class="col-xs-12">
-    <h2 id="search-headline" class="col-xs-12">Search results for "{{search_term}}"</h2>
+    <h2 id="search-headline" class="col-xs-12">Search results for "{{ search_query }}"</h2>
   </div>
-  <div id="left-sidebar" class="col-xs-6 col-sm-3">
+  <div id="left-sidebar" class="col-xs-12 col-sm-3">
     <uib-tabset id="result-tabs" active="activePill" vertical="true" type="pills">
-      <uib-tab index="0" heading="Everything"></uib-tab>
-      <uib-tab index="1" heading="Songs"></uib-tab>
-      <uib-tab index="2" heading="Users"></uib-tab>
-      <uib-tab index="3" heading="Artists"></uib-tab>
-      <uib-tab index="4" heading="Playlists"></uib-tab>
+      <uib-tab index="0" heading="Songs" data-ng-click="changeView(0)">
+      </uib-tab>
+      <uib-tab index="1" heading="Users" data-ng-click="changeView(1)"></uib-tab>
+      <uib-tab index="2" heading="Playlists" data-ng-click="changeView(2)"></uib-tab>
     </uib-tabset>
   </div>
   <div id="search-results" class="col-xs-12 col-sm-9">
-    <h5 class="headline">Found {{ total_tracks }} tracks, {{ total_playlists }} playlists,{{ total_people }} people:</h5>
-    <div class="song-area" ng-repeat="song in results.songs">
-      <div class="audio_player_preview">
-        <div class="row">
-          <img class="col-xs-3" id="album_cover_preview" ng-src="{{song.album_cover}}" alt="Album Cover">
-          <div class="col-xs-9">
-            <div class="row">
-              <div class="col-xs-9">
-                <p>{{song.artist_name}}</p>
-                <p class="song_title"><a href="#!/song/{{song._id}}">{{song.song_title}}</a></p>
+    <h5 class="headline">Found {{ total_tracks }} tracks, {{ total_playlists }} playlists, {{ total_users }} users:</h5>
+    <div ng-if="view == 0">
+      <h4 ng-if="results.songs_by_artist.length > 0">{{ results.songs_by_artist.length }} tracks matching artists:</h4>
+      <div class="song-area" ng-repeat="song in results.songs_by_artist">
+        <div class="audio_player_preview">
+          <div class="row">
+            <img class="col-xs-3" id="album_cover_preview" ng-src="{{song.album_cover}}" alt="Album Cover">
+            <div class="col-xs-9">
+              <div class="row">
+                <div class="col-xs-9">
+                  <p>{{song.artist_name}}</p>
+                  <p class="song_title"><a href="#!/song/{{song._id}}">{{song.song_title}}</a></p>
+                </div>
+                <div class="col-xs-3">
+                  <button class="preview_play_button" type="button" ng-click="play_pause($index)" name="play"><span id="s{{$index}}" class="glyphicon glyphicon-play"></span></button>
+                </div>
               </div>
-              <div class="col-xs-3">
-                <button class="preview_play_button" type="button" ng-click="play_pause($index)" name="play"><span id="s{{$index}}" class="glyphicon glyphicon-play"></span></button>
-              </div>
+              <div class="w{{song._id}}"></div>
             </div>
-            <div class="w{{song._id}}"></div>
+          </div>
+          <div class="row">
+            <div class="col-xs-3">
+              <button class="preview_button" ng-if="song.likeFlag" ng-click="disLike(song._id, id, $index)"><span class="glyphicon glyphicon-heart red"></span></button>
+              <button class="preview_button" ng-if="song.likeFlag === false" ng-click="like(song._id, id, $index)"><span class="glyphicon glyphicon-heart"></span> </button>
+              <button class="preview_button" ng-if="song.repostFlag" ng-click="removeRepost(song._id, id, $index)"><span class="glyphicon glyphicon-retweet red"></span></button>
+              <button class="preview_button" ng-if="song.repostFlag === false" ng-click="repost(song._id, id, $index)"><span class="glyphicon glyphicon-retweet"></span></button>
+              <button class="preview_button" ng-click="open(song._id)"><span class="glyphicon glyphicon-plus"></span></button>
+            </div>
+            <div id="t{{$index}}" class="col-xs-8"></div>
+            <div class="col-xs-1" id="l{{song._id}}"></div>
           </div>
         </div>
-        <div class="row">
-          <div class="col-xs-3">
-            <button class="preview_button" ng-if="song.likeFlag" ng-click="disLike(song._id, id, $index)"><span class="glyphicon glyphicon-heart red"></span></button>
-            <button class="preview_button" ng-if="song.likeFlag === false" ng-click="like(song._id, id, $index)"><span class="glyphicon glyphicon-heart"></span> </button>
-            <button class="preview_button" ng-if="song.repostFlag" ng-click="removeRepost(song._id, id, $index)"><span class="glyphicon glyphicon-retweet red"></span></button>
-            <button class="preview_button" ng-if="song.repostFlag === false" ng-click="repost(song._id, id, $index)"><span class="glyphicon glyphicon-retweet"></span></button>
-            <button class="preview_button" ng-click="open(song._id)"><span class="glyphicon glyphicon-plus"></span></button>
+      </div>
+      <h4 ng-if="results.songs.length > 0">{{ results.songs.length }} tracks matching song titles:</h4>
+      <div class="song-area" ng-repeat="song in results.songs">
+        <div class="audio_player_preview">
+          <div class="row">
+            <img class="col-xs-3" id="album_cover_preview" ng-src="{{song.album_cover}}" alt="Album Cover">
+            <div class="col-xs-9">
+              <div class="row">
+                <div class="col-xs-9">
+                  <p>{{song.artist_name}}</p>
+                  <p class="song_title"><a href="#!/song/{{song._id}}">{{song.song_title}}</a></p>
+                </div>
+                <div class="col-xs-3">
+                  <button class="preview_play_button" type="button" ng-click="play_pause($index)" name="play"><span id="s{{$index}}" class="glyphicon glyphicon-play"></span></button>
+                </div>
+              </div>
+              <div class="w{{song._id}}"></div>
+            </div>
           </div>
-          <div id="t{{$index}}" class="col-xs-8"></div>
-          <div class="col-xs-1" id="l{{song._id}}"></div>
+          <div class="row">
+            <div class="col-xs-3">
+              <button class="preview_button" ng-if="song.likeFlag" ng-click="disLike(song._id, id, $index)"><span class="glyphicon glyphicon-heart red"></span></button>
+              <button class="preview_button" ng-if="song.likeFlag === false" ng-click="like(song._id, id, $index)"><span class="glyphicon glyphicon-heart"></span> </button>
+              <button class="preview_button" ng-if="song.repostFlag" ng-click="removeRepost(song._id, id, $index)"><span class="glyphicon glyphicon-retweet red"></span></button>
+              <button class="preview_button" ng-if="song.repostFlag === false" ng-click="repost(song._id, id, $index)"><span class="glyphicon glyphicon-retweet"></span></button>
+              <button class="preview_button" ng-click="open(song._id)"><span class="glyphicon glyphicon-plus"></span></button>
+            </div>
+            <div id="t{{$index}}" class="col-xs-8"></div>
+            <div class="col-xs-1" id="l{{song._id}}"></div>
+          </div>
+        </div>
+      </div>
+      <h4 ng-if="results.tags.length > 0">{{ results.tags.length }} tracks matching tags:</h4>
+      <div class="song-area" ng-repeat="song in results.tags">
+        <div class="audio_player_preview">
+          <div class="row">
+            <img class="col-xs-3" id="album_cover_preview" ng-src="{{song.album_cover}}" alt="Album Cover">
+            <div class="col-xs-9">
+              <div class="row">
+                <div class="col-xs-9">
+                  <p>{{song.artist_name}}</p>
+                  <p class="song_title"><a href="#!/song/{{song._id}}">{{song.song_title}}</a></p>
+                </div>
+                <div class="col-xs-3">
+                  <button class="preview_play_button" type="button" ng-click="play_pause($index)" name="play"><span id="s{{$index}}" class="glyphicon glyphicon-play"></span></button>
+                </div>
+              </div>
+              <div class="w{{song._id}}"></div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-3">
+              <button class="preview_button" ng-if="song.likeFlag" ng-click="disLike(song._id, id, $index)"><span class="glyphicon glyphicon-heart red"></span></button>
+              <button class="preview_button" ng-if="song.likeFlag === false" ng-click="like(song._id, id, $index)"><span class="glyphicon glyphicon-heart"></span> </button>
+              <button class="preview_button" ng-if="song.repostFlag" ng-click="removeRepost(song._id, id, $index)"><span class="glyphicon glyphicon-retweet red"></span></button>
+              <button class="preview_button" ng-if="song.repostFlag === false" ng-click="repost(song._id, id, $index)"><span class="glyphicon glyphicon-retweet"></span></button>
+              <button class="preview_button" ng-click="open(song._id)"><span class="glyphicon glyphicon-plus"></span></button>
+            </div>
+            <div id="t{{$index}}" class="col-xs-8"></div>
+            <div class="col-xs-1" id="l{{song._id}}"></div>
+          </div>
+        </div>
+      </div>
+    </div><!-- end view 0 -->
+    <div ng-if="view == 1">
+      <h4>{{ total_users }} Users:</h4>
+      <div class="search-result" ng-repeat="user in results.users">
+        <div class="col-md-4 col-xs-6">
+          <img class="search-profile-image img-circle" ng-src="{{ user.profile_image }}" alt="User Profile Image">
+        </div>
+        <div class="search-result-info col-md-8 col-xs-6">
+          <h5><a ng-href="#!/profile/{{user.firstName}}/{{user._id}}">{{ user.username }}</a></h5>
+          <p>Followers: {{ user.followers.length }}</p>
+          <button>Follow</button>
+        </div>
+      </div>
+    </div>
+    <div ng-if="view == 2">
+      <h4>{{ total_playlists }} Playlists:</h4>
+      <div class="search-result" ng-repeat="playlist in results.playlists">
+        <div class="col-xs-4">
+          <img class="search-profile-image" ng-src="{{ playlist.first_song_art}}" alt="Cover Art for Playlist">
+        </div>
+        <div class="search-result-playlist col-xs-8">
+          <h5>{{ playlist.title }}</h5>
+          <p>Likes: {{ playlist.likes.length }}</p>
+          <p>Reposts: {{ playlist.reposts.length }}</p>
+          <button>Like</button> <button>Repost</button>
         </div>
       </div>
     </div>
   </div>
 </div>
-
-{{ results }}

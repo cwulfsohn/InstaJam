@@ -453,18 +453,18 @@ module.exports = {
   },
   search: function (req, res) {
     var results = {}
-    Song.find({"artist_name": {"$regex": req.params.search_term, "$options": "i" } }, function (err, artists) {
-      if (err) {
-        console.log(err);
-      } else {
-        results.artists = artists;
-      }
       Song.find({"song_title": {"$regex": req.params.search_term, "$options": "i" } }, function (err, songs) {
         if (err) {
           console.log(err);
         } else {
           results.songs = songs;
         }
+        Song.find({"artist_name": {"$regex": req.params.search_term, "$options": "i" } }, function (err, songs_by_artist) {
+          if (err) {
+            console.log(err);
+          } else {
+            results.songs_by_artist = songs_by_artist;
+          }
         Song.find({"tags": {"$regex": req.params.search_term, "$options": "i" } }, function (err, tags) {
           if (err) {
             console.log(err);
@@ -477,11 +477,11 @@ module.exports = {
             } else {
               results.users = users;
             }
-            Playlist.find({"title": {"$regex": req.params.search_term, "$options": "i"} }, function (err, playlist_titles) {
+            Playlist.find({"title": {"$regex": req.params.search_term, "$options": "i"} }, function (err, playlists) {
               if (err) {
                 console.log(err);
               } else {
-                results.playlist_titles = playlist_titles;
+                results.playlists = playlists;
               }
               res.json(results);
             });

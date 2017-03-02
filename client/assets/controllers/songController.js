@@ -5,14 +5,7 @@ app.controller("songController", ["$scope", "songFactory", "$location", "$cookie
     $scope.wave = false;
     $scope.audio_ready = false
   }
-  else {
-    $location.url('/')
-  }
-  $scope.logout = function(){
-    $scope.currentUser = {};
-    $cookies.remove("user");
-    $location.url('/');
-  };
+
   $scope.switch = function(){
     if ($scope.play == "play"){
       $scope.play = "pause";

@@ -18,7 +18,7 @@
           <input id="nav-search" type="text" class="form-control" placeholder="Search" ng-model="search_term">
           <input id="invisible-submit" type="submit">
         </form>
-        <ul class="nav navbar-nav navbar-right">
+        <ul ng-if="currentUser" class="nav navbar-nav navbar-right">
           <li><a ng-href="#!/upload">Upload</a></li>
           <li class="dropdown">
             <a id="user-dropdown" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><img class="img-circle sm-user-img" src="{{currentUser.profile_image}}">{{currentUser.firstName}} {{currentUser.lastName}}<span class="caret"></span></a>
@@ -31,6 +31,11 @@
               <li><a ng-click="logout()">Log Out</a></li>
             </ul>
           </li>
+        </ul>
+        <ul ng-if="!currentUser" class="nav navbar-nav navbar-right">
+          <li><a id="nav-login-button" ng-href="#!/"><button id="sign_in">Sign In</button></a></li>
+          <li><span class="nav-span">or</span></li>
+          <li><a id="nav-register-button" ng-href="#!/registration"><button id="create_account">Create Account</button></a></li>
         </ul>
     </div>
   </div>

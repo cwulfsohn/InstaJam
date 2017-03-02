@@ -3,14 +3,7 @@ app.controller("uploadController", ["$scope", "songFactory", "$location", "$cook
     $scope.currentUserId = $cookies.get("id");
     $scope.song = {}
   }
-  else {
-    $location.url('/')
-  }
-  $scope.logout = function(){
-    $scope.currentUser = {};
-    $cookies.remove("user");
-    $location.url('/');
-  }
+
   $scope.uploadFiles = function(file) {
     $scope.song.uploader = $scope.currentUserId;
     if (file) {
