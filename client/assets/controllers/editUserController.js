@@ -29,6 +29,8 @@ app.controller("editUserController",["$scope", "userFactory","songFactory", "$co
       }
       else{
         $scope.errors = {};
+        $scope.error = {}
+        $scope.error.message = "Changes Saved"
         $scope.userInfo = data.user
       }
     })

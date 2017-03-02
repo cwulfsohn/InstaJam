@@ -137,11 +137,14 @@ module.exports = {
         res.json({err: err})
       }
       else{
-        console.log('hello')
         for(var i = 0; i < checkuser.length; i++){
-          if(req.body.username == checkuser[i].username){
-            res.json({err: "Username is taken"})
-            return
+          console.log(req.body._id)
+          console.log(checkuser[i]._id)
+          if(req.body._id != checkuser[i]._id){
+            if(req.body.username == checkuser[i].username){
+              res.json({err: "Username is taken"})
+              return
+            }
           }
         }
         User.findOne({_id: req.body._id}, function(err, user){
