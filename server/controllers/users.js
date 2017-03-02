@@ -27,12 +27,12 @@ module.exports = {
     }
   },
   login: function(req, res){
-    User.find({email: req.body.email}, function(err, user){
-      if(user.length < 1){
+    User.findOne({email: req.body.email}, function(err, user){
+      if(err){
         res.json({err:"Unregistered email"})
       }
       else {
-        if (bcrypt.compareSync(req.body.password, user[0].password)) {
+        if (bcrypt.compareSync(req.body.password, user.password)) {
           res.json({user:user})
         }
         else {

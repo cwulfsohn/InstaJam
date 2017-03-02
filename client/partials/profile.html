@@ -22,7 +22,7 @@
     </uib-tabset>
     <span ng-if="user._id !== id"><button ng-if="user.followers.indexOf(id) == -1" ng-click="follow(user._id)"class="pull-right profile-buttons">Follow</button></span>
     <span ng-if="user._id !== id"><button ng-if="user.followers.indexOf(id) > -1" ng-click="unfollow(user._id)"class="pull-right profile-buttons">Unfollow</button></span>
-    <button class="pull-right profile-buttons">Edit</button>
+    <button class="pull-right profile-buttons" ng-click="edit()">Edit</button>
   </div>
   <div id="profile-content" class="col-sm-8 col-xs-12 light-gray-right-border">
     <div class="col-sm-12" ng-if="containerView == 0">
