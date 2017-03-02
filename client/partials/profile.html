@@ -17,7 +17,7 @@
   <div id="profile-links" class="col-sm-12">
     <uib-tabset id="home-tabs" active="activePill" vertical="false" type="pills">
       <uib-tab index="0" heading="Tracks" data-ng-click="changeView(1, containerView)"></uib-tab>
-      <uib-tab index="1" heading="Playlist" data-ng-click="changeView(2, containerView)"></uib-tab>
+      <uib-tab index="1" heading="Playlists" data-ng-click="changeView(2, containerView)"></uib-tab>
       <uib-tab index="2" heading="Reposts" data-ng-click="changeView(3, containerView)"></uib-tab>
     </uib-tabset>
     <span ng-if="user._id !== id"><button ng-if="user.followers.indexOf(id) == -1" ng-click="follow(user._id)"class="pull-right profile-buttons">Follow</button></span>
