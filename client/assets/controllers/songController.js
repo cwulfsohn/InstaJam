@@ -66,7 +66,12 @@ app.controller("songController", ["$scope", "songFactory", "$location", "$cookie
     $scope.comment.song = id;
     $scope.comment.user = $scope.id
     songFactory.createComment($scope.comment, function(data){
-      $scope.getSong();
+      if (data.data.err){
+        $scope.errors = []
+        for (var key in data.data.err.errors){
+          $scope.errors.push(data.data.err.errors[key].message);
+        }
+      }
     })
   };
   $scope.getSong();

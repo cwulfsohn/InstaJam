@@ -18,40 +18,72 @@ app.controller("profileController", ["$scope", "userFactory","songFactory", "$lo
     if (number == view){
       return;
     }
-    else if(number == 0){
-      $scope.containerView = 0;
-    }
-    else if(number == 1){
-      $scope.containerView = 1;
-      $scope.current = 0
-      $timeout(function(){
+    else {
+      if (surfers){
+        for (var i = 0; i < surfers.length; i++){
+          surfers[i].destroy();
+        }
+        surfers = []
+      }
+      if(number == 0){
+        $scope.containerView = 0;
+      }
+      else if(number == 1){
+        $scope.containerView = 1;
+        $scope.current = {index: 0, song: {}}
+        $timeout(function(){
+          for (var i = 0; i < $scope.user.uploaded_songs.length; i++){
+            $scope.wavemaker($scope.user.uploaded_songs[i])
+          }
+        }, 500);
         for (var i = 0; i < $scope.user.uploaded_songs.length; i++){
-          $scope.wavemaker($scope.user.uploaded_songs[i])
-        }
-      }, 500);
-      for (var i = 0; i < $scope.user.uploaded_songs.length; i++){
-        var song = $scope.user.uploaded_songs[i]
-        song.well_timed_comments = {}
-        if (song.likes.indexOf($scope.id) > -1){
-          song.likeFlag = true;
-        } else {
-          song.likeFlag = false;
-        }
-        if (song.reposted_by.indexOf($scope.id) > -1){
-          song.repostFlag = true;
-        } else {
-          song.repostFlag = false;
-        }
-        for (var j = 0; j < song.timedComments.length; j++){
-          song.well_timed_comments[song.timedComments[j].time] = song.timedComments[j].comment + " -" + song.timedComments[j].user
+          var song = $scope.user.uploaded_songs[i]
+          song.well_timed_comments = {}
+          if (song.likes.indexOf($scope.id) > -1){
+            song.likeFlag = true;
+          } else {
+            song.likeFlag = false;
+          }
+          if (song.reposted_by.indexOf($scope.id) > -1){
+            song.repostFlag = true;
+          } else {
+            song.repostFlag = false;
+          }
+          for (var j = 0; j < song.timedComments.length; j++){
+            song.well_timed_comments[song.timedComments[j].time] = song.timedComments[j].comment + " -" + song.timedComments[j].user
+          }
         }
       }
-    }
-    else if(number == 2){
-      $scope.containerView = 2
-    }
-    else{
-      $scope.containerView = 3
+      else if(number == 2){
+        $scope.containerView = 2
+        
+      }
+      else{
+        $scope.containerView = 3
+        $scope.current = {index: 0, song: {}};
+        $timeout(function(){
+          for (var i = 0; i < $scope.user.reposts.length; i++){
+            $scope.wavemaker($scope.user.reposts[i])
+          }
+        }, 500);
+        for (var i = 0; i < $scope.user.reposts.length; i++){
+          var song = $scope.user.reposts[i]
+          song.well_timed_comments = {}
+          if (song.likes.indexOf($scope.id) > -1){
+            song.likeFlag = true;
+          } else {
+            song.likeFlag = false;
+          }
+          if (song.reposted_by.indexOf($scope.id) > -1){
+            song.repostFlag = true;
+          } else {
+            song.repostFlag = false;
+          }
+          for (var j = 0; j < song.timedComments.length; j++){
+            song.well_timed_comments[song.timedComments[j].time] = song.timedComments[j].comment + " -" + song.timedComments[j].user
+          }
+        }
+      }
     }
   }
   $scope.showUser();
@@ -130,20 +162,20 @@ app.controller("profileController", ["$scope", "userFactory","songFactory", "$lo
     wavesurfer.on('ready', function () {
       $("#l" + song._id).text(secondsToMinSec(wavesurfer.getDuration()));
       $('.preview_play_button').on("click", function(){
-        surfers[$scope.current].on('audioprocess', function(){
-          if ($scope.user.uploaded_songs[$scope.current].well_timed_comments[Math.floor(surfers[$scope.current].getCurrentTime())]){
-            $("#t" + $scope.current).text($scope.user.uploaded_songs[$scope.current].well_timed_comments[Math.floor(surfers[$scope.current].getCurrentTime())]);
+        surfers[$scope.current.index].on('audioprocess', function(){
+          if ($scope.current.song.well_timed_comments[Math.floor(surfers[$scope.current.index].getCurrentTime())]){
+            $("#t" + $scope.current.index).text($scope.current.song.well_timed_comments[Math.floor(surfers[$scope.current.index].getCurrentTime())]);
           }
           else {
-            $("#timed_comments").text(" ")
+            $("#t"+ $scope.current.index).text(" ")
           }
         })
       })
     });
     surfers.push(wavesurfer)
   };
-  $scope.play_pause = function(index){
-    $scope.current = index;
+  $scope.play_pause = function(index, song){
+    $scope.current = {index:index, song:song};
     for (var i = 0; i < surfers.length; i++){
       if (surfers[i].isPlaying() && surfers[i] != surfers[index]){
         surfers[i].stop();

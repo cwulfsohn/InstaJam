@@ -2,7 +2,6 @@ app.controller("navController", ["$scope", "userFactory", "$location", "$cookies
   if ($cookies.get("user")){
     $scope.currentUser = $cookies.get("user");
     $scope.currentUser_id = $cookies.get('id');
-    console.log("Current user is", $scope.currentUser_id)
   }
 
   $scope.logout = function(){
@@ -18,7 +17,6 @@ app.controller("navController", ["$scope", "userFactory", "$location", "$cookies
     }
     else{
       $scope.currentUser = data.user
-      console.log("User is", $scope.user)
     }
   })
 

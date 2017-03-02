@@ -669,23 +669,6 @@ form .progress {
   color: #B2B2B2;
 }
 
-.following{
-  margin-top: 20px;
-  margin-bottom: 10px;
-  display: inline-block;
-  font-size: 20px;
-}
-.follow_image{
-  width: 200px;
-  height: 200px;
-}
-.img-responsive{
-  margin: 0 auto;
-}
-.social_username{
-  font-size: 20px;
-}
-
 .search-profile-image {
   width: 150px;
   height: 150px;

@@ -346,9 +346,16 @@ module.exports = {
             res.json({err:err})
           }
           else {
+            var time_marker = Math.floor(req.body.time_marker)
+            for (var i = 0; i < song.timedComments.length; i++){
+              if (song.timedComments[i].time === time_marker){
+                res.json({err:{errors:{time:{message: "Already a comment at that time"}}}});
+                return;
+              }
+            }
             var comment = new Comment({
               content: req.body.content,
-              time_marker: Math.floor(req.body.time_marker),
+              time_marker: time_marker,
               _user: user._id,
               _song: song._id
             });
@@ -359,7 +366,7 @@ module.exports = {
               else {
                 song.comments.push(comment);
                 var timedComment = new TimedComment({
-                  time: Math.floor(req.body.time_marker),
+                  time: time_marker,
                   comment: comment.content,
                   user: user.firstName
                 })
