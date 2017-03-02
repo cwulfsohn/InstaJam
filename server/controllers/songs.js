@@ -368,7 +368,7 @@ module.exports = {
                 var timedComment = new TimedComment({
                   time: time_marker,
                   comment: comment.content,
-                  user: user.firstName
+                  user: user.username
                 })
                 song.timedComments.push(timedComment)
                 song.save(function(err, song){
