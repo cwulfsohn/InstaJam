@@ -341,6 +341,11 @@ app.controller("profileController", ["$scope", "userFactory","songFactory", "$lo
         templateUrl: './partials/playlist.html',
         controller: 'playlistController'
       });
+      $scope.modalInstance.result.then(function(hello){
+        console.log('closed')
+      }, function(){
+        $location.url('/profile/'+$scope.user.username+"1"+"/"+$scope.user._id)
+      })
     }
 
   $scope.edit = function(){
@@ -350,6 +355,11 @@ app.controller("profileController", ["$scope", "userFactory","songFactory", "$lo
         ariaDescribedBy: 'modal-body-top',
         templateUrl: './partials/edit.html',
         controller: 'editUserController'
+      })
+      $scope.modalInstance.result.then(function(hello){
+        console.log('closed')
+      }, function(){
+        $location.url('/profile/'+$scope.user.username+"2"+"/"+$scope.user._id)
       })
     }
     $scope.follow = function(user_id){

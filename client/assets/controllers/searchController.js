@@ -1,4 +1,4 @@
-app.controller("searchController", ["$scope", "userFactory", "songFactory", "$location", "$cookies", "$routeParams", "$timeout", function($scope, userFactory, songFactory, $location, $cookies, $routeParams, $timeout){
+app.controller("searchController", ["$scope", "userFactory", "songFactory", "$location", "$cookies", "$routeParams", "$timeout","$uibModal", function($scope, userFactory, songFactory, $location, $cookies, $routeParams, $timeout, $uibModal){
   $scope.search_query = $routeParams.term;
   $scope.total_tracks = 0;
   $scope.total_playlists = 0;
@@ -11,6 +11,7 @@ app.controller("searchController", ["$scope", "userFactory", "songFactory", "$lo
     $scope.total_tracks = results.songs.length + results.songs_by_artist.length + results.tags.length;;
     $scope.total_playlists = results.playlists.length;
     $scope.total_users = results.users.length;
+    console.log(results.users)
     $scope.changeView(0)
   })
   $scope.changeView = function (view) {
@@ -23,17 +24,21 @@ app.controller("searchController", ["$scope", "userFactory", "songFactory", "$lo
     }
     if(view == 0){
       $scope.current = {index: 0, song: {}}
+      for (var i = 0; i < $scope.results.songs_by_artist.length; i++) {
+        $scope.results.songs_by_artist[i]._id = "a" + $scope.results.songs_by_artist[i]._id
+      }
+      for (var i = 0; i < $scope.results.tags.length; i++) {
+        $scope.results.tags[i]._id = "t" + $scope.results.tags[i]._id
+      }
       $scope.searchSongs = $scope.results.songs_by_artist.concat($scope.results.songs.concat($scope.results.tags))
       $timeout(function(){
         for (var i = 0; i < $scope.searchSongs.length; i++){
-          console.log($scope.searchSongs);
           $scope.wavemaker($scope.searchSongs[i])
         }
       }, 200);
       for (var i = 0; i < $scope.searchSongs.length; i++){
         var song = $scope.searchSongs[i]
         song.well_timed_comments = {}
-        console.log(song.likes);
         if (song.likes.indexOf($scope.id) > -1){
           song.likeFlag = true;
         } else {
@@ -48,7 +53,18 @@ app.controller("searchController", ["$scope", "userFactory", "songFactory", "$lo
           song.well_timed_comments[song.timedComments[j].time] = song.timedComments[j].comment + " -" + song.timedComments[j].user
         }
       }
-    }
+    } else if(view == 1){
+          for(var k = 0; k < $scope.results.users.length; k++){
+            $scope.results.users[k].followercount = $scope.results.users[k].followers.length
+            if($scope.results.users[k].followers.indexOf($scope.id) !== -1){
+              $scope.results.users[k].followercheck = false
+            }
+            else{
+              $scope.results.users[k].followercheck = true
+            }
+            console.log($scope.results.users[k])
+          }
+        }
     else if(view == 2){
       $scope.containerView = 2
       $scope.current = {index: 0, song: {}, playlist: {}};
@@ -173,22 +189,23 @@ app.controller("searchController", ["$scope", "userFactory", "songFactory", "$lo
 
   };
   $scope.like = function(song_id, user_id, index, type){
-    songFactory.like(song_id, user_id, function(data){
+    songFactory.like(song_id.slice(1), user_id, function(data){
+      console.log(data);
       $scope.results[type][index].likeFlag = true;
     })
   }
   $scope.disLike = function(song_id, user_id, index, type){
-    songFactory.disLike(song_id, user_id, function(data){
+    songFactory.disLike(song_id.slice(1), user_id, function(data){
       $scope.results[type][index].likeFlag = false;
     })
   }
   $scope.repost = function(song_id, user_id, index, type){
-    songFactory.repost(song_id, user_id, function(data){
+    songFactory.repost(song_id.slice(1), user_id, function(data){
       $scope.results[type][index].repostFlag = true;
     })
   }
   $scope.removeRepost = function(song_id, user_id, index, type){
-    songFactory.removeRepost(song_id, user_id, function(data){
+    songFactory.removeRepost(song_id.slice(1), user_id, function(data){
       $scope.results[type][index].repostFlag = false;
     })
   };
@@ -212,6 +229,45 @@ app.controller("searchController", ["$scope", "userFactory", "songFactory", "$lo
       $scope.results.playlists[index].repostFlag = false;
     })
   };
+
+  $scope.follow = function(user_id, index){
+    userFactory.follow(user_id, $scope.id, function(data){
+      if(data.err){
+        console.log(data.err)
+      }
+      else{
+        $scope.results.users[index].followercheck = false
+        $scope.results.users[index].followercount += 1
+      }
+  })
+}
+  $scope.unfollow = function(user_id, index){
+    userFactory.unfollow(user_id, $scope.id, function(data){
+      if(data.err){
+        console.log(data.err)
+      }
+      else{
+        $scope.results.users[index].followercheck = true
+        $scope.results.users[index].followercount -= 1
+      }
+  })
+}
+$scope.open = function(song_id){
+  console.log(song_id)
+  $cookies.put('songId', song_id)
+$scope.modalInstance = $uibModal.open({
+      animation: true,
+      ariaLabelledBy: 'modal-title-top',
+      ariaDescribedBy: 'modal-body-top',
+      templateUrl: './partials/playlist.html',
+      controller: 'playlistController'
+    });
+    $scope.modalInstance.result.then(function(hello){
+      console.log('closed')
+    }, function(){
+      $location.url('/profile/'+$scope.user.username+"1"+"/"+$scope.user._id)
+    })
+  }
 }]);
 
 function secondsToMinSec(seconds){

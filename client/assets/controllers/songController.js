@@ -51,6 +51,11 @@ app.controller("songController", ["$scope", "songFactory", "$location", "$cookie
       $('#play').click(function() {
         wavesurfer.playPause();
       });
+      $(".changeTime").click(function(){
+        var time = $(this).attr("time")
+        console.log(time);
+        wavesurfer.play(time)
+      });
       wavesurfer.on('audioprocess', function(){
         if ($scope.song.well_timed_comments[Math.floor(wavesurfer.getCurrentTime())]){
           $("#timed_comments").text($scope.song.well_timed_comments[Math.floor(wavesurfer.getCurrentTime())]);
@@ -97,6 +102,9 @@ app.controller("songController", ["$scope", "songFactory", "$location", "$cookie
     songFactory.removeRepost(song_id, user_id, function(data){
       $scope.getSong();
     })
+  }
+  $scope.changeTime = function(time){
+    console.log(wavesurfer);
   }
 }])
 
