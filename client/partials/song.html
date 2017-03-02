@@ -5,9 +5,12 @@
       <img class="col-xs-3" id="album_cover_preview" ng-src="{{song.album_cover}}" alt="Album Cover">
       <div class="col-xs-9">
         <div class="row">
-          <div class="col-xs-8 col-sm-10">
+          <div class="col-xs-4 col-sm-5">
             <p>{{song.artist_name}}</p>
             <p class="song_title">{{song.song_title}}</p>
+          </div>
+          <div class="col-sm-5 col-xs-4">
+            <p>{{song.description}}</p>
           </div>
           <div class="col-xs-4 col-sm-2">
             <button ng-click="switch()" ng-if="audio_ready" type="button" class="preview_play_button" id="play" name="play"><span id="play_symbol" class="glyphicon glyphicon-play"></span></button>
@@ -29,6 +32,10 @@
       <div class="col-sm-1 col-xs-2" id="length"></div>
     </div>
   </div>
+  <div ng-if="song._user._id === id">
+      <button type="button" name="button" class="btn btn-warning">Edit</button>
+      <button type="button" name="button" class="btn btn-danger">Edit</button>
+  </div>
   <div id="song_comments">
     <div ng-if="errors">
       <p ng-repeat="error in errors">{{error}}</p>
@@ -40,8 +47,8 @@
     </form>
     <div class="row">
       <div class="col-sm-2 col-xs-0">
-        <img ng-src="{{song._user.profile_image}}" class="song_comment_user img-responsive">
-        <h5 class="text-center">{{song._user.username}}</h5>
+        <a href="#!/profile/{{song._user.firstName}}/{{song._user._id}}"><img ng-src="{{song._user.profile_image}}" class="song_comment_user img-responsive"></a>
+        <h5 class="text-center"><a href="#!/profile/{{song._user.firstName}}/{{song._user._id}}">{{song._user.username}}</a></h5>
         <div class="row">
           <div class="col-xs-6">
             <h6 class="text-center">{{song._user.followers.length}} <span class="glyphicon glyphicon-user" uib-tooltip="Followers"></span></h6>
