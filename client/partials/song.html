@@ -30,17 +30,78 @@
     </div>
   </div>
   <div id="song_comments">
-    <h4 ng-click="test()">Comments</h4>
     <div ng-if="errors">
       <p ng-repeat="error in errors">{{error}}</p>
     </div>
     <form ng-submit="addComment(song._id)" ng-if="audio_ready">
-      <input type="text" ng-model="comment.content">
-      <input type="submit" value="Comment">
+      <div class="form-group">
+        <input class="form-control" type="text" ng-model="comment.content" placeholder="Add a comment">
+      </div>
     </form>
-    <div class="comment" ng-repeat="comment in song.comments">
-      <p>{{comment.content}} at {{comment.time_marker | secToMinSec}}</p>
-      <p>- {{comment._user.username}}</p>
+    <div class="row">
+      <div class="col-sm-2 col-xs-0">
+        <img ng-src="{{song._user.profile_image}}" class="song_comment_user img-responsive">
+        <h5 class="text-center">{{song._user.username}}</h5>
+        <div class="row">
+          <div class="col-xs-6">
+            <h6 class="text-center">{{song._user.followers.length}} <span class="glyphicon glyphicon-user"></span></h6>
+          </div>
+          <div class="col-xs-6">
+            <h6 class="text-center">{{song._user.uploaded_songs.length}} <span class="glyphicon glyphicon-music"></h6>
+          </div>
+
+        </div>
+
+      </div>
+      <div class="col-sm-6">
+        <h4>{{song.comments.length}} Comments</h4>
+        <div class="comment" ng-repeat="comment in song.comments">
+          <div class="row">
+            <div class="col-xs-2">
+              <img ng-src="{{comment._user.profile_image}}" class="comment_picture">
+            </div>
+            <div class="col-xs-10">
+              <div class="row">
+                <div class="col-xs-8">
+                  <p><a href="#!/profile/{{comment._user.firstName}}/{{comment._user._id}}">{{comment._user.username}}</a> at <span class="changeTime blue" time="{{comment.time_marker}}">{{comment.time_marker | secToMinSec}}</span></p>
+                </div>
+                <div class="col-xs-4">
+                  <p>{{comment.createdAt | date}}</p>
+                </div>
+              </div>
+              <h5>{{comment.content}}</h5>
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-4 col-xs-0">
+        <h4>In Playlists</h4>
+          <div ng-repeat="playlist in song.in_playlists | limitTo: 3">
+            <p>a</p>
+            <div class="row">
+              <div class="col-xs-4">
+                
+              </div>
+              <div class="col-xs-8">
+                <b>{{playlist.title}}</b>
+                <p>By <a href="#!/profile/{{playlist._user.firstName}}/{{playlist._user._id}}">{{playlist._user.username}}</a></p>
+                <div class="row">
+                  <div class="col-xs-6">
+                    <h6>{{playlist.likes.length}} <span class="glyphicon glyphicon-heart"></span></h6>
+                  </div>
+                  <div class="col-xs-6">
+                    <h6>{{playlist.reposts.length}} <span class="glyphicon glyphicon-retweet"></span></h6>
+                  </div>
+
+                </div>
+              </div>
+
+            </div>
+          </div>
+      </div>
+
     </div>
+
   </div>
 </div>

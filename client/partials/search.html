@@ -23,7 +23,7 @@
               <div class="row">
                 <div class="col-xs-9">
                   <p>{{song.artist_name}}</p>
-                  <p class="song_title"><a href="#!/song/{{song._id}}">{{song.song_title}}</a></p>
+                  <p class="song_title"><a href="#!/song/{{song._id.slice(1)}}">{{song.song_title}}</a></p>
                 </div>
                 <div class="col-xs-3">
                   <button class="preview_play_button" type="button" ng-click="play_pause($index, song)" name="play"><span id="s{{$index}}" class="glyphicon glyphicon-play"></span></button>
@@ -85,7 +85,7 @@
               <div class="row">
                 <div class="col-xs-9">
                   <p>{{song.artist_name}}</p>
-                  <p class="song_title"><a href="#!/song/{{song._id}}">{{song.song_title}}</a></p>
+                  <p class="song_title"><a href="#!/song/{{song._id.slice(1)}}">{{song.song_title}}</a></p>
                 </div>
                 <div class="col-xs-3">
                   <button class="preview_play_button" type="button" ng-click="play_pause($index + results.songs_by_artist.length + results.songs.length, song)" name="play"><span id="s{{$index + results.songs_by_artist.length + results.songs.length}}" class="glyphicon glyphicon-play"></span></button>

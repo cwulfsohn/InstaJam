@@ -15,6 +15,27 @@ body {
   height: 50px;
 }
 
+.blue {
+  color: #337AB7;
+}
+
+.comment {
+  margin: 1.5em 0 1.5em 0
+}
+
+.comment_picture{
+  height: 4em;
+  width: 4em;
+  border-radius: 90px
+}
+
+.song_comment_user{
+  height: 8em;
+  width: 8em;
+  border-radius: 90px;
+  margin: 0 auto;
+}
+
 .container-fluid {
   width: 100%;
   padding: 0px 10%;
