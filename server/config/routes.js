@@ -21,6 +21,7 @@ module.exports = function(app){
   app.post('/playlist/repost', song.playlistRepost),
   app.post('/playlist/removeRepost', song.playlistRemoveRepost),
   app.get('/playlist/:s_id/:u_id', song.showPlaylist),
+  app.get('/playlists/show/:id', song.showPlaylistPage),
   app.post('/createPlaylist', song.createPlaylist),
   app.post('/comment', song.createComment)
   app.post('/addToPlaylist', song.addToPlaylist),
@@ -30,4 +31,5 @@ module.exports = function(app){
   app.post('/editUser', user.editUser),
   app.get('/home/:id', user.getHomeSongs),
   app.post('/editSong', song.editSong)
+  app.delete('/playlist/:Pid/:index/:Sid', song.deleteSongPlaylist)
 }

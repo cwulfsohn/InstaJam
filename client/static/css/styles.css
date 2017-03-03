@@ -59,6 +59,15 @@ body {
   margin: 0 auto;
 }
 
+.index_num{
+  vertical-align: center;
+  margin-top: 1.7em;
+}
+
+.center-button{
+  margin-top: 1.4em
+}
+
 .mini_playlist{
   height: 5em;
   width: 5em;
@@ -66,6 +75,10 @@ body {
 
 .who_follow {
   margin: 3em 0 2em 0;
+}
+
+#playlist_order .holder:nth-child(even) {
+  background: rgb(201, 201, 201);
 }
 
 .container-fluid {

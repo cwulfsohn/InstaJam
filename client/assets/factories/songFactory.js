@@ -5,6 +5,11 @@ app.factory('songFactory', ["$http", function($http){
       callback(data.data)
     })
   }
+  factory.getPlaylist = function(id, callback){
+    $http.get('/playlists/show/' + id).then(function(data){
+      callback(data.data)
+    })
+  }
   factory.like = function(song_id, user_id, callback){
     $http.post('/like', {s_id: song_id, u_id: user_id}).then(function(data){
       callback(data.data)
@@ -73,6 +78,11 @@ app.factory('songFactory', ["$http", function($http){
   factory.editSong = function (song, callback) {
     $http.post('/editSong', song).then(function(data){
       callback(data.data);
+    })
+  }
+  factory.deleteSongPlaylist = function(index, playlist, song, callback){
+    $http.delete('/playlist/' + playlist + '/' + index + '/' + song).then(function(data){
+      callback();
     })
   }
   return factory;

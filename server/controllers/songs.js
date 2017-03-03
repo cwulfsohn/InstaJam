@@ -319,7 +319,7 @@ module.exports = {
     })
   },
   showPlaylist: function(req, res){
-    User.findOne({_id: req.params.u_id}).populate('playlists').populate({path:"playlists", populate:{path: "song"}}).exec(function(err, user){
+    User.findOne({_id: req.params.u_id}).populate('playlists').populate({path:"playlists", populate:{path: "songs"}}).exec(function(err, user){
       if(err){
         res.json({err:err})
       }
@@ -334,7 +334,57 @@ module.exports = {
         })
       }
     })
-
+  },
+  showPlaylistPage: function(req, res){
+    Playlist.findOne({_id:req.params.id}).populate("_user").populate("songs").populate({path:"songs", populate:{path:"_user"}}).populate("likes").populate("reposts").exec(function(err, playlist){
+      if (err){
+        res.json({err:err})
+      }
+      else {
+        res.json({playlist:playlist})
+      }
+    })
+  },
+  deleteSongPlaylist: function(req, res){
+    console.log(req.params);
+    Playlist.findOne({_id:req.params.Pid}, function(err, playlist){
+      if (err){
+        res.json({err:err})
+      }
+      else {
+        console.log(playlist);
+        playlist.songs.splice(req.params.index, 1)
+        console.log(playlist);
+        Song.findOne({_id:req.params.Sid}, function(err, song){
+          if (err){
+            res.json({err:err})
+          }
+          else {
+            for (var i = 0; i < song.in_playlists.length; i++) {
+              if(String(song.in_playlists[i]) === String(playlist._id)){
+                song.in_playlists.splice(i, 1);
+                break;
+              }
+            }
+            playlist.save(function(err, playlist){
+              if (err){
+                res.json({err:err})
+              }
+              else {
+                song.save(function(err, song){
+                  if (err){
+                    res.json({err:err})
+                  }
+                  else {
+                    res.json({message: "item deleted"})
+                  }
+                })
+              }
+            })
+          }
+        })
+      }
+    })
   },
   createComment: function(req, res){
     Song.findOne({_id: req.body.song}, function(err, song){

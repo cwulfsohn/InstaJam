@@ -2,15 +2,15 @@
 <div class="container">
   <div class="audio_player_preview">
     <div class="row">
-      <img class="col-xs-3" id="album_cover_preview" ng-src="{{song.album_cover}}" alt="Album Cover">
+      <img class="col-xs-3" id="album_cover_preview" ng-src="{{playlist.current_song.song.album_cover}}" alt="Album Cover">
       <div class="col-xs-9">
         <div class="row">
           <div class="col-xs-4 col-sm-5">
-            <p>{{song.artist_name}}</p>
-            <p class="song_title">{{song.song_title}}</p>
+            <p>{{playlist.current_song.song.artist_name}}</p>
+            <p class="song_title">{{playlist.current_song.song.song_title}}</p>
           </div>
           <div class="col-sm-5 col-xs-4">
-            <p>{{song.description}}</p>
+            <p>{{playlist.current_song.song.description}}</p>
           </div>
           <div class="col-xs-4 col-sm-2">
             <button ng-click="switch()" ng-if="audio_ready" type="button" class="preview_play_button" id="play" name="play"><span id="play_symbol" class="glyphicon glyphicon-play"></span></button>
@@ -21,52 +21,70 @@
     </div>
     <div class="row">
       <div class="col-xs-4 col-sm-3">
-        <button class="preview_button" ng-if="likeFlag" uib-tooltip="unlike" ng-click="disLike(song._id, id)"><span class="glyphicon glyphicon-heart red"></span> {{song.likes.length}}</button>
-        <button class="preview_button" ng-if="likeFlag === false" uib-tooltip="like" ng-click="like(song._id, id)"><span class="glyphicon glyphicon-heart"></span> {{song.likes.length}}</button>
-        <button class="preview_button" ng-if="repostFlag" uib-tooltip="unpost" ng-click="removeRepost(song._id, id)"><span class="glyphicon glyphicon-retweet red"></span> {{song.reposted_by.length}}</button>
-        <button class="preview_button" ng-if="repostFlag === false" uib-tooltip="post" ng-click="repost(song._id, id)"><span class="glyphicon glyphicon-retweet"></span> {{song.reposted_by.length}}</button>
-        <button class="preview_button" ng-click="open(song._id)" uib-tooltip="add to playlist"><span class="glyphicon glyphicon-plus"></span></button>
+        <button class="preview_button" ng-if="likeFlag" uib-tooltip="unlike" ng-click="playlistDisLike(playlist._id, id)"><span class="glyphicon glyphicon-heart red"></span> {{playlist.likes.length}}</button>
+        <button class="preview_button" ng-if="likeFlag === false" uib-tooltip="like" ng-click="playlistLike(playlist._id, id)"><span class="glyphicon glyphicon-heart"></span> {{playlist.likes.length}}</button>
+        <button class="preview_button" ng-if="repostFlag" uib-tooltip="unpost" ng-click="playlistRemoveRepost(playlist._id, id)"><span class="glyphicon glyphicon-retweet red"></span> {{playlist.reposts.length}}</button>
+        <button class="preview_button" ng-if="repostFlag === false" uib-tooltip="post" ng-click="playlistRepost(playlist._id, id)"><span class="glyphicon glyphicon-retweet"></span> {{playlist.reposts.length}}</button>
       </div>
       <div id="timed_comments" class="col-sm-8 col-xs-6">
       </div>
       <div class="col-sm-1 col-xs-2" id="length"></div>
     </div>
   </div>
-  <div ng-if="song._user._id === id">
-  <button type="button" ng-click="edit(song._id)" class="btn btn-warning">Edit</button>
-  </div>
-  <div id="song_comments">
+  <div>
     <div class="row">
       <div class="col-sm-2 col-xs-0">
-        <a href="#!/profile/{{song._user.firstName}}/{{song._user._id}}"><img ng-src="{{song._user.profile_image}}" class="song_comment_user img-responsive"></a>
-        <h5 class="text-center"><a href="#!/profile/{{song._user.firstName}}/{{song._user._id}}">{{song._user.username}}</a></h5>
+        <a href="#!/profile/{{playlist._user.firstName}}/{{playlist._user._id}}"><img ng-src="{{playlist._user.profile_image}}" class="song_comment_user img-responsive"></a>
+        <h5 class="text-center"><a href="#!/profile/{{playlist._user.firstName}}/{{playlist._user._id}}">{{playlist._user.username}}</a></h5>
         <div class="row">
           <div class="col-xs-6">
-            <h6 class="text-center">{{song._user.followers.length}} <span class="glyphicon glyphicon-user" uib-tooltip="Followers"></span></h6>
+            <h6 class="text-center">{{playlist._user.followers.length}} <span class="glyphicon glyphicon-user" uib-tooltip="Followers"></span></h6>
           </div>
           <div class="col-xs-6">
-            <h6 class="text-center">{{song._user.uploaded_songs.length}} <span class="glyphicon glyphicon-music" uib-tooltip="Uploads"></h6>
+            <h6 class="text-center">{{playlist._user.uploaded_songs.length}} <span class="glyphicon glyphicon-music" uib-tooltip="Uploads"></h6>
           </div>
 
         </div>
 
       </div>
       <div class="col-sm-6">
+        <div id="playlist_order">
+          <div class="holder">
+            <h3 class="text-center">{{playlist.title}}</h3>
+            <h4 class="text-center">By <a href="#!/profile/{{playlist._user.firstName}}/{{playlist._user._id}}">{{playlist._user.username}}</a></h4>
+            <h5 class="text-center">{{playlist.description}}</h5>
+            <p ng-if="error" class="red">{{error}}</p>
+          </div>
+        <div class="row holder" ng-repeat="song in playlist.songs">
+          <div class="col-xs-1 index_num">
+            <b class="align-middle index_num">{{$index + 1}}</b>
+          </div>
 
+          <img class="img-responsive col-xs-3" ng-src="{{song.album_cover}}" alt="album art">
+          <div class="col-xs-6">
+            <h4>{{song.song_title}}</h4>
+            <p>{{song.artist_name}}</p>
+          </div>
+          <div class="col-xs-2 center-button">
+            <button ng-click="changeSongPlaylist($index, song)" class="btn btn-success" type="button" name="button"><span class="glyphicon glyphicon-play"></span></button>
+              <button ng-if="playlist._user._id == id" ng-click="deleteSongPlaylist($index, song)" class="btn btn-danger" type="button" name="button"><span class="glyphicon glyphicon-trash"></span></button>
+          </div>
+        </div>
+        </div>
       </div>
       <div class="col-sm-4 col-xs-0">
-        
-          <h4 class="text-center">{{song.reposted_by.length}} Reposts</h4>
+
+          <h4 class="text-center">{{playlist.reposts.length}} Reposts</h4>
           <hr>
           <div class="row centered_bit">
-            <div class="song_repost_div" ng-repeat="user in song.reposted_by | limitTo: 4">
+            <div class="song_repost_div" ng-repeat="user in playlist.reposts | limitTo: 4">
                 <a href="#!/profile/{{user.firstName}}/{{user._id}}"><img ng-src="{{user.profile_image}}" class="comment_picture img-responsive" uib-tooltip="{{user.username}}"></a>
             </div>
           </div>
-          <h4 class="text-center">{{song.likes.length}} Likes</h4>
+          <h4 class="text-center">{{playlist.likes.length}} Likes</h4>
           <hr>
           <div class="row centered_bit">
-            <div class="song_repost_div" ng-repeat="user in song.likes | limitTo: 4">
+            <div class="song_repost_div" ng-repeat="user in playlist.likes | limitTo: 4">
                 <a href="#!/profile/{{user.firstName}}/{{user._id}}"><img ng-src="{{user.profile_image}}" class="comment_picture img-responsive" uib-tooltip="{{user.username}}"></a>
             </div>
           </div>
