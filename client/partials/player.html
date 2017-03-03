@@ -1,13 +1,13 @@
   <footer id="audio-player" class="footer navbar-fixed-bottom">
     <div class="player-container container-fluid">
       <div class="col-xs-12">
-      <div id="player-controls" class="col-xs-12">
+      <div ng-show="trackList[0]" id="player-controls" class="col-xs-12">
         <a ng-click="prev()"><span class="glyphicon glyphicon-step-backward" ></span></a>
-        <a ng-click="play()"><span class="glyphicon glyphicon-play"></span></a>
-        <a ng-click="pause()"><span class="glyphicon glyphicon-pause"></span></a>
+        <a ng-if="isPaused" ng-click="pause()"><span class="glyphicon glyphicon-play"></span></a>
+        <a ng-if="!isPaused" ng-click="pause()"><span class="glyphicon glyphicon-pause"></span></a>
         <a ng-click="next()"><span class="glyphicon glyphicon-step-forward"></span></a>
         <!-- <a ng-click="clear_playlist()"><span class="glyphicon glyphicon-eject"></span></a> -->
-        <img id="audio_player_album_cover" ng-src="{{ currentPlaylist.songs[currentIndex].album_cover}}" alt="Album Cover">
+        <img id="audio_player_album_cover" ng-src="{{ currentPlaylist.songs[currentIndex].album_cover}}">
         <div>
           <p ng-show='currentPlaylist.hasOwnProperty("title")'>Playing From {{ currentPlaylist.title }}</p>
           <p>{{ currentPlaylist.songs[currentIndex].artist_name }} - {{ currentPlaylist.songs[currentIndex].song_title }}</p>

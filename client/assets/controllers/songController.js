@@ -58,6 +58,7 @@ app.controller("songController", ["$scope", "$rootScope", "songFactory", "$locat
       cursorWidth:0
         });
     wavesurfer.load($scope.song.song_file);
+    wavesurfer.setVolume(0);
 
     wavesurfer.on('ready', function () {
       $scope.$apply(function(){
@@ -66,6 +67,7 @@ app.controller("songController", ["$scope", "$rootScope", "songFactory", "$locat
       $("#length").text(secondsToMinSec(wavesurfer.getDuration()));
       $('#play').click(function() {
         wavesurfer.playPause();
+        $rootScope.$emit('startPlay', {song: $scope.song, playlist: []});
       });
       $(".changeTime").click(function(){
         var time = $(this).attr("time")
@@ -161,16 +163,11 @@ app.controller("songController", ["$scope", "$rootScope", "songFactory", "$locat
     })
   }
   $rootScope.$on('pauseWave', function (event, song) {
-    console.log($scope.current.index );
-    surfers[$scope.current.index].playPause();
-    $('#s' + $scope.current.index).addClass("glyphicon-play");
-    $('#s' + $scope.current.index).removeClass("glyphicon-pause");
+    $scope.switch();
   })
 
   $rootScope.$on('continueWave', function (event, song) {
-    surfers[$scope.current.index].playPause();
-    $('#s' + $scope.current.index).addClass("glyphicon-pause");
-    $('#s' + $scope.current.index).removeClass("glyphicon-play");
+    $scope.switch();
   })
 
   // $rootScope.$on('nextSong', function (event, data) {

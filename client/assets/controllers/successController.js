@@ -1,4 +1,4 @@
-app.controller("successController", ["$scope", "userFactory", "songFactory", "$location", "$cookies", "$timeout","$uibModal","$route", function($scope, userFactory, songFactory, $location, $cookies, $timeout, $uibModal,$route){
+app.controller("successController", ["$scope", "$rootScope", "userFactory", "songFactory", "$location", "$cookies", "$timeout","$uibModal","$route", function($scope, $rootScope, userFactory, songFactory, $location, $cookies, $timeout, $uibModal,$route){
   if ($cookies.get("id")){
     $scope.user = $cookies.get("username");
     $scope.id = $cookies.get('id');
@@ -140,6 +140,7 @@ app.controller("successController", ["$scope", "userFactory", "songFactory", "$l
       cursorWidth:0
         });
     wavesurfer.load(song.song_file);
+    wavesurfer.setVolume(0);
 
     wavesurfer.on('ready', function () {
       if (play > -1){
@@ -199,6 +200,12 @@ app.controller("successController", ["$scope", "userFactory", "songFactory", "$l
       $('#s' + index).addClass("glyphicon-play")
     }
     surfers[index].playPause();
+    if (playlist.hasOwnProperty('current_song')){
+      console.log(index);
+      $rootScope.$emit('startPlay', {song: song, index: playlist.current_song.index, playlist: playlist, playlistIndex: index});
+    } else {
+      $rootScope.$emit('startPlay', {song: song, index: index, playlist: playlist});
+    }
   };
   $scope.like = function(song_id, user_id, index, type){
     console.log(type)
@@ -237,4 +244,6 @@ app.controller("successController", ["$scope", "userFactory", "songFactory", "$l
         $route.reload()
       })
     }
+
+
 }])

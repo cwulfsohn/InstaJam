@@ -1,4 +1,4 @@
-app.controller("showPlaylistController", ["$scope", "songFactory","songFactory", "$location", "$cookies", 'Upload', "$timeout", "$routeParams","$uibModal", "$timeout","$route", "$rootScope", function($scope, songFactory, songFactory, $location, $cookies, Upload, $timeout, $routeParams, $uibModal, $timeout, $route, $rootScope){
+app.controller("showPlaylistController", ["$scope", "$rootScope", "songFactory","songFactory", "$location", "$cookies", 'Upload', "$timeout", "$routeParams","$uibModal", "$timeout","$route", "$rootScope", function($scope, $rootScope, songFactory, songFactory, $location, $cookies, Upload, $timeout, $routeParams, $uibModal, $timeout, $route, $rootScope){
   if ($cookies.get("user")){
     $scope.currentUser = $cookies.get("user");
     $scope.id = $cookies.get("id");
@@ -67,10 +67,12 @@ app.controller("showPlaylistController", ["$scope", "songFactory","songFactory",
       cursorWidth:0
         });
     wavesurfer.load($scope.playlist.current_song.song.song_file);
+    wavesurfer.setVolume(0);
 
     wavesurfer.on('ready', function () {
       if (play > -1){
         wavesurfer.play()
+        $rootScope.$emit('startPlay', {song: $scope.playlist.current_song.song, index: $scope.playlist.current_song.index, playlist: $scope.playlist});
       }
       $scope.$apply(function(){
         $scope.audio_ready = true;
@@ -79,6 +81,7 @@ app.controller("showPlaylistController", ["$scope", "songFactory","songFactory",
       $('#play').click(function() {
         console.log("hey");
         wavesurfer.playPause();
+        $rootScope.$emit('startPlay', {song: $scope.playlist.current_song.song, index: $scope.playlist.current_song.index, playlist: $scope.playlist});
       });
       $(".changeTime").click(function(){
         var time = $(this).attr("time")
@@ -125,6 +128,7 @@ app.controller("showPlaylistController", ["$scope", "songFactory","songFactory",
       $scope.playlist.current_song.index = songIndex
       wavesurfer.destroy();
       $scope.wavemaker(songIndex);
+
   }
   $scope.deleteSongPlaylist = function(index, song){
     console.log($scope.playlist.songs.length);
@@ -137,6 +141,17 @@ app.controller("showPlaylistController", ["$scope", "songFactory","songFactory",
       })
     }
   }
+  $rootScope.$on('pauseWave', function (event, song) {
+    $scope.switch();
+  })
+
+  $rootScope.$on('continueWave', function (event, song) {
+    $scope.switch();
+  })
+
+  // $rootScope.$on('nextSong', function (event, data) {
+  //   $scope.wavemaker(data.song, data.playlistIndex, data.playlist._id)
+  // })
 }])
 function secondsToMinSec(seconds){
   var string = ""

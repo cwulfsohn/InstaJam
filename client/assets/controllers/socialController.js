@@ -174,6 +174,7 @@ app.controller("socialController", ["$scope", "$rootScope", "userFactory","songF
     cursorWidth:0
       });
   wavesurfer.load(song.song_file);
+  wavesurfer.setVolume(0);
 
   wavesurfer.on('ready', function () {
     if (play > -1){
@@ -232,6 +233,12 @@ app.controller("socialController", ["$scope", "$rootScope", "userFactory","songF
       $('#s' + index).addClass("glyphicon-play")
     }
     surfers[index].playPause();
+    if (playlist.hasOwnProperty('current_song')){
+      console.log(index);
+      $rootScope.$emit('startPlay', {song: song, index: playlist.current_song.index, playlist: playlist, playlistIndex: index});
+    } else {
+      $rootScope.$emit('startPlay', {song: song, index: index, playlist: playlist});
+    }
   };
   $scope.changeSongPlaylist = function(playlistIndex, songIndex, song, playlist){
     $scope.current = {index:playlistIndex, song:song, playlist: playlist};
@@ -247,7 +254,7 @@ app.controller("socialController", ["$scope", "$rootScope", "userFactory","songF
       $scope.current.playlist.current_song.index = songIndex
       surfers[playlistIndex].destroy();
       $scope.wavemaker($scope.current.song, $scope.current.index, $scope.current.playlist._id);
-
+    $rootScope.$emit('startPlay', {song: song, index: songIndex, playlist: playlist});
   };
   $scope.like = function(song_id, user_id, index){
     songFactory.like(song_id, user_id, function(data){
