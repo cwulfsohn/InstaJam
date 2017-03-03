@@ -320,7 +320,6 @@ app.controller("profileController", ["$scope", "$rootScope", "userFactory","song
       $('#s' + index).addClass("glyphicon-play")
     }
     surfers[index].playPause();
-    console.log(index)
     if (playlist.hasOwnProperty('current_song')){
       console.log(index);
       $rootScope.$emit('startPlay', {song: song, index: playlist.current_song.index, playlist: playlist, playlistIndex: index});

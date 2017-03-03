@@ -40,7 +40,7 @@ app.controller("playerController", ["$scope", "$rootScope", "playerFactory", "$c
       $scope.currentIndex += 1;
       $scope.play();
       if ($scope.currentPlaylistID != 1) {
-        $rootScope.$emit('nextSong', {song: $scope.currentPlaylist.songs[$scope.currentIndex], playlistIndex: $scope.playlistIndex, playlist: $scope.currentPlaylist } )
+        $rootScope.$emit('nextSong', { song: $scope.currentPlaylist.songs[$scope.currentIndex],playlistIndex: $scope.playlistIndex, songIndex: $scope.currentIndex, playist: $scope.currentPlaylist } )
       }
     }
   }
@@ -72,6 +72,7 @@ app.controller("playerController", ["$scope", "$rootScope", "playerFactory", "$c
         $scope.currentPlaylist.songs.push(data.song)
         $scope.trackList.push(data.song.song_file);
         $scope.currentPlaylistID = 1;
+        $scope.currentIndex = 0;
         $scope.play()
       } else if (data.song._id == $scope.currentPlaylist.songs[$scope.currentIndex]._id) {
         $scope.pause() // will play or pause depending on status of song
