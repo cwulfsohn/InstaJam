@@ -83,7 +83,16 @@ email: {
   }],
   like_playlists: [{
     type: mongoose.Schema.Types.ObjectId, ref: 'Playlist'
-  }]
+  }],
+  number_followers: {
+    type: Number,
+    default: 0
+  }
 },{timestamps: true});
+
+UserSchema.pre('save', function(done){
+  this.number_followers = this.followers.length;
+  done();
+});
 
 mongoose.model('User', UserSchema);

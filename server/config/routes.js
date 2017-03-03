@@ -27,5 +27,6 @@ module.exports = function(app){
   app.post('/follow', user.addFollow),
   app.post('/unfollow', user.unFollow),
   app.get('/search/:search_term', song.search),
-  app.post('/editUser', user.editUser)
+  app.post('/editUser', user.editUser),
+  app.get('/home/:id', user.getHomeSongs)
 }
