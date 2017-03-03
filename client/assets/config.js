@@ -33,6 +33,10 @@ app.config(function ($routeProvider) {
   templateUrl: 'partials/search.html',
   controller: 'searchController'
 })
+.when('/playlist/:id', {
+  templateUrl: 'partials/showPlaylist.html',
+  controller: 'showPlaylistController'
+})
 .otherwise({
   redirectTo: "/home"
 })

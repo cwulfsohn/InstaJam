@@ -4,18 +4,28 @@ app.controller("successController", ["$scope", "userFactory", "$location", "$coo
     $scope.id = $cookies.get('id');
     var surfers = [];
   }
-  else {
-    $location.url('/home')
-  }
   $scope.getHomeSongs = function(){
-    userFactory.getHomeSongs($scope.id, function(data){
-      $scope.stream = data.stream;
-      $scope.discover = data.discover;
-      $scope.top_users = data.top_users;
-      $scope.top_songs = data.top_songs;
-      $scope.changeView(0, 10);
-      console.log(data);
-    })
+    if ($scope.id){
+      userFactory.getHomeSongs(function(data){
+        $scope.stream = data.stream;
+        $scope.discover = data.discover;
+        $scope.top_users = data.top_users;
+        $scope.top_songs = data.top_songs;
+        $scope.changeView(0, 10);
+        console.log(data);
+      })
+    }
+    else {
+      userFactory.getHomeSongs($scope.id, function(data){
+        $scope.stream = []
+        $scope.discover = data.discover;
+        $scope.top_users = data.top_users;
+        $scope.top_songs = data.top_songs;
+        $scope.changeView(0, 10);
+        console.log(data);
+      })
+    }
+
   }
   $scope.getHomeSongs();
   $scope.changeView = function(number, view){
