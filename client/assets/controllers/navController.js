@@ -8,7 +8,7 @@ app.controller("navController", ["$scope", "userFactory", "$location", "$cookies
     $scope.currentUser = {};
     $cookies.remove("user");
     $cookies.remove("id");
-    $location.url('/success');
+    $location.url('/home');
   }
 
   userFactory.showUser($scope.currentUser_id, function(data){

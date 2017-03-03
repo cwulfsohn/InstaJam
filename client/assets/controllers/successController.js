@@ -16,14 +16,14 @@ app.controller("successController", ["$scope", "userFactory", "$location", "$coo
       })
     }
     else {
-      userFactory.getHomeSongs($scope.id, function(data){
+      userFactory.getHomeSongs(function(data){
         $scope.stream = []
         $scope.discover = data.discover;
         $scope.top_users = data.top_users;
         $scope.top_songs = data.top_songs;
         $scope.changeView(0, 10);
         console.log(data);
-      })
+      }, $scope.id)
     }
 
   }
