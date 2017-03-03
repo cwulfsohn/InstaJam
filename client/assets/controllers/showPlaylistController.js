@@ -22,7 +22,10 @@ app.controller("showPlaylistController", ["$scope", "songFactory","songFactory",
     songFactory.getPlaylist($routeParams.id, function(data){
       $scope.play = "play"
       $scope.playlist = data.playlist;
-      $scope.playlist.currentSong = $scope.playlist.songs[0]
+      $scope.playlist.current_song = {}
+      $scope.playlist.current_song.song = $scope.playlist.songs[0];
+      $scope.playlist.current_song.index = 0;
+      console.log($scope.playlist);
       var song;
       for (var i = 0; i < $scope.playlist.songs.length; i++) {
         song = $scope.playlist.songs[i]
@@ -51,8 +54,9 @@ app.controller("showPlaylistController", ["$scope", "songFactory","songFactory",
       }
     });
   };
+  $scope.getPlaylist();
   var wavesurfer;
-  $scope.wavemaker = function(){
+  $scope.wavemaker = function(play=-1){
     wavesurfer = WaveSurfer.create({
       container: '#waveform_preview',
       backend: 'MediaElement',
@@ -62,25 +66,27 @@ app.controller("showPlaylistController", ["$scope", "songFactory","songFactory",
       barWidth: 2,
       cursorWidth:0
         });
-    wavesurfer.load($scope.playlist.current_song.song_file);
+    wavesurfer.load($scope.playlist.current_song.song.song_file);
 
     wavesurfer.on('ready', function () {
+      if (play > -1){
+        wavesurfer.play()
+      }
       $scope.$apply(function(){
         $scope.audio_ready = true;
       })
       $("#length").text(secondsToMinSec(wavesurfer.getDuration()));
       $('#play').click(function() {
+        console.log("hey");
         wavesurfer.playPause();
       });
       $(".changeTime").click(function(){
         var time = $(this).attr("time")
-        console.log(time);
         wavesurfer.play(time)
       });
-      /////
       wavesurfer.on('audioprocess', function(){
-        if ($scope.playlist.current_song.well_timed_comments[Math.floor(wavesurfer.getCurrentTime())]){
-          $("#timed_comments").text($scope.song.well_timed_comments[Math.floor(wavesurfer.getCurrentTime())]);
+        if ($scope.playlist.current_song.song.well_timed_comments[Math.floor(wavesurfer.getCurrentTime())]){
+          $("#timed_comments").text($scope.playlist.current_song.song.well_timed_comments[Math.floor(wavesurfer.getCurrentTime())]);
         }
         else {
           $("#timed_comments").text(" ")
@@ -94,26 +100,43 @@ app.controller("showPlaylistController", ["$scope", "songFactory","songFactory",
     });
   };
 
-  $scope.playlistLikeRepost = function(playlist_id, user_id, index){
+  $scope.playlistLike = function(playlist_id, user_id){
     songFactory.playlistLike(playlist_id, user_id, function(data){
-      $scope.user.playlist_reposts[index].likeFlag = true;
+      $scope.getPlaylist();
     })
   }
-  $scope.playlistDisLikeRepost = function(playlist_id, user_id, index){
+  $scope.playlistDisLike = function(playlist_id, user_id){
     songFactory.playlistDisLike(playlist_id, user_id, function(data){
-      $scope.user.playlist_reposts[index].likeFlag = false;
+      $scope.getPlaylist();
     })
   }
-  $scope.playlistRepostRepost = function(playlist_id, user_id, index){
+  $scope.playlistRepost = function(playlist_id, user_id){
     songFactory.playlistRepost(playlist_id, user_id, function(data){
-      $scope.user.playlist_reposts[index].repostFlag = true;
+      $scope.getPlaylist();
     })
   }
-  $scope.playlistRemoveRepostRepost = function(playlist_id, user_id, index){
+  $scope.playlistRemoveRepost = function(playlist_id, user_id){
     songFactory.playlistRemoveRepost(playlist_id, user_id, function(data){
-      $scope.user.playlist_reposts[index].repostFlag = false;
+      $scope.getPlaylist();
     })
   };
+  $scope.changeSongPlaylist = function(songIndex, song){
+      $scope.playlist.current_song.song = song
+      $scope.playlist.current_song.index = songIndex
+      wavesurfer.destroy();
+      $scope.wavemaker(songIndex);
+  }
+  $scope.deleteSongPlaylist = function(index, song){
+    console.log($scope.playlist.songs.length);
+    if ($scope.playlist.songs.length < 2){
+      $scope.error = "Can't delete if playlist is only one song"
+    }
+    else {
+      songFactory.deleteSongPlaylist(index, $scope.playlist._id, song._id,  function(data){
+        $scope.getPlaylist();
+      })
+    }
+  }
 }])
 function secondsToMinSec(seconds){
   var string = ""
