@@ -29,7 +29,8 @@ app.controller("userController", ["$scope", "userFactory", "$location", "$cookie
       else {
         $cookies.put("user", data.user.firstName);
         $cookies.put("id", data.user._id);
-        $location.url('/success')
+        $scope.cancel();
+        $location.url('/profile/'+data.user.username+"/"+data.user._id);
       }
     })
   }
@@ -42,11 +43,16 @@ app.controller("userController", ["$scope", "userFactory", "$location", "$cookie
         console.log(data.user);
         $cookies.put("user", data.user.firstName);
         $cookies.put("id", data.user._id);
-        $location.url('/success');
+        $scope.cancel();
+        $location.url('/profile/'+data.user.username+"/"+data.user._id);
       }
       else {
+        console.log('error')
         $scope.error = "Incorrect email or password";
       }
     })
+  }
+  $scope.cancel = function(){
+    $scope.$dismiss()
   }
 }])

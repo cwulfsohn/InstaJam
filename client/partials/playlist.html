@@ -1,4 +1,9 @@
 <style>
+.playlist_modal{
+  margin-left: 20px;
+  margin-right: 20px;
+  padding-bottom: 20px;
+}
 .create_playlist_cover{
   width: 25px;
   height: 25px;
@@ -34,6 +39,7 @@
 }
 </style>
 <div ng-controller="playlistController">
+  <div class="playlist_modal">
   <div class="playlist_tab">
     <uib-tabset id="home-tabs" active="activePill" vertical="false" type="pills">
       <uib-tab heading="Add to a Playlist" ng-click="changeView(0)"></uib-tab>
@@ -49,8 +55,8 @@
         <div class="col-sm-4">
           <p class="existing_playlist_text">Playlist title: <span class="binding_title">{{playlist.title}}</span></p>
           <p class="existing_playlist_text"># of songs: {{playlist.songs.length}}</p>
+          <button class="btn add_playlist_button" ng-click="addToPlaylist(song._id, playlist._id)">Add song to playlist</button>
         </div>
-        <button class="col-sm-4 btn pull-right add_playlist_button" ng-click="addToPlaylist(song._id, playlist._id)">Add song to playlist</button>
       </div>
       <hr>
     </div>
@@ -79,5 +85,6 @@
       <p class="songname">{{song.artist_name}} - {{song.song_title}}</p>
       </legend>
     </div>
+  </div>
   </div>
 </div>
