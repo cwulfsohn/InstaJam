@@ -1,4 +1,4 @@
-app.controller("profileController", ["$scope", "userFactory","songFactory", "$location", "$cookies", 'Upload', "$timeout", "$routeParams","$uibModal", "$timeout","$route", function($scope, userFactory, songFactory, $location, $cookies, Upload, $timeout, $routeParams, $uibModal, $timeout, $route){
+app.controller("profileController", ["$scope", "userFactory","songFactory", "$location", "$cookies", 'Upload', "$timeout", "$routeParams","$uibModal", "$timeout","$route", "$rootScope", function($scope, userFactory, songFactory, $location, $cookies, Upload, $timeout, $routeParams, $uibModal, $timeout, $route, $rootScope){
   $scope.profile_id = $routeParams.id;
   $scope.id = $cookies.get('id');
   $scope.firstName = $cookies.get('user');

@@ -126,46 +126,51 @@ module.exports = {
     })
   },
   getHomeSongs: function(req, res){
-    User.findOne({_id:req.params.id}).populate("following").populate({path: "following", populate: {path: "uploaded_songs"}})
-    .populate({path: "following", populate: {path: "reposts"}}).exec( function(err, user){
-      if (err){
-        res.json({err:err})
-      }
-      else {
-        Song.find({}).sort({'createdAt': -1}).limit(6).exec(function(err, discover){
-          if (err){
-            res.json({err:err})
-          }
-          else {
-            var stream = [];
-            var flag = false;
-            while (stream < 6 && flag===false) {
-              for (var i = 0; i < user.following.length; i++) {
-                if (user.following[i].uploaded_songs[user.following[i].uploaded_songs.length - 1] != undefined){
-                  stream.push(user.following[i].uploaded_songs[user.following[i].uploaded_songs.length - 1]);
-                }
-              }
-              flag = true;
+      Song.find({}).sort({'createdAt': -1}).limit(6).exec(function(err, discover){
+        if (err){
+          res.json({err:err})
+        }
+        else {
+          User.find({}).sort({"number_followers": -1}).limit(6).exec(function(err, top_users){
+            if (err){
+              res.json({err:err})
             }
-            User.find({}).sort({"number_followers": -1}).limit(6).exec(function(err, top_users){
-              if (err){
-                res.json({err:err})
-              }
-              else {
-                Song.find({}).sort({"number_likes": -1}).limit(6).exec(function(err, top_songs){
-                  if (err){
-                    res.json({err:err})
+            else {
+              Song.find({}).sort({"number_likes": -1}).limit(6).exec(function(err, top_songs){
+                if (err){
+                  res.json({err:err})
+                }
+                else {
+                  if (req.params.id != 0){
+                    User.findOne({_id:req.params.id}).populate("following").populate({path: "following", populate: {path: "uploaded_songs"}})
+                    .populate({path: "following", populate: {path: "reposts"}}).exec( function(err, user){
+                      if (err){
+                        res.json({err:err})
+                      }
+                      else {
+                        var stream = [];
+                        var flag = false;
+                        while (stream < 6 && flag===false) {
+                          for (var i = 0; i < user.following.length; i++) {
+                            if (user.following[i].uploaded_songs[user.following[i].uploaded_songs.length - 1] != undefined){
+                              stream.push(user.following[i].uploaded_songs[user.following[i].uploaded_songs.length - 1]);
+                            }
+                          }
+                          flag = true;
+                        }
+                      }
+                    res.json({stream:stream, discover:discover, top_songs:top_songs, top_users: top_users})
+                  })
                   }
                   else {
-                    res.json({stream:stream, discover:discover, top_songs:top_songs, top_users: top_users})
+                    res.json({discover:discover, top_songs:top_songs, top_users: top_users})
                   }
-                })
               }
             })
           }
         })
-
       }
+
     })
   },
   unFollow: function(req, res){
