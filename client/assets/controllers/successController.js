@@ -7,13 +7,14 @@ app.controller("successController", ["$scope", "userFactory", "$location", "$coo
   $scope.getHomeSongs = function(){
     if ($scope.id){
       userFactory.getHomeSongs(function(data){
+        console.log(data);
         $scope.stream = data.stream;
         $scope.discover = data.discover;
         $scope.top_users = data.top_users;
         $scope.top_songs = data.top_songs;
         $scope.changeView(0, 10);
         console.log(data);
-      })
+      }, $scope.id)
     }
     else {
       userFactory.getHomeSongs(function(data){
@@ -23,7 +24,7 @@ app.controller("successController", ["$scope", "userFactory", "$location", "$coo
         $scope.top_songs = data.top_songs;
         $scope.changeView(0, 10);
         console.log(data);
-      }, $scope.id)
+      })
     }
 
   }
