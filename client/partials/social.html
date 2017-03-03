@@ -48,7 +48,7 @@
         <div class="row">
           <img class="col-xs-3" id="album_cover_preview" ng-src="{{playlist.first_song_art}}" alt="Album Cover">
           <div class="col-xs-6">
-            <p>{{playlist.title}}</p>
+            <a href="#!/playlist/{{playlist._id}}"><p>{{playlist.title}}</p></a>
             <p class="song_title">By <a href="#!/profile/{{playlist._user.username}}/{{playlist._user._id}}">{{playlist._user.username}}</a></p>
           </div>
           <div class="col-xs-3">
