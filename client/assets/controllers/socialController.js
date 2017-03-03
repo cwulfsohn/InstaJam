@@ -6,7 +6,7 @@ app.controller("socialController", ["$scope", "userFactory","songFactory", "$loc
   if ($routeParams.number == 2 || $routeParams.number == 3){
     console.log($routeParams.number)
     $scope.containerView = $routeParams.number;
-    console.log($scope.containerView);
+    $scope.flag = $routeParams.number;
   }
   else{
     $scope.containerView = 1
@@ -19,6 +19,7 @@ app.controller("socialController", ["$scope", "userFactory","songFactory", "$loc
         console.log(data.err)
       }
       else{
+        console.log(data);
         $scope.user = data.user;
         if ($scope.containerView === 1){
           $scope.changeView(1)
@@ -60,11 +61,12 @@ app.controller("socialController", ["$scope", "userFactory","songFactory", "$loc
   $scope.showOneUser();
 
   $scope.changeView = function(number){
-    if($scope.containerView == number){
+
+    if($scope.flag == number){
       return;
     }
     if(number == 1){
-      $scope.containerView = 1
+      $scope.flag = 1
       $scope.current = {index: 0, song: {}, playlist: {}};
       $timeout(function(){
         for (var i = 0; i < $scope.user.like_songs.length; i++){
@@ -116,10 +118,10 @@ app.controller("socialController", ["$scope", "userFactory","songFactory", "$loc
       }
     }
     else if(number == 2){
-      $scope.containerView = 2
+      $scope.flag = 2
     }
     else{
-      $scope.containerView = 3
+      $scope.flag = 3
     }
   }
   $scope.follow = function(user_id){
