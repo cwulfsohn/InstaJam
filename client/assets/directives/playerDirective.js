@@ -7,8 +7,10 @@
     return {
       restrict: 'EA',
       templateUrl: '../partials/player.html',
-      controller: 'playerController'
+      controller: 'playerController',
+      link: function (scope, element, attrs) {
+      }
     };
-  }
+  };
 
 })();

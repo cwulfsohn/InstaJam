@@ -72,7 +72,7 @@ body {
 .container {
   width: 80%;
   margin: 0 auto;
-  padding: 0;
+  padding: 0 0 60px 0;
   background-color: #FFFFFF;
   height: 100%;
   overflow: hidden;
@@ -251,6 +251,7 @@ background-color: #333;
 .navbar-nav .open .dropdown-menu > li > a {
   color: #C5C5C5;
   background-color: #111111;
+  z-index: 20;
 }
 
 .navbar-custom .navbar-toggle .icon-bar {
@@ -463,7 +464,6 @@ background-color: #333;
 #social-results {
   padding-top: 300px;
   z-index: 0;
-  padding-bottom: 50px;
 }
 #user-links {
   margin-bottom: 20px
@@ -565,7 +565,7 @@ background-color: #333;
   height: 300px;
   width: 80%;
   background-color: #FFF;
-  z-index: 9999;
+  z-index: 10;
 }
 
 .cover_picture {

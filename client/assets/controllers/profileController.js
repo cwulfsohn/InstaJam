@@ -1,4 +1,4 @@
-app.controller("profileController", ["$scope", "userFactory","songFactory", "$location", "$cookies", 'Upload', "$timeout", "$routeParams","$uibModal", "$timeout", function($scope, userFactory, songFactory, $location, $cookies, Upload, $timeout, $routeParams, $uibModal, $timeout){
+app.controller("profileController", ["$scope", "$rootScope", "userFactory","songFactory", "$location", "$cookies", 'Upload', "$timeout", "$routeParams","$uibModal", "$timeout", function($scope, $rootScope, userFactory, songFactory, $location, $cookies, Upload, $timeout, $routeParams, $uibModal, $timeout){
 
   $scope.profile_id = $routeParams.id;
   $scope.id = $cookies.get('id');
@@ -10,7 +10,6 @@ app.controller("profileController", ["$scope", "userFactory","songFactory", "$lo
         console.log(data.err)
       }
       else{
-        console.log(data.user)
         $scope.user = data.user;
         $scope.changeView(1, 0);
       }
@@ -254,8 +253,10 @@ app.controller("profileController", ["$scope", "userFactory","songFactory", "$lo
       cursorColor: '#EF3E36',
       barWidth: 2,
       cursorWidth:0
-        });
+    });
     wavesurfer.load(song.song_file);
+    wavesurfer.setVolume(0);
+
 
     wavesurfer.on('ready', function () {
       if (play > -1){
@@ -286,6 +287,7 @@ app.controller("profileController", ["$scope", "userFactory","songFactory", "$lo
           surfers[$scope.current.index].stop();
           $('#s' + $scope.current.index).removeClass("glyphicon-pause")
           $('#s' + $scope.current.index).addClass("glyphicon-play")
+
         }
       })
     });
@@ -298,12 +300,20 @@ app.controller("profileController", ["$scope", "userFactory","songFactory", "$lo
   };
   $scope.play_pause = function(index, song, playlist={}){
     $scope.current = {index:index, song:song, playlist: playlist};
-    console.log($scope.current.index);
     for (var i = 0; i < surfers.length; i++){
       if (surfers[i].isPlaying() && surfers[i] != surfers[index]){
         surfers[i].stop();
         $('#s' + i).addClass("glyphicon-play")
         $('#s' + i).removeClass("glyphicon-pause")
+      }
+      if ((!surfers[i].isPlaying()) && surfers[i] != surfers[index]){
+        $('#s' + i).addClass("glyphicon-pause")
+        $('#s' + i).removeClass("glyphicon-play")
+      }
+    }
+    if (!surfers[index].isPlaying()){
+      if(!playlist.hasOwnProperty('songs')) {
+        $rootScope.$emit('startSong', {song: song, index: index});
       }
     }
     if ($('#s' + index).hasClass("glyphicon-play")){
@@ -321,11 +331,14 @@ app.controller("profileController", ["$scope", "userFactory","songFactory", "$lo
     for (var i = 0; i < surfers.length; i++){
       if (surfers[i].isPlaying() && surfers[i] != surfers[playlistIndex]){
         surfers[i].stop();
-        $('#s' + i).addClass("glyphicon-play")
-        $('#s' + i).removeClass("glyphicon-pause")
+        $('#s' + i).addClass("glyphicon-pause")
+        $('#s' + i).removeClass("glyphicon-play")
+      }
+      if (!surfers[i].isPlaying()){
+        $('#s' + i).addClass("glyphicon-pause")
+        $('#s' + i).removeClass("glyphicon-play")
       }
     }
-
       $scope.current.playlist.current_song.song = $scope.current.song;
       $scope.current.playlist.current_song.index = songIndex
       surfers[playlistIndex].destroy();
@@ -383,6 +396,11 @@ app.controller("profileController", ["$scope", "userFactory","songFactory", "$lo
         }
     })
   }
+  $rootScope.$on('pauseWave', function(event, song){
+    surfers[$scope.current.index].playPause();
+    $('#s' + $scope.current.index).addClass("glyphicon-play");
+    $('#s' + $scope.current.index).removeClass("glyphicon-pause");
+  })
 }])
 
 function secondsToMinSec(seconds){
