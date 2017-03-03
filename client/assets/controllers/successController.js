@@ -4,6 +4,9 @@ app.controller("successController", ["$scope", "userFactory", "$location", "$coo
     $scope.id = $cookies.get('id');
     var surfers = [];
   }
+  else{
+    $location.url('/home')
+  }
   $scope.getHomeSongs = function(){
     if ($scope.id){
       userFactory.getHomeSongs(function(data){
