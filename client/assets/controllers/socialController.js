@@ -65,8 +65,17 @@ app.controller("socialController", ["$scope", "$rootScope", "userFactory","songF
     if($scope.flag == number){
       return;
     }
+    else {
+      if (surfers){
+        for (var i = 0; i < surfers.length; i++){
+          surfers[i].destroy();
+        }
+        surfers = [];
+      }
+    }
     if(number == 1){
       $scope.flag = 1
+      $scope.containerView = 1;
       $scope.current = {index: 0, song: {}, playlist: {}};
       $timeout(function(){
         for (var i = 0; i < $scope.user.like_songs.length; i++){
@@ -119,9 +128,11 @@ app.controller("socialController", ["$scope", "$rootScope", "userFactory","songF
     }
     else if(number == 2){
       $scope.flag = 2
+      $scope.containerView = 2;
     }
     else{
-      $scope.flag = 3
+      $scope.flag = 3;
+      $scope.containerView = 3;
     }
   }
   $scope.follow = function(user_id){
