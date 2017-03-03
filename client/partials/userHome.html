@@ -3,31 +3,117 @@
   <div id="main-content" class="col-sm-8 col-xs-12 light-gray-right-border">
     <div id="user-links" class="col-sm-12">
       <uib-tabset id="home-tabs" active="activePill" vertical="false" type="pills">
-        <uib-tab index="0" heading="Stream" data-ng-click="changeView(0)"></uib-tab>
-        <uib-tab index="1" heading="Charts" data-ng-click="changeView(1)"></uib-tab>
-        <uib-tab index="2" heading="Discover" data-ng-click="changeView(2)"></uib-tab>
+        <uib-tab index="0" heading="Stream" data-ng-click="changeView(0, containerView)"></uib-tab>
+        <uib-tab index="1" heading="Discover" data-ng-click="changeView(1, containerView)"></uib-tab>
+        <uib-tab index="2" heading="Top Songs" data-ng-click="changeView(2, containerView)"></uib-tab>
       </uib-tabset>
     </div>
-    <div class="col-sm-12">
-      <h4 class="headline">Hear the latest from the people you're following: </h4>
-    </div>
-    <div id="user-stream" class="col-sm-12">
-      <div class="row col-sm-12">
-        <p><img src="{{user.profile_image}}" alt="User Profile Image" class="sm-user-img img-circle">(artist name here) posted a (track/playlist) (X time ago)</p>
-        <div class="stream-song-art">
-          <img src="{{user.profile_image}}" alt="Album Cover">
-        </div>
-        <div class="song-content">
-          <div class="song-header col-xs-12">
-            <button class="play-button img-circle"><span class="glyphicon glyphicon-play"></span></button>
+    <div class="col-sm-12" ng-if="containerView == 0">
+      <div class="song-area" ng-repeat="song in stream">
+        <div class="audio_player_preview">
+          <div class="row">
+            <img class="col-xs-3" id="album_cover_preview" ng-src="{{song.album_cover}}" alt="Album Cover">
+            <div class="col-xs-6">
+              <p>{{song.artist_name}}</p>
+              <p class="song_title"><a href="#!/song/{{song._id}}">{{song.song_title}}</a></p>
+            </div>
+            <div class="col-xs-3">
+              <button class="preview_play_button" type="button" ng-click="play_pause($index, song)" name="play"><span id="s{{$index}}" class="glyphicon glyphicon-play"></span></button>
+            </div>
+          </div>
+          <div class="w{{song._id}}"></div>
+          <div class="row">
+            <div class="col-xs-3">
+              <button class="preview_button" ng-if="song.likeFlag" uib-tooltip="unlike" ng-click="disLike(song._id, id, $index)"><span class="glyphicon glyphicon-heart red"></span></button>
+              <button class="preview_button" ng-if="song.likeFlag === false" uib-tooltip="like" ng-click="like(song._id, id, $index)"><span class="glyphicon glyphicon-heart"></span> </button>
+              <button class="preview_button" ng-if="song.repostFlag" uib-tooltip="unpost" ng-click="removeRepost(song._id, id, $index)"><span class="glyphicon glyphicon-retweet red"></span></button>
+              <button class="preview_button" ng-if="song.repostFlag === false" uib-tooltip="post" ng-click="repost(song._id, id, $index)"><span class="glyphicon glyphicon-retweet"></span></button>
+              <button class="preview_button" uib-tooltip="add to playlist" ng-click="open(song._id)"><span class="glyphicon glyphicon-plus"></span></button>
+            </div>
+            <div id="t{{$index}}" class="col-xs-7"></div>
+            <div class="col-xs-2" id="l{{song._id}}"></div>
           </div>
         </div>
       </div>
     </div>
-  </div>
+    <div class="col-sm-12" ng-if="containerView == 1">
+      <div class="song-area" ng-repeat="song in discover">
+        <div class="audio_player_preview">
+          <div class="row">
+            <img class="col-xs-3" id="album_cover_preview" ng-src="{{song.album_cover}}" alt="Album Cover">
+            <div class="col-xs-6">
+              <p>{{song.artist_name}}</p>
+              <p class="song_title"><a href="#!/song/{{song._id}}">{{song.song_title}}</a></p>
+            </div>
+            <div class="col-xs-3">
+              <button class="preview_play_button" type="button" ng-click="play_pause($index, song)" name="play"><span id="s{{$index}}" class="glyphicon glyphicon-play"></span></button>
+            </div>
+          </div>
+          <div class="w{{song._id}}"></div>
+          <div class="row">
+            <div class="col-xs-3">
+              <button class="preview_button" ng-if="song.likeFlag" uib-tooltip="unlike" ng-click="disLike(song._id, id, $index)"><span class="glyphicon glyphicon-heart red"></span></button>
+              <button class="preview_button" ng-if="song.likeFlag === false" uib-tooltip="like" ng-click="like(song._id, id, $index)"><span class="glyphicon glyphicon-heart"></span> </button>
+              <button class="preview_button" ng-if="song.repostFlag" uib-tooltip="unpost" ng-click="removeRepost(song._id, id, $index)"><span class="glyphicon glyphicon-retweet red"></span></button>
+              <button class="preview_button" ng-if="song.repostFlag === false" uib-tooltip="post" ng-click="repost(song._id, id, $index)"><span class="glyphicon glyphicon-retweet"></span></button>
+              <button class="preview_button" uib-tooltip="add to playlist" ng-click="open(song._id)"><span class="glyphicon glyphicon-plus"></span></button>
+            </div>
+            <div id="t{{$index}}" class="col-xs-7"></div>
+            <div class="col-xs-2" id="l{{song._id}}"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-12" ng-if="containerView == 2">
+      <div class="song-area" ng-repeat="song in top_songs">
+        <div class="audio_player_preview">
+          <div class="row">
+            <img class="col-xs-3" id="album_cover_preview" ng-src="{{song.album_cover}}" alt="Album Cover">
+            <div class="col-xs-6">
+              <p>{{song.artist_name}}</p>
+              <p class="song_title"><a href="#!/song/{{song._id}}">{{song.song_title}}</a></p>
+            </div>
+            <div class="col-xs-3">
+              <button class="preview_play_button" type="button" ng-click="play_pause($index, song)" name="play"><span id="s{{$index}}" class="glyphicon glyphicon-play"></span></button>
+            </div>
+          </div>
+          <div class="w{{song._id}}"></div>
+          <div class="row">
+            <div class="col-xs-3">
+              <button class="preview_button" ng-if="song.likeFlag" uib-tooltip="unlike" ng-click="disLike(song._id, id, $index)"><span class="glyphicon glyphicon-heart red"></span></button>
+              <button class="preview_button" ng-if="song.likeFlag === false" uib-tooltip="like" ng-click="like(song._id, id, $index)"><span class="glyphicon glyphicon-heart"></span> </button>
+              <button class="preview_button" ng-if="song.repostFlag" uib-tooltip="unpost" ng-click="removeRepost(song._id, id, $index)"><span class="glyphicon glyphicon-retweet red"></span></button>
+              <button class="preview_button" ng-if="song.repostFlag === false" uib-tooltip="post" ng-click="repost(song._id, id, $index)"><span class="glyphicon glyphicon-retweet"></span></button>
+              <button class="preview_button" uib-tooltip="add to playlist" ng-click="open(song._id)"><span class="glyphicon glyphicon-plus"></span></button>
+            </div>
+            <div id="t{{$index}}" class="col-xs-7"></div>
+            <div class="col-xs-2" id="l{{song._id}}"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
   <div id="right-sidebar" class="col-sm-4 col-xs-12">
     <div class="sidebar-headlines col-sm-12">
       <h5 class="headline"><span class="glyphicon glyphicon-fire"></span>  Who to Follow</h5>
+    </div>
+    <div ng-repeat="user in top_users">
+      <div class="row who_follow">
+        <div class="col-xs-4">
+          <a href="#!/profile/{{user.firstName}}/{{user._id}}"><img ng-src="{{user.profile_image}}" class="comment_picture img-responsive"></a>
+        </div>
+        <div class="col-xs-8">
+          <b><a href="#!/profile/{{user.firstName}}/{{user._id}}">{{user.username}}</a></b>
+          <div class="row">
+            <div class="col-xs-6">
+              <h6>{{user.followers.length}} <span class="glyphicon glyphicon-user" uib-tooltip="Followers"></span></h6>
+            </div>
+            <div class="col-xs-6">
+              <h6>{{user.uploaded_songs.length + user.playlists.length}} <span class="glyphicon glyphicon-music" uib-tooltip="Tracks and Playlists"></span></h6>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

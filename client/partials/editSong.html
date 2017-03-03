@@ -1,0 +1,38 @@
+<h1>Edit {{songInfo.song_title}}</h1>
+<hr>
+<div class="container change_modal_view">
+  <form ng-submit="editSong()">
+    <div class="form-group">
+      <label for="song_name">
+        Song name: <input class="form-control" type='text' name="song_name" ng-model="songInfo.song_title">
+      </label>
+    </div>
+    <div class="form-group">
+      <label for="artist_name">
+        Artist name: <input class="form-control" type='text' name="artist_name" ng-model="songInfo.artist_name">
+      </label>
+    </div>
+    <div class="form-group">
+      <label for="tags">
+        Tags: <input class="form-control" name="tags" ng-model="songInfo.tags">
+      </label>
+    </div>
+    <div class="form-group">
+      <label for="description">
+        Song Description: <textarea ng-model="songInfo.description" class="form-control" name="description" rows="4" cols="70" placeholder="Give your song a description"></textarea>
+      </label>
+    </div>
+    <input type="submit" value="Save Changes">
+  </form>
+  <hr>
+  </div>
+  <p>{{error.message}}</p>
+  <p ng-repeat="error in errors.errors">{{error.message}}</p>
+  <button ng-click="cancel()">Done</button>
+
+<style media="screen">
+  .change_modal_view{
+    width: 80%;
+    margin: 0 auto;
+  }
+</style>

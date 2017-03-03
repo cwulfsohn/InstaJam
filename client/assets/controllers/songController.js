@@ -1,4 +1,4 @@
-app.controller("songController", ["$scope", "songFactory", "$location", "$cookies", "$routeParams", "$sce", function($scope, songFactory, $location, $cookies, $routeParams, $sce){
+app.controller("songController", ["$scope", "songFactory", "$location", "$cookies", "$routeParams", "$sce","$uibModal","$route", function($scope, songFactory, $location, $cookies, $routeParams, $sce, $uibModal, $route){
   if ($cookies.get("user")){
     $scope.currentUser = $cookies.get("user");
     $scope.id = $cookies.get("id");
@@ -9,11 +9,13 @@ app.controller("songController", ["$scope", "songFactory", "$location", "$cookie
   }
 
   $scope.switch = function(){
-    if ($scope.play == "play"){
-      $scope.play = "pause";
+    if ($('#play_symbol').hasClass("glyphicon-play")){
+      $('#play_symbol').removeClass("glyphicon-play")
+      $('#play_symbol').addClass("glyphicon-pause")
     }
     else {
-      $scope.play = "play"
+      $('#play_symbol').removeClass("glyphicon-pause")
+      $('#play_symbol').addClass("glyphicon-play")
     }
   };
 
@@ -78,6 +80,11 @@ app.controller("songController", ["$scope", "songFactory", "$location", "$cookie
           $("#timed_comments").text(" ")
         }
       })
+      wavesurfer.on("finish", function(){
+          wavesurfer.stop();
+          $('#play_symbol').removeClass("glyphicon-pause")
+          $('#play_symbol').addClass("glyphicon-play")
+      })
     });
   };
   $scope.addComment = function(id){
@@ -123,6 +130,36 @@ app.controller("songController", ["$scope", "songFactory", "$location", "$cookie
   $scope.tagSearch = function(tag){
     $location.url('/search/' + tag)
   }
+  $scope.open = function(song_id){
+    $cookies.put('songId', song_id)
+  $scope.modalInstance = $uibModal.open({
+        animation: true,
+        ariaLabelledBy: 'modal-title-top',
+        ariaDescribedBy: 'modal-body-top',
+        templateUrl: './partials/playlist.html',
+        controller: 'playlistController'
+      });
+      $scope.modalInstance.result.then(function(hello){
+        console.log('closed')
+      }, function(){
+        $route.reload();
+      })
+    }
+    $scope.edit = function(song_id){
+      $cookies.put('songId', song_id)
+    $scope.modalInstance = $uibModal.open({
+          animation: true,
+          ariaLabelledBy: 'modal-title-top',
+          ariaDescribedBy: 'modal-body-top',
+          templateUrl: './partials/editSong.html',
+          controller: 'editSongController'
+        })
+        $scope.modalInstance.result.then(function(hello){
+          console.log('closed')
+        }, function(){
+          $route.reload();
+        })
+      }
 }])
 
 function secondsToMinSec(seconds){

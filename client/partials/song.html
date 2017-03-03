@@ -5,12 +5,15 @@
       <img class="col-xs-3" id="album_cover_preview" ng-src="{{song.album_cover}}" alt="Album Cover">
       <div class="col-xs-9">
         <div class="row">
-          <div class="col-xs-8 col-sm-10">
+          <div class="col-xs-4 col-sm-5">
             <p>{{song.artist_name}}</p>
             <p class="song_title">{{song.song_title}}</p>
           </div>
+          <div class="col-sm-5 col-xs-4">
+            <p>{{song.description}}</p>
+          </div>
           <div class="col-xs-4 col-sm-2">
-            <button ng-click="switch()" ng-if="audio_ready" type="button" class="preview_play_button" id="play" name="play"><span class="glyphicon glyphicon-{{play}}"></span></button>
+            <button ng-click="switch()" ng-if="audio_ready" type="button" class="preview_play_button" id="play" name="play"><span id="play_symbol" class="glyphicon glyphicon-play"></span></button>
           </div>
         </div>
         <div id="waveform_preview"></div>
@@ -22,12 +25,15 @@
         <button class="preview_button" ng-if="likeFlag === false" uib-tooltip="like" ng-click="like(song._id, id)"><span class="glyphicon glyphicon-heart"></span> {{song.likes.length}}</button>
         <button class="preview_button" ng-if="repostFlag" uib-tooltip="unpost" ng-click="removeRepost(song._id, id)"><span class="glyphicon glyphicon-retweet red"></span> {{song.reposted_by.length}}</button>
         <button class="preview_button" ng-if="repostFlag === false" uib-tooltip="post" ng-click="repost(song._id, id)"><span class="glyphicon glyphicon-retweet"></span> {{song.reposted_by.length}}</button>
-        <button class="preview_button" type="button" name="button"><span class="glyphicon glyphicon-plus"></span></button>
+        <button class="preview_button" ng-click="open(song._id)" uib-tooltip="add to playlist"><span class="glyphicon glyphicon-plus"></span></button>
       </div>
       <div id="timed_comments" class="col-sm-8 col-xs-6">
       </div>
       <div class="col-sm-1 col-xs-2" id="length"></div>
     </div>
+  </div>
+  <div ng-if="song._user._id === id">
+  <button type="button" ng-click="edit(song._id)" class="btn btn-warning">Edit</button>
   </div>
   <div id="song_comments">
     <div ng-if="errors">
@@ -40,8 +46,8 @@
     </form>
     <div class="row">
       <div class="col-sm-2 col-xs-0">
-        <img ng-src="{{song._user.profile_image}}" class="song_comment_user img-responsive">
-        <h5 class="text-center">{{song._user.username}}</h5>
+        <a href="#!/profile/{{song._user.firstName}}/{{song._user._id}}"><img ng-src="{{song._user.profile_image}}" class="song_comment_user img-responsive"></a>
+        <h5 class="text-center"><a href="#!/profile/{{song._user.firstName}}/{{song._user._id}}">{{song._user.username}}</a></h5>
         <div class="row">
           <div class="col-xs-6">
             <h6 class="text-center">{{song._user.followers.length}} <span class="glyphicon glyphicon-user" uib-tooltip="Followers"></span></h6>
@@ -97,14 +103,14 @@
               </div>
             </div>
           </div>
-          <h4 class="text-center">{{song.reposts.length}} Reposts</h4>
+          <h4 class="text-center">{{song.reposted_by.length}} Reposts</h4>
           <hr>
           <div class="row centered_bit">
             <div class="song_repost_div" ng-repeat="user in song.reposted_by | limitTo: 4">
                 <img ng-src="{{user.profile_image}}" class="comment_picture img-responsive" uib-tooltip="{{user.username}}">
             </div>
           </div>
-          <h4 class="text-center">{{song.reposts.length}} Likes</h4>
+          <h4 class="text-center">{{song.likes.length}} Likes</h4>
           <hr>
           <div class="row centered_bit">
             <div class="song_repost_div" ng-repeat="user in song.likes | limitTo: 4">

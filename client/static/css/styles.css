@@ -64,6 +64,10 @@ body {
   width: 5em;
 }
 
+.who_follow {
+  margin: 3em 0 2em 0;
+}
+
 .container-fluid {
   width: 100%;
   padding: 0px 10%;
@@ -523,6 +527,16 @@ background-color: #333;
 #profile_name{
   left: 245px;
   bottom: 130px;
+  position: absolute;
+  background-color: #000;
+  opacity: .7;
+  color: #FFF;
+  padding: 5px;
+}
+
+#profile_location{
+  left: 245px;
+  bottom: 90px;
   position: absolute;
   background-color: #000;
   opacity: .7;

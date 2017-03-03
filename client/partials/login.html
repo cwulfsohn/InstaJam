@@ -3,12 +3,20 @@
   <p>{{error}}</p>
 </div>
 <form ng-submit="login()">
-  <label for="email">
-    Email <input type="text" name="email" ng-model="userLogin.email">
-  </label>
-  <label for="password">
-    Password <input type="password" name="password" ng-model="userLogin.password">
-  </label>
+  <div class="login_form form-group">
+    <label for="email">
+      Email: <input type="text" class="form-control" name="email" ng-model="userLogin.email">
+    </label>
+  </div>
+  <div class="login_form form-group">
+    <label for="password">
+      Password: <input type="password" class="form-control" name="password" ng-model="userLogin.password">
+    </label>
+  </div>
   <input type="submit" value="Log In">
 </form>
-<a href="#!/registration">Not registered? Register!</a>
+<style media="screen">
+  .login_form{
+    padding-left: 20px;
+  }
+</style>

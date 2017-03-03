@@ -1,5 +1,6 @@
 var mongoose = require('mongoose');
 var User = mongoose.model('User');
+var Song = mongoose.model('Song');
 var bcrypt = require("bcryptjs");
 
 module.exports = {
@@ -29,7 +30,8 @@ module.exports = {
               lastName : req.body.lastName,
               email : req.body.email,
               password : req.body.password,
-              age : req.body.age
+              age : req.body.age,
+              location: req.body.location
             });
             user.password = bcrypt.hashSync(user.password, bcrypt.genSaltSync(8));
             user.save(function(err, user){
@@ -44,6 +46,14 @@ module.exports = {
       })
     }},
   login: function(req, res){
+    if(!req.body.password){
+      console.log('hello')
+      res.json({err: "password is not found"})
+    }
+    else if(!req.body.email){
+      res.json({err: "email is not found"})
+    }
+    else{
     User.findOne({email: req.body.email}, function(err, user){
       if(err){
         res.json({err:"Unregistered email"})
@@ -57,6 +67,7 @@ module.exports = {
         }
       }
     })
+  }
   },
   showUser: function(req, res){
     User.findOne({_id: req.params.id}).populate("uploaded_songs").populate("playlists").populate({path: "playlists", populate: {path:"_user"}}).populate({path: "playlists", populate: {path:"songs"}})
@@ -114,6 +125,49 @@ module.exports = {
       }
     })
   },
+  getHomeSongs: function(req, res){
+    User.findOne({_id:req.params.id}).populate("following").populate({path: "following", populate: {path: "uploaded_songs"}})
+    .populate({path: "following", populate: {path: "reposts"}}).exec( function(err, user){
+      if (err){
+        res.json({err:err})
+      }
+      else {
+        Song.find({}).sort({'createdAt': -1}).limit(6).exec(function(err, discover){
+          if (err){
+            res.json({err:err})
+          }
+          else {
+            var stream = [];
+            var flag = false;
+            while (stream < 6 && flag===false) {
+              for (var i = 0; i < user.following.length; i++) {
+                if (user.following[i].uploaded_songs[user.following[i].uploaded_songs.length - 1] != undefined){
+                  stream.push(user.following[i].uploaded_songs[user.following[i].uploaded_songs.length - 1]);
+                }
+              }
+              flag = true;
+            }
+            User.find({}).sort({"number_followers": -1}).limit(6).exec(function(err, top_users){
+              if (err){
+                res.json({err:err})
+              }
+              else {
+                Song.find({}).sort({"number_likes": -1}).limit(6).exec(function(err, top_songs){
+                  if (err){
+                    res.json({err:err})
+                  }
+                  else {
+                    res.json({stream:stream, discover:discover, top_songs:top_songs, top_users: top_users})
+                  }
+                })
+              }
+            })
+          }
+        })
+
+      }
+    })
+  },
   unFollow: function(req, res){
     User.update({_id: req.body.follow}, {$pull: {followers: req.body.follower}}, {safe: true}, function(err, follow){
       if(err){
@@ -156,6 +210,7 @@ module.exports = {
             user.firstName = req.body.firstName
             user.lastName = req.body.lastName
             user.description = req.body.description
+            user.location = req.body.location
             user.save(function(err, user){
               if(err){
                 res.json({err: err})

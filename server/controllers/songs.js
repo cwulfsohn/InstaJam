@@ -499,5 +499,31 @@ module.exports = {
         });
       });
     });
+  },
+  editSong: function(req, res){
+    Song.findOne({_id: req.body._id}, function(err, song){
+      if(err){
+        res.json({err: err})
+      }
+      else{
+        song.song_title = req.body.song_title
+        song.artist_name = req.body.artist_name
+        song.description = req.body.description
+        if(typeof(req.body.tags) === "string"){
+          song.tags = req.body.tags.split(",")
+        }
+        else{
+          song.tags = req.body.tags[0].split(",")
+        }
+        song.save(function(err, song){
+          if(err){
+            res.json({err: err})
+          }
+          else{
+            res.json({song: song})
+          }
+        })
+      }
+    })
   }
 }

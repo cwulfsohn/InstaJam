@@ -5,28 +5,51 @@
   </ul>
 </div>
 <form ng-submit="register()" name="regForm">
-  <label for="username">
-    Username <input type="text" name="username" ng-model="user.username">
-  </label>
-  <label for="email">
-    Email <input type="text" name="email" ng-model="user.email">
-  </label>
-  <label for="firstName">
-    First Name <input type="text" name="firstName" ng-model="user.firstName">
-  </label>
-  <label for="lastName">
-    Last Name <input type="text" name="lastName" ng-model="user.lastName">
-  </label>
-  <label for="password">
-    Password <input type="password" name="password" ng-model="user.password">
-  </label>
-  <label for="confirmPassword">
-    Confirm Password <input type="password" name="confirmPassword" ng-model="user.confirmPassword">
-  </label>
-  <label for="age">
-    Age <input type="number" name="age" ng-model="user.age" min: 0 max: 90>
-  </label>
+  <div class="registration_form form-group">
+    <label for="username">
+      Username: <input type="text" class="form-control" name="username" ng-model="user.username">
+    </label>
+  </div>
+  <div class="registration_form form-group">
+    <label for="email">
+      Email: <input type="text" class="form-control" name="email" ng-model="user.email">
+    </label>
+  </div>
+  <div class="registration_form form-group">
+    <label for="firstName">
+      First Name: <input type="text" class="form-control" name="firstName" ng-model="user.firstName">
+    </label>
+  </div>
+  <div class="registration_form form-group">
+    <label for="lastName">
+      Last Name: <input type="text" class="form-control" name="lastName" ng-model="user.lastName">
+    </label>
+  </div>
+  <div class="registration_form form-group">
+    <label for="password">
+      Password: <input type="password" class="form-control" name="password" ng-model="user.password">
+    </label>
+  </div>
+  <div class="registration_form form-group">
+    <label for="confirmPassword">
+      Confirm Password: <input type="password" class="form-control" name="confirmPassword" ng-model="user.confirmPassword">
+    </label>
+  </div>
+  <div class="registration_form form-group">
+    <label for="age">
+      Age: <input type="number" name="age" class="form-control" ng-model="user.age" min: 0 max: 90>
+    </label>
+  </div>
+  <div class="registration_form form-group">
+    <label for="location">
+      Location: <input type="text" name="location" class="form-control" ng-model="user.location">
+    </label>
+  </div>
   <input type="submit" value="Register">
 </form>
 
-<a href="#!/">Already registered? Log in!</a>
+<style media="screen">
+  .registration_form{
+    padding-left: 20px;
+  }
+</style>

@@ -70,5 +70,10 @@ app.factory('songFactory', ["$http", function($http){
       callback(data.data);
     })
   }
+  factory.editSong = function (song, callback) {
+    $http.post('/editSong', song).then(function(data){
+      callback(data.data);
+    })
+  }
   return factory;
 }])
