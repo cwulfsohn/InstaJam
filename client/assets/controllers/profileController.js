@@ -1,4 +1,4 @@
-app.controller("profileController", ["$scope", "userFactory","songFactory", "$location", "$cookies", 'Upload', "$timeout", "$routeParams","$uibModal", "$timeout","$route", function($scope, userFactory, songFactory, $location, $cookies, Upload, $timeout, $routeParams, $uibModal, $timeout, $route){
+app.controller("profileController", ["$scope", "$rootScope", "userFactory","songFactory", "$location", "$cookies", 'Upload', "$timeout", "$routeParams","$uibModal", "$timeout","$route", function($scope, $rootScope, userFactory, songFactory, $location, $cookies, Upload, $timeout, $routeParams, $uibModal, $timeout, $route){
   $scope.profile_id = $routeParams.id;
   $scope.id = $cookies.get('id');
   $scope.firstName = $cookies.get('user');
@@ -298,21 +298,14 @@ app.controller("profileController", ["$scope", "userFactory","songFactory", "$lo
     }
   };
   $scope.play_pause = function(index, song, playlist={}){
+    console.log("scope.current in play_pause 1", $scope.current);
     $scope.current = {index:index, song:song, playlist: playlist};
+    console.log("scope.current in play_pause 2", $scope.current);
     for (var i = 0; i < surfers.length; i++){
       if (surfers[i].isPlaying() && surfers[i] != surfers[index]){
         surfers[i].stop();
         $('#s' + i).addClass("glyphicon-play")
         $('#s' + i).removeClass("glyphicon-pause")
-      }
-      if ((!surfers[i].isPlaying()) && surfers[i] != surfers[index]){
-        $('#s' + i).addClass("glyphicon-pause")
-        $('#s' + i).removeClass("glyphicon-play")
-      }
-    }
-    if (!surfers[index].isPlaying()){
-      if(!playlist.hasOwnProperty('songs')) {
-        $rootScope.$emit('startSong', {song: song, index: index});
       }
     }
     if ($('#s' + index).hasClass("glyphicon-play")){
@@ -324,9 +317,17 @@ app.controller("profileController", ["$scope", "userFactory","songFactory", "$lo
       $('#s' + index).addClass("glyphicon-play")
     }
     surfers[index].playPause();
+    console.log(index)
+    if (playlist.hasOwnProperty('current_song')){
+      console.log(index);
+      $rootScope.$emit('startPlay', {song: song, index: playlist.current_song.index, playlist: playlist, playlistIndex: index});
+    } else {
+      $rootScope.$emit('startPlay', {song: song, index: index, playlist: playlist});
+    }
   };
   $scope.changeSongPlaylist = function(playlistIndex, songIndex, song, playlist){
     $scope.current = {index:playlistIndex, song:song, playlist: playlist};
+    console.log("scope.current in changeSongPlaylist", $scope.current);
     for (var i = 0; i < surfers.length; i++){
       if (surfers[i].isPlaying() && surfers[i] != surfers[playlistIndex]){
         surfers[i].stop();
@@ -338,11 +339,13 @@ app.controller("profileController", ["$scope", "userFactory","songFactory", "$lo
         $('#s' + i).removeClass("glyphicon-play")
       }
     }
-      $scope.current.playlist.current_song.song = $scope.current.song;
-      $scope.current.playlist.current_song.index = songIndex
-      surfers[playlistIndex].destroy();
-      $scope.wavemaker($scope.current.song, $scope.current.index, $scope.current.playlist._id);
-
+    $('#s' + songIndex).addClass("glyphicon-pause")
+    $('#s' + songIndex).removeClass("glyphicon-play")
+    $scope.current.playlist.current_song.song = $scope.current.song;
+    $scope.current.playlist.current_song.index = songIndex
+    surfers[playlistIndex].destroy();
+    $scope.wavemaker($scope.current.song, $scope.current.index, $scope.current.playlist._id);
+    $rootScope.$emit('startPlay', {song: song, index: songIndex, playlist: playlist});
   }
   $scope.open = function(song_id){
     $cookies.put('songId', song_id)
@@ -395,11 +398,22 @@ app.controller("profileController", ["$scope", "userFactory","songFactory", "$lo
         }
     })
   }
-  $rootScope.$on('pauseWave', function(event, song){
+  $rootScope.$on('pauseWave', function (event, song) {
+    console.log($scope.current.index );
     surfers[$scope.current.index].playPause();
     $('#s' + $scope.current.index).addClass("glyphicon-play");
     $('#s' + $scope.current.index).removeClass("glyphicon-pause");
   })
+
+  $rootScope.$on('continueWave', function (event, song) {
+    surfers[$scope.current.index].playPause();
+    $('#s' + $scope.current.index).addClass("glyphicon-pause");
+    $('#s' + $scope.current.index).removeClass("glyphicon-play");
+  })
+
+  // $rootScope.$on('nextSong', function (event, data) {
+  //   $scope.wavemaker(data.song, data.playlistIndex, data.playlist._id)
+  // })
 }])
 
 function secondsToMinSec(seconds){

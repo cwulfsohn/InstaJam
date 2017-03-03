@@ -1,4 +1,4 @@
-app.controller("searchController", ["$scope", "userFactory", "songFactory", "$location", "$cookies", "$routeParams", "$timeout","$uibModal", function($scope, userFactory, songFactory, $location, $cookies, $routeParams, $timeout, $uibModal){
+app.controller("searchController", ["$scope", "$rootScope", "userFactory", "songFactory", "$location", "$cookies", "$routeParams", "$timeout","$uibModal", function($scope, $rootScope, userFactory, songFactory, $location, $cookies, $routeParams, $timeout, $uibModal){
   $scope.search_query = $routeParams.term;
   $scope.total_tracks = 0;
   $scope.total_playlists = 0;
@@ -267,6 +267,23 @@ $scope.modalInstance = $uibModal.open({
       $location.url('/profile/'+$scope.user.username+"1"+"/"+$scope.user._id)
     })
   }
+
+  $rootScope.$on('pauseWave', function (event, song) {
+    console.log($scope.current.index );
+    surfers[$scope.current.index].playPause();
+    $('#s' + $scope.current.index).addClass("glyphicon-play");
+    $('#s' + $scope.current.index).removeClass("glyphicon-pause");
+  })
+
+  $rootScope.$on('continueWave', function (event, song) {
+    surfers[$scope.current.index].playPause();
+    $('#s' + $scope.current.index).addClass("glyphicon-pause");
+    $('#s' + $scope.current.index).removeClass("glyphicon-play");
+  })
+
+  // $rootScope.$on('nextSong', function (event, data) {
+  //   $scope.wavemaker(data.song, data.playlistIndex, data.playlist._id)
+  // })
 }]);
 
 function secondsToMinSec(seconds){

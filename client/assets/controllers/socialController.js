@@ -1,4 +1,4 @@
-app.controller("socialController", ["$scope", "userFactory","songFactory", "$location", "$cookies", 'Upload', "$timeout", "$routeParams","$uibModal", "$timeout", function($scope, userFactory, songFactory, $location, $cookies, Upload, $timeout, $routeParams, $uibModal, $timeout){
+app.controller("socialController", ["$scope", "$rootScope", "userFactory","songFactory", "$location", "$cookies", 'Upload', "$timeout", "$routeParams","$uibModal", "$timeout", function($scope, $rootScope, userFactory, songFactory, $location, $cookies, Upload, $timeout, $routeParams, $uibModal, $timeout){
   $scope.profile_id = $routeParams.id;
   if ($routeParams.number == 2 || $routeParams.number == 3){
     console.log($routeParams.number)
@@ -285,4 +285,20 @@ $scope.modalInstance = $uibModal.open({
       $location.url('/profile/'+$scope.user.username+"1"+"/"+$scope.user._id)
     })
   }
+  $rootScope.$on('pauseWave', function (event, song) {
+    console.log($scope.current.index );
+    surfers[$scope.current.index].playPause();
+    $('#s' + $scope.current.index).addClass("glyphicon-play");
+    $('#s' + $scope.current.index).removeClass("glyphicon-pause");
+  })
+
+  $rootScope.$on('continueWave', function (event, song) {
+    surfers[$scope.current.index].playPause();
+    $('#s' + $scope.current.index).addClass("glyphicon-pause");
+    $('#s' + $scope.current.index).removeClass("glyphicon-play");
+  })
+
+  // $rootScope.$on('nextSong', function (event, data) {
+  //   $scope.wavemaker(data.song, data.playlistIndex, data.playlist._id)
+  // })
 }])

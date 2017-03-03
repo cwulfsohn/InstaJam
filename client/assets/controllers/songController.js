@@ -1,4 +1,4 @@
-app.controller("songController", ["$scope", "songFactory", "$location", "$cookies", "$routeParams", "$sce","$uibModal","$route", function($scope, songFactory, $location, $cookies, $routeParams, $sce, $uibModal, $route){
+app.controller("songController", ["$scope", "$rootScope", "songFactory", "$location", "$cookies", "$routeParams", "$sce","$uibModal","$route", function($scope, $rootScope, songFactory, $location, $cookies, $routeParams, $sce, $uibModal, $route){
   if ($cookies.get("user")){
     $scope.currentUser = $cookies.get("user");
     $scope.id = $cookies.get("id");
@@ -148,18 +148,34 @@ app.controller("songController", ["$scope", "songFactory", "$location", "$cookie
     $scope.edit = function(song_id){
       $cookies.put('songId', song_id)
     $scope.modalInstance = $uibModal.open({
-          animation: true,
-          ariaLabelledBy: 'modal-title-top',
-          ariaDescribedBy: 'modal-body-top',
-          templateUrl: './partials/editSong.html',
-          controller: 'editSongController'
-        })
-        $scope.modalInstance.result.then(function(hello){
-          console.log('closed')
-        }, function(){
-          $route.reload();
-        })
-      }
+      animation: true,
+      ariaLabelledBy: 'modal-title-top',
+      ariaDescribedBy: 'modal-body-top',
+      templateUrl: './partials/editSong.html',
+      controller: 'editSongController'
+    })
+    $scope.modalInstance.result.then(function(hello){
+      console.log('closed')
+    }, function(){
+      $route.reload();
+    })
+  }
+  $rootScope.$on('pauseWave', function (event, song) {
+    console.log($scope.current.index );
+    surfers[$scope.current.index].playPause();
+    $('#s' + $scope.current.index).addClass("glyphicon-play");
+    $('#s' + $scope.current.index).removeClass("glyphicon-pause");
+  })
+
+  $rootScope.$on('continueWave', function (event, song) {
+    surfers[$scope.current.index].playPause();
+    $('#s' + $scope.current.index).addClass("glyphicon-pause");
+    $('#s' + $scope.current.index).removeClass("glyphicon-play");
+  })
+
+  // $rootScope.$on('nextSong', function (event, data) {
+  //   $scope.wavemaker(data.song, data.playlistIndex, data.playlist._id)
+  // })
 }])
 
 function secondsToMinSec(seconds){

@@ -7,10 +7,10 @@
         <a ng-click="pause()"><span class="glyphicon glyphicon-pause"></span></a>
         <a ng-click="next()"><span class="glyphicon glyphicon-step-forward"></span></a>
         <!-- <a ng-click="clear_playlist()"><span class="glyphicon glyphicon-eject"></span></a> -->
-        <img id="audio_player_album_cover" ng-src="" alt="Album Cover">
+        <img id="audio_player_album_cover" ng-src="{{ currentPlaylist.songs[currentIndex].album_cover}}" alt="Album Cover">
         <div>
-          <p>Playlist Name</p>
-          <p>Artist - Title</p>
+          <p ng-show='currentPlaylist.hasOwnProperty("title")'>Playing From {{ currentPlaylist.title }}</p>
+          <p>{{ currentPlaylist.songs[currentIndex].artist_name }} - {{ currentPlaylist.songs[currentIndex].song_title }}</p>
         </div>
       </div>
   </div>
