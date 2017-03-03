@@ -1,6 +1,9 @@
 app.controller("userController", ["$scope", "userFactory", "$location", "$cookies", function($scope, userFactory, $location, $cookies){
   if ($cookies.get("user")){
+    console.log('hello')
     $location.url('/success');
+  }else{
+    $location.url('/home')
   }
 
   $scope.user = {}
@@ -30,7 +33,7 @@ app.controller("userController", ["$scope", "userFactory", "$location", "$cookie
         $cookies.put("user", data.user.firstName);
         $cookies.put("id", data.user._id);
         $scope.cancel();
-        $location.url('/profile/'+data.user.username+"/"+data.user._id);
+        $location.url('/success');
       }
     })
   }
@@ -44,7 +47,7 @@ app.controller("userController", ["$scope", "userFactory", "$location", "$cookie
         $cookies.put("user", data.user.firstName);
         $cookies.put("id", data.user._id);
         $scope.cancel();
-        $location.url('/profile/'+data.user.username+"/"+data.user._id);
+        $location.url("/success");
       }
       else {
         console.log('error')

@@ -9,6 +9,8 @@
       </uib-tabset>
     </div>
     <div class="col-sm-12" ng-if="containerView == 0">
+      <h5 class="headline">Check out your friends' new tracks</h5>
+      <h4 ng-if="stream.length < 1" class="headline">There doesn't seem to be anything here :/. Follow some Intajammers to fill up your stream!</h4>
       <div class="song-area" ng-repeat="song in stream">
         <div class="audio_player_preview">
           <div class="row">
@@ -24,10 +26,10 @@
           <div class="w{{song._id}}"></div>
           <div class="row">
             <div class="col-xs-3">
-              <button class="preview_button" ng-if="song.likeFlag" uib-tooltip="unlike" ng-click="disLike(song._id, id, $index)"><span class="glyphicon glyphicon-heart red"></span></button>
-              <button class="preview_button" ng-if="song.likeFlag === false" uib-tooltip="like" ng-click="like(song._id, id, $index)"><span class="glyphicon glyphicon-heart"></span> </button>
-              <button class="preview_button" ng-if="song.repostFlag" uib-tooltip="unpost" ng-click="removeRepost(song._id, id, $index)"><span class="glyphicon glyphicon-retweet red"></span></button>
-              <button class="preview_button" ng-if="song.repostFlag === false" uib-tooltip="post" ng-click="repost(song._id, id, $index)"><span class="glyphicon glyphicon-retweet"></span></button>
+              <button class="preview_button" ng-if="song.likeFlag" uib-tooltip="unlike" ng-click="disLike(song._id, id, $index, 'stream')"><span class="glyphicon glyphicon-heart red"></span></button>
+              <button class="preview_button" ng-if="song.likeFlag === false" uib-tooltip="like" ng-click="like(song._id, id, $index, 'stream')"><span class="glyphicon glyphicon-heart"></span> </button>
+              <button class="preview_button" ng-if="song.repostFlag" uib-tooltip="unpost" ng-click="removeRepost(song._id, id, $index, 'stream')"><span class="glyphicon glyphicon-retweet red"></span></button>
+              <button class="preview_button" ng-if="song.repostFlag === false" uib-tooltip="post" ng-click="repost(song._id, id, $index, 'stream')"><span class="glyphicon glyphicon-retweet"></span></button>
               <button class="preview_button" uib-tooltip="add to playlist" ng-click="open(song._id)"><span class="glyphicon glyphicon-plus"></span></button>
             </div>
             <div id="t{{$index}}" class="col-xs-7"></div>
@@ -37,6 +39,7 @@
       </div>
     </div>
     <div class="col-sm-12" ng-if="containerView == 1">
+      <h5 class="headline">Check out the hottest new tracks</h5>
       <div class="song-area" ng-repeat="song in discover">
         <div class="audio_player_preview">
           <div class="row">
@@ -52,10 +55,10 @@
           <div class="w{{song._id}}"></div>
           <div class="row">
             <div class="col-xs-3">
-              <button class="preview_button" ng-if="song.likeFlag" uib-tooltip="unlike" ng-click="disLike(song._id, id, $index)"><span class="glyphicon glyphicon-heart red"></span></button>
-              <button class="preview_button" ng-if="song.likeFlag === false" uib-tooltip="like" ng-click="like(song._id, id, $index)"><span class="glyphicon glyphicon-heart"></span> </button>
-              <button class="preview_button" ng-if="song.repostFlag" uib-tooltip="unpost" ng-click="removeRepost(song._id, id, $index)"><span class="glyphicon glyphicon-retweet red"></span></button>
-              <button class="preview_button" ng-if="song.repostFlag === false" uib-tooltip="post" ng-click="repost(song._id, id, $index)"><span class="glyphicon glyphicon-retweet"></span></button>
+              <button class="preview_button" ng-if="song.likeFlag" uib-tooltip="unlike" ng-click="disLike(song._id, id, $index, 'discover')"><span class="glyphicon glyphicon-heart red"></span></button>
+              <button class="preview_button" ng-if="song.likeFlag === false" uib-tooltip="like" ng-click="like(song._id, id, $index, 'discover')"><span class="glyphicon glyphicon-heart"></span> </button>
+              <button class="preview_button" ng-if="song.repostFlag" uib-tooltip="unpost" ng-click="removeRepost(song._id, id, $index, 'discover')"><span class="glyphicon glyphicon-retweet red"></span></button>
+              <button class="preview_button" ng-if="song.repostFlag === false" uib-tooltip="post" ng-click="repost(song._id, id, $index, 'discover')"><span class="glyphicon glyphicon-retweet"></span></button>
               <button class="preview_button" uib-tooltip="add to playlist" ng-click="open(song._id)"><span class="glyphicon glyphicon-plus"></span></button>
             </div>
             <div id="t{{$index}}" class="col-xs-7"></div>
@@ -65,6 +68,7 @@
       </div>
     </div>
     <div class="col-sm-12" ng-if="containerView == 2">
+      <h5 class="headline">The tracks with the most likes...</h5>
       <div class="song-area" ng-repeat="song in top_songs">
         <div class="audio_player_preview">
           <div class="row">
@@ -80,10 +84,10 @@
           <div class="w{{song._id}}"></div>
           <div class="row">
             <div class="col-xs-3">
-              <button class="preview_button" ng-if="song.likeFlag" uib-tooltip="unlike" ng-click="disLike(song._id, id, $index)"><span class="glyphicon glyphicon-heart red"></span></button>
-              <button class="preview_button" ng-if="song.likeFlag === false" uib-tooltip="like" ng-click="like(song._id, id, $index)"><span class="glyphicon glyphicon-heart"></span> </button>
-              <button class="preview_button" ng-if="song.repostFlag" uib-tooltip="unpost" ng-click="removeRepost(song._id, id, $index)"><span class="glyphicon glyphicon-retweet red"></span></button>
-              <button class="preview_button" ng-if="song.repostFlag === false" uib-tooltip="post" ng-click="repost(song._id, id, $index)"><span class="glyphicon glyphicon-retweet"></span></button>
+              <button class="preview_button" ng-if="song.likeFlag" uib-tooltip="unlike" ng-click="disLike(song._id, id, $index, 'top_songs')"><span class="glyphicon glyphicon-heart red"></span></button>
+              <button class="preview_button" ng-if="song.likeFlag === false" uib-tooltip="like" ng-click="like(song._id, id, $index, 'top_songs')"><span class="glyphicon glyphicon-heart"></span> </button>
+              <button class="preview_button" ng-if="song.repostFlag" uib-tooltip="unpost" ng-click="removeRepost(song._id, id, $index, 'top_songs')"><span class="glyphicon glyphicon-retweet red"></span></button>
+              <button class="preview_button" ng-if="song.repostFlag === false" uib-tooltip="post" ng-click="repost(song._id, id, $index, 'top_songs')"><span class="glyphicon glyphicon-retweet"></span></button>
               <button class="preview_button" uib-tooltip="add to playlist" ng-click="open(song._id)"><span class="glyphicon glyphicon-plus"></span></button>
             </div>
             <div id="t{{$index}}" class="col-xs-7"></div>
@@ -95,10 +99,10 @@
     </div>
   <div id="right-sidebar" class="col-sm-4 col-xs-12">
     <div class="sidebar-headlines col-sm-12">
-      <h5 class="headline"><span class="glyphicon glyphicon-fire"></span>  Who to Follow</h5>
+      <h5 class="headline headline_follow"><span class="glyphicon glyphicon-fire"></span>  Who to Follow</h5>
     </div>
     <div ng-repeat="user in top_users">
-      <div class="row who_follow">
+      <div class="row who_follow side_bar_follow">
         <div class="col-xs-4">
           <a href="#!/profile/{{user.firstName}}/{{user._id}}"><img ng-src="{{user.profile_image}}" class="comment_picture"></a>
         </div>
@@ -106,10 +110,10 @@
           <b><a href="#!/profile/{{user.firstName}}/{{user._id}}">{{user.username}}</a></b>
           <div class="row">
             <div class="col-xs-6">
-              <h6>{{user.followers.length}} <span class="glyphicon glyphicon-user" uib-tooltip="Followers"></span></h6>
+              <a href="#!/social/{{user.username}}/{{user._id}}/3"><h6>{{user.followers.length}} <span class="glyphicon glyphicon-user" uib-tooltip="Followers"></span></h6></a>
             </div>
             <div class="col-xs-6">
-              <h6>{{user.uploaded_songs.length + user.playlists.length}} <span class="glyphicon glyphicon-music" uib-tooltip="Tracks and Playlists"></span></h6>
+              <a href="#!/profile/{{user.username}}/{{user._id}}"><h6>{{user.uploaded_songs.length + user.playlists.length}} <span class="glyphicon glyphicon-music" uib-tooltip="Tracks and Playlists"></span></h6></a>
             </div>
           </div>
         </div>
@@ -118,6 +122,15 @@
   </div>
 </div>
 
+<style media="screen">
+  .side_bar_follow{
+    padding-top: 20px;
+    height: 50px;
+  }
+  .headline_follow{
+    bottom: 30px;
+  }
+</style>
 <script type="text/javascript">
 $(document).ready(function () {
         $('ul.nav > li').click(function (e) {

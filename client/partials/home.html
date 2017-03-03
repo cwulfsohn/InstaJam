@@ -1,0 +1,65 @@
+<navigation></navigation>
+<div class="container">
+  <div id="home_header">
+    <h1 id="home_title">Welcome to InstaJam</h1>
+    <img class="home_image col-sm-12" src="https://cdn.shutterstock.com/shutterstock/videos/12203189/thumb/7.jpg">
+  </div>
+  <hr>
+  <h2 class="home_sub_header">Check out the hot jams of the Instajam community</h2>
+  <div class="home_users" ng-repeat="song in top_songs">
+    <img uib-tooltip="login or register to view {{song.song_title}}" class="home_album_cover img-responsive" ng-src="{{song.album_cover}}">
+    <p class="home_song_text">Title: {{song.song_title}}</p>
+    <p class="home_song_text">Artist: {{song.artist_name}}</p>
+  </div>
+  <hr>
+  <h2 class="home_sub_header">Discover the new jams of the Instajam community</h2>
+  <div uib-tooltip="login or register to view {{song.song_title}}" class="home_users" ng-repeat="song in discover">
+    <img class="home_album_cover img-responsive" ng-src="{{song.album_cover}}">
+    <p class="home_song_text">Title: {{song.song_title}}</p>
+    <p class="home_song_text">Artist: {{song.artist_name}}</p>
+  </div>
+
+</div>
+<style media="screen">
+  #home_header{
+    height: 35em;
+    width: 100em;
+    padding-right: 0px;
+    padding-left: 0px;
+    margin-bottom: 20px;
+  }
+  #home_title{
+    left: 245px;
+    position: absolute;
+    background-color: #000;
+    opacity: .7;
+    color: #FFF;
+    padding: 5px;
+  }
+  .home_image{
+    height: 35em;
+    width: 85.5em;
+    padding-right: 0px;
+    padding-left: 0px;
+    margin-bottom: 20px;
+    position: relative;
+  }
+  .home_users{
+    display: inline-block;
+  }
+  .home_album_cover{
+    display: inline-block;
+    margin: 15px;
+    height: 170px;
+    width: 170px;
+  }
+  .home_sub_header{
+    font-family: "Interstate", "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Garuda, Verdana, Tahoma, sans-serif;
+    margin-top: 20px;
+    text-align: center;
+  }
+  .home_song_text{
+    font-family: "Interstate", "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Garuda, Verdana, Tahoma, sans-serif;
+    text-align: center;
+  }
+</style>

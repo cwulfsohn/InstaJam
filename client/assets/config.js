@@ -1,9 +1,9 @@
 var app = angular.module("app", ["ngRoute", "ngCookies", "ngFileUpload", 'ngSanitize', 'ui.bootstrap']);
 app.config(function ($routeProvider) {
   $routeProvider
-.when('/', {
-  templateUrl: 'partials/login.html',
-  controller: 'userController'
+.when('/home', {
+  templateUrl: 'partials/home.html',
+  controller: 'successController'
 })
 .when('/registration', {
   templateUrl: 'partials/registration.html',
@@ -33,8 +33,12 @@ app.config(function ($routeProvider) {
   templateUrl: 'partials/search.html',
   controller: 'searchController'
 })
+.when('/playlist/:id', {
+  templateUrl: 'partials/showPlaylist.html',
+  controller: 'showPlaylistController'
+})
 .otherwise({
-  redirectTo: "/"
+  redirectTo: "/home"
 })
 })
 .filter('secToMinSec', function(){

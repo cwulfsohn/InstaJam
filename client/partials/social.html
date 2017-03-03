@@ -5,15 +5,16 @@
       <h2 id="social_profile_name">{{user.firstName}} {{user.lastName}}</h2>
       <a  href="/#!/profile/{{user.username}}/{{user._id}}"><img class="img-circle social_profile_picture" src="{{user.profile_image}}"></a>
     </div>
-    <uib-tabset id="social-tabs" active="containerView" vertical="false" type="pills">
-      <uib-tab index="1" heading="Likes" ng-click="changeView(1)"></uib-tab>
-      <uib-tab index="2" heading="Following" ng-click="changeView(2)"></uib-tab>
-      <uib-tab index="3" heading="Followers" ng-click="changeView(3)"></uib-tab>
+    <uib-tabset id="social-tabs" vertical="false" type="pills">
+      <uib-tab heading="Likes" ng-click="changeView(1)"></uib-tab>
+      <uib-tab heading="Following" ng-click="changeView(2)"></uib-tab>
+      <uib-tab heading="Followers" ng-click="changeView(3)"></uib-tab>
     </uib-tabset>
   </div>
   <div id="social-results">
     <div ng-if="containerView == 1">
       <h3>Liked Songs</h3>
+        <h3 ng-if="user.like_songs.length == 0">User has no liked songs</h3>
       <div ng-repeat="song in user.like_songs">
         <div class="audio_player_preview">
           <div class="row">
@@ -41,6 +42,7 @@
         </div>
     </div>
     <h3>Liked Playlists</h3>
+    <h3 ng-if="user.like_playlists.length == 0">User has no liked playlists</h3>
     <div ng-repeat="playlist in user.like_playlists">
       <div class="audio_player_preview">
         <div class="row">
@@ -87,6 +89,7 @@
     </div>
     </div>
     <div ng-if="containerView == 2">
+      <h3 ng-if="user.following.length == 0">User is not following anyone</h3>
       <div class="following col-lg-3 following_button" ng-repeat="following in user.following">
         <a href="/#!/profile/{{following.username}}/{{following._id}}">
         <img class="img-circle follow_image img-responsive" ng-src="{{following.profile_image}}">
@@ -98,6 +101,7 @@
       </div>
     </div>
     <div ng-if="containerView == 3">
+      <h3 ng-if="user.followers.length == 0">User has no followers</h3>
       <div class="following col-lg-3 following_button" ng-repeat="follower in user.followers">
         <a href="/#!/profile/{{follower.username}}/{{follower._id}}">
         <img class="img-circle follow_image img-responsive" ng-src="{{follower.profile_image}}">

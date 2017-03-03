@@ -1,9 +1,12 @@
-app.controller("socialController", ["$scope", "$rootScope", "userFactory","songFactory", "$location", "$cookies", 'Upload', "$timeout", "$routeParams","$uibModal", "$timeout", function($scope, $rootScope, userFactory, songFactory, $location, $cookies, Upload, $timeout, $routeParams, $uibModal, $timeout){
+app.controller("socialController", ["$scope", "$rootScope", "userFactory","songFactory", "$location", "$cookies", 'Upload', "$timeout", "$routeParams","$uibModal", "$route", function($scope, $rootScope, userFactory, songFactory, $location, $cookies, Upload, $timeout, $routeParams, $uibModal, $route){
+  if (!$cookies.get("user")){
+    $location.url('/home')
+  }
   $scope.profile_id = $routeParams.id;
   if ($routeParams.number == 2 || $routeParams.number == 3){
     console.log($routeParams.number)
     $scope.containerView = $routeParams.number;
-    console.log($scope.containerView);
+    $scope.flag = $routeParams.number;
   }
   else{
     $scope.containerView = 1
@@ -16,6 +19,7 @@ app.controller("socialController", ["$scope", "$rootScope", "userFactory","songF
         console.log(data.err)
       }
       else{
+        console.log(data);
         $scope.user = data.user;
         if ($scope.containerView === 1){
           $scope.changeView(1)
@@ -57,8 +61,12 @@ app.controller("socialController", ["$scope", "$rootScope", "userFactory","songF
   $scope.showOneUser();
 
   $scope.changeView = function(number){
+
+    if($scope.flag == number){
+      return;
+    }
     if(number == 1){
-      $scope.containerView = 1
+      $scope.flag = 1
       $scope.current = {index: 0, song: {}, playlist: {}};
       $timeout(function(){
         for (var i = 0; i < $scope.user.like_songs.length; i++){
@@ -110,10 +118,10 @@ app.controller("socialController", ["$scope", "$rootScope", "userFactory","songF
       }
     }
     else if(number == 2){
-      $scope.containerView = 2
+      $scope.flag = 2
     }
     else{
-      $scope.containerView = 3
+      $scope.flag = 3
     }
   }
   $scope.follow = function(user_id){
@@ -138,7 +146,7 @@ app.controller("socialController", ["$scope", "$rootScope", "userFactory","songF
       }
   })
 };
-$scope.wavemaker = function(song, play=-2, alt_id=false){
+  $scope.wavemaker = function(song, play=-2, alt_id=false){
   if (alt_id){
     var id = '.w' + alt_id;
   }
@@ -195,94 +203,94 @@ $scope.wavemaker = function(song, play=-2, alt_id=false){
     surfers.push(wavesurfer);
   }
 };
-$scope.play_pause = function(index, song, playlist={}){
-  $scope.current = {index:index, song:song, playlist: playlist};
-  for (var i = 0; i < surfers.length; i++){
-    if (surfers[i].isPlaying() && surfers[i] != surfers[index]){
-      surfers[i].stop();
-      $('#s' + i).addClass("glyphicon-play")
-      $('#s' + i).removeClass("glyphicon-pause")
+  $scope.play_pause = function(index, song, playlist={}){
+    $scope.current = {index:index, song:song, playlist: playlist};
+    for (var i = 0; i < surfers.length; i++){
+      if (surfers[i].isPlaying() && surfers[i] != surfers[index]){
+        surfers[i].stop();
+        $('#s' + i).addClass("glyphicon-play")
+        $('#s' + i).removeClass("glyphicon-pause")
+      }
     }
-  }
-  if ($('#s' + index).hasClass("glyphicon-play")){
-    $('#s' + index).addClass("glyphicon-pause")
-    $('#s' + index).removeClass("glyphicon-play")
-  }
-  else {
-    $('#s' + index).removeClass("glyphicon-pause")
-    $('#s' + index).addClass("glyphicon-play")
-  }
-  surfers[index].playPause();
-};
-$scope.changeSongPlaylist = function(playlistIndex, songIndex, song, playlist){
-  $scope.current = {index:playlistIndex, song:song, playlist: playlist};
-  for (var i = 0; i < surfers.length; i++){
-    if (surfers[i].isPlaying() && surfers[i] != surfers[playlistIndex]){
-      surfers[i].stop();
-      $('#s' + i).addClass("glyphicon-play")
-      $('#s' + i).removeClass("glyphicon-pause")
+    if ($('#s' + index).hasClass("glyphicon-play")){
+      $('#s' + index).addClass("glyphicon-pause")
+      $('#s' + index).removeClass("glyphicon-play")
     }
+    else {
+      $('#s' + index).removeClass("glyphicon-pause")
+      $('#s' + index).addClass("glyphicon-play")
+    }
+    surfers[index].playPause();
+  };
+  $scope.changeSongPlaylist = function(playlistIndex, songIndex, song, playlist){
+    $scope.current = {index:playlistIndex, song:song, playlist: playlist};
+    for (var i = 0; i < surfers.length; i++){
+      if (surfers[i].isPlaying() && surfers[i] != surfers[playlistIndex]){
+        surfers[i].stop();
+        $('#s' + i).addClass("glyphicon-play")
+        $('#s' + i).removeClass("glyphicon-pause")
+      }
+    }
+
+      $scope.current.playlist.current_song.song = $scope.current.song;
+      $scope.current.playlist.current_song.index = songIndex
+      surfers[playlistIndex].destroy();
+      $scope.wavemaker($scope.current.song, $scope.current.index, $scope.current.playlist._id);
+
+  };
+  $scope.like = function(song_id, user_id, index){
+    songFactory.like(song_id, user_id, function(data){
+      $scope.user.like_songs[index].likeFlag = true;
+    })
   }
-
-    $scope.current.playlist.current_song.song = $scope.current.song;
-    $scope.current.playlist.current_song.index = songIndex
-    surfers[playlistIndex].destroy();
-    $scope.wavemaker($scope.current.song, $scope.current.index, $scope.current.playlist._id);
-
-};
-$scope.like = function(song_id, user_id, index){
-  songFactory.like(song_id, user_id, function(data){
-    $scope.user.like_songs[index].likeFlag = true;
-  })
-}
-$scope.disLike = function(song_id, user_id, index){
-  songFactory.disLike(song_id, user_id, function(data){
-    $scope.user.like_songs[index].likeFlag = false;
-  })
-}
-$scope.repost = function(song_id, user_id, index){
-  songFactory.repost(song_id, user_id, function(data){
-    $scope.user.like_songs[index].repostFlag = true;
-  })
-}
-$scope.removeRepost = function(song_id, user_id, index){
-  songFactory.removeRepost(song_id, user_id, function(data){
-    $scope.user.like_songs[index].repostFlag = false;
-  })
-};
-$scope.playlistLike = function(playlist_id, user_id, index){
-  songFactory.playlistLike(playlist_id, user_id, function(data){
-    $scope.user.like_playlists[index].likeFlag = true;
-  })
-}
-$scope.playlistDisLike = function(playlist_id, user_id, index){
-  songFactory.playlistDisLike(playlist_id, user_id, function(data){
-    $scope.user.like_playlists[index].likeFlag = false;
-  })
-}
-$scope.playlistRepost = function(playlist_id, user_id, index){
-  songFactory.playlistRepost(playlist_id, user_id, function(data){
-    $scope.user.like_playlists[index].repostFlag = true;
-  })
-}
-$scope.playlistRemoveRepost = function(playlist_id, user_id, index){
-  songFactory.playlistRemoveRepost(playlist_id, user_id, function(data){
-    $scope.user.like_playlists[index].repostFlag = false;
-  })
-};
-$scope.open = function(song_id){
-  $cookies.put('songId', song_id)
-$scope.modalInstance = $uibModal.open({
-      animation: true,
-      ariaLabelledBy: 'modal-title-top',
-      ariaDescribedBy: 'modal-body-top',
-      templateUrl: './partials/playlist.html',
-      controller: 'playlistController'
+  $scope.disLike = function(song_id, user_id, index){
+    songFactory.disLike(song_id, user_id, function(data){
+      $scope.user.like_songs[index].likeFlag = false;
+    })
+  }
+  $scope.repost = function(song_id, user_id, index){
+    songFactory.repost(song_id, user_id, function(data){
+      $scope.user.like_songs[index].repostFlag = true;
+    })
+  }
+  $scope.removeRepost = function(song_id, user_id, index){
+    songFactory.removeRepost(song_id, user_id, function(data){
+      $scope.user.like_songs[index].repostFlag = false;
+    })
+  };
+  $scope.playlistLike = function(playlist_id, user_id, index){
+    songFactory.playlistLike(playlist_id, user_id, function(data){
+      $scope.user.like_playlists[index].likeFlag = true;
+    })
+  }
+  $scope.playlistDisLike = function(playlist_id, user_id, index){
+    songFactory.playlistDisLike(playlist_id, user_id, function(data){
+      $scope.user.like_playlists[index].likeFlag = false;
+    })
+  }
+  $scope.playlistRepost = function(playlist_id, user_id, index){
+    songFactory.playlistRepost(playlist_id, user_id, function(data){
+      $scope.user.like_playlists[index].repostFlag = true;
+    })
+  }
+  $scope.playlistRemoveRepost = function(playlist_id, user_id, index){
+    songFactory.playlistRemoveRepost(playlist_id, user_id, function(data){
+      $scope.user.like_playlists[index].repostFlag = false;
+    })
+  };
+  $scope.open = function(song_id){
+    $cookies.put('songId', song_id)
+    $scope.modalInstance = $uibModal.open({
+        animation: true,
+        ariaLabelledBy: 'modal-title-top',
+        ariaDescribedBy: 'modal-body-top',
+        templateUrl: './partials/playlist.html',
+        controller: 'playlistController'
     });
     $scope.modalInstance.result.then(function(hello){
       console.log('closed')
     }, function(){
-      $location.url('/profile/'+$scope.user.username+"1"+"/"+$scope.user._id)
+      $route.reload();
     })
   }
   $rootScope.$on('pauseWave', function (event, song) {

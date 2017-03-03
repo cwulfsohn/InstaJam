@@ -87,10 +87,10 @@
           <div ng-repeat="playlist in song.in_playlists | limitTo: 3">
             <div class="row">
               <div class="col-xs-4">
-                <img ng-src="{{playlist.first_song_art}}" class="mini_playlist">
+                <a href="#!/playlist/{{playlist._id}}"></a><img ng-src="{{playlist.first_song_art}}" class="mini_playlist">
               </div>
               <div class="col-xs-8">
-                <b>{{playlist.title}}</b>
+                <a href="#!/playlist/{{playlist._id}}"><b>{{playlist.title}}</b></a>
                 <p>By <a href="#!/profile/{{playlist._user.firstName}}/{{playlist._user._id}}">{{playlist._user.username}}</a></p>
                 <div class="row">
                   <div class="col-xs-6">
@@ -107,14 +107,14 @@
           <hr>
           <div class="row centered_bit">
             <div class="song_repost_div" ng-repeat="user in song.reposted_by | limitTo: 4">
-                <img ng-src="{{user.profile_image}}" class="comment_picture img-responsive" uib-tooltip="{{user.username}}">
+                <a href="#!/profile/{{user.firstName}}/{{user._id}}"><img ng-src="{{user.profile_image}}" class="comment_picture img-responsive" uib-tooltip="{{user.username}}"></a>
             </div>
           </div>
           <h4 class="text-center">{{song.likes.length}} Likes</h4>
           <hr>
           <div class="row centered_bit">
             <div class="song_repost_div" ng-repeat="user in song.likes | limitTo: 4">
-                <img ng-src="{{user.profile_image}}" class="comment_picture img-responsive" uib-tooltip="{{user.username}}">
+                <a href="#!/profile/{{user.firstName}}/{{user._id}}"><img ng-src="{{user.profile_image}}" class="comment_picture img-responsive" uib-tooltip="{{user.username}}"></a>
             </div>
           </div>
       </div>

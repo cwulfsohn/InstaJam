@@ -36,7 +36,7 @@ app.factory('userFactory', ["$http", function($http){
       callback(data.data)
     })
   }
-  factory.getHomeSongs = function(id, callback){
+  factory.getHomeSongs = function(callback, id=0){
     $http.get('/home/' + id).then(function(data){
       callback(data.data);
     })
