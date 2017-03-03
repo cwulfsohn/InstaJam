@@ -87,10 +87,10 @@
           <div ng-repeat="playlist in song.in_playlists | limitTo: 3">
             <div class="row">
               <div class="col-xs-4">
-                <img ng-src="{{playlist.first_song_art}}" class="mini_playlist">
+                <a href="#!/playlist/{{playlist._id}}"></a><img ng-src="{{playlist.first_song_art}}" class="mini_playlist">
               </div>
               <div class="col-xs-8">
-                <a href="#!/playlists/"><b>{{playlist.title}}</b></a>
+                <a href="#!/playlist/{{playlist._id}}"><b>{{playlist.title}}</b></a>
                 <p>By <a href="#!/profile/{{playlist._user.firstName}}/{{playlist._user._id}}">{{playlist._user.username}}</a></p>
                 <div class="row">
                   <div class="col-xs-6">
