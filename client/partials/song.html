@@ -25,7 +25,7 @@
         <button class="preview_button" ng-if="likeFlag === false" uib-tooltip="like" ng-click="like(song._id, id)"><span class="glyphicon glyphicon-heart"></span> {{song.likes.length}}</button>
         <button class="preview_button" ng-if="repostFlag" uib-tooltip="unpost" ng-click="removeRepost(song._id, id)"><span class="glyphicon glyphicon-retweet red"></span> {{song.reposted_by.length}}</button>
         <button class="preview_button" ng-if="repostFlag === false" uib-tooltip="post" ng-click="repost(song._id, id)"><span class="glyphicon glyphicon-retweet"></span> {{song.reposted_by.length}}</button>
-        <button class="preview_button" type="button" name="button"><span class="glyphicon glyphicon-plus"></span></button>
+        <button class="preview_button" ng-click="open(song._id)" uib-tooltip="add to playlist"><span class="glyphicon glyphicon-plus"></span></button>
       </div>
       <div id="timed_comments" class="col-sm-8 col-xs-6">
       </div>
@@ -33,7 +33,7 @@
     </div>
   </div>
   <div ng-if="song._user._id === id">
-      <button type="button" name="button" class="btn btn-warning">Edit</button>
+  <button type="button" ng-click="edit(song._id)" class="btn btn-warning">Edit</button>
   </div>
   <div id="song_comments">
     <div ng-if="errors">

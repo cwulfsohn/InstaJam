@@ -1,4 +1,4 @@
-app.controller("navController", ["$scope", "userFactory", "$location", "$cookies", function($scope, userFactory, $location, $cookies){
+app.controller("navController", ["$scope", "userFactory", "$location", "$cookies","$uibModal", function($scope, userFactory, $location, $cookies, $uibModal){
   if ($cookies.get("user")){
     $scope.currentUser = $cookies.get("user");
     $scope.currentUser_id = $cookies.get('id');
@@ -23,5 +23,33 @@ app.controller("navController", ["$scope", "userFactory", "$location", "$cookies
   $scope.search = function (search_term) {
     $location.url('search/'+search_term)
   }
+
+  $scope.login = function(){
+  $scope.modalInstance = $uibModal.open({
+        animation: true,
+        ariaLabelledBy: 'modal-title-top',
+        ariaDescribedBy: 'modal-body-top',
+        templateUrl: './partials/login.html',
+        controller: 'userController'
+      });
+      $scope.modalInstance.result.then(function(hello){
+        console.log('closed')
+      }, function(){
+      })
+    }
+
+  $scope.register = function(){
+  $scope.modalInstance = $uibModal.open({
+        animation: true,
+        ariaLabelledBy: 'modal-title-top',
+        ariaDescribedBy: 'modal-body-top',
+        templateUrl: './partials/registration.html',
+        controller: 'userController'
+      });
+      $scope.modalInstance.result.then(function(hello){
+        console.log('closed')
+      }, function(){
+      })
+    }
 
 }]);

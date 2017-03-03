@@ -73,7 +73,7 @@ email: {
     type: String
   },
   location: {
-    type: String
+    type: String,
   },
   playlists: [{
     type: mongoose.Schema.Types.ObjectId, ref: 'Playlist'

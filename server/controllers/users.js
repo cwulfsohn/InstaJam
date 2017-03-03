@@ -30,7 +30,8 @@ module.exports = {
               lastName : req.body.lastName,
               email : req.body.email,
               password : req.body.password,
-              age : req.body.age
+              age : req.body.age,
+              location: req.body.location
             });
             user.password = bcrypt.hashSync(user.password, bcrypt.genSaltSync(8));
             user.save(function(err, user){
@@ -45,6 +46,14 @@ module.exports = {
       })
     }},
   login: function(req, res){
+    if(!req.body.password){
+      console.log('hello')
+      res.json({err: "password is not found"})
+    }
+    else if(!req.body.email){
+      res.json({err: "email is not found"})
+    }
+    else{
     User.findOne({email: req.body.email}, function(err, user){
       if(err){
         res.json({err:"Unregistered email"})
@@ -58,6 +67,7 @@ module.exports = {
         }
       }
     })
+  }
   },
   showUser: function(req, res){
     User.findOne({_id: req.params.id}).populate("uploaded_songs").populate("playlists").populate({path: "playlists", populate: {path:"_user"}}).populate({path: "playlists", populate: {path:"songs"}})
@@ -200,6 +210,7 @@ module.exports = {
             user.firstName = req.body.firstName
             user.lastName = req.body.lastName
             user.description = req.body.description
+            user.location = req.body.location
             user.save(function(err, user){
               if(err){
                 res.json({err: err})

@@ -534,6 +534,16 @@ background-color: #333;
   padding: 5px;
 }
 
+#profile_location{
+  left: 245px;
+  bottom: 90px;
+  position: absolute;
+  background-color: #000;
+  opacity: .7;
+  color: #FFF;
+  padding: 5px;
+}
+
 #profile_select_picture{
   position: absolute;
 }
