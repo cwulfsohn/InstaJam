@@ -1,4 +1,4 @@
-app.controller("searchController", ["$scope", "userFactory", "songFactory", "$location", "$cookies", "$routeParams", "$timeout","$uibModal", function($scope, userFactory, songFactory, $location, $cookies, $routeParams, $timeout, $uibModal){
+app.controller("searchController", ["$scope", "userFactory", "songFactory", "$location", "$cookies", "$routeParams", "$timeout","$uibModal","$route", function($scope, userFactory, songFactory, $location, $cookies, $routeParams, $timeout, $uibModal, $route){
   $scope.search_query = $routeParams.term;
   $scope.total_tracks = 0;
   $scope.total_playlists = 0;
@@ -264,7 +264,7 @@ $scope.modalInstance = $uibModal.open({
     $scope.modalInstance.result.then(function(hello){
       console.log('closed')
     }, function(){
-      $location.url('/profile/'+$scope.user.username+"1"+"/"+$scope.user._id)
+      console.log('hello');
     })
   }
 }]);

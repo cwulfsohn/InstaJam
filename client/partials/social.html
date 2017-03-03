@@ -14,6 +14,7 @@
   <div id="social-results">
     <div ng-if="containerView == 1">
       <h3>Liked Songs</h3>
+        <h3 ng-if="user.like_songs.length == 0">User has no liked songs</h3>
       <div ng-repeat="song in user.like_songs">
         <div class="audio_player_preview">
           <div class="row">
@@ -41,6 +42,7 @@
         </div>
     </div>
     <h3>Liked Playlists</h3>
+    <h3 ng-if="user.like_playlists.length == 0">User has no liked playlists</h3>
     <div ng-repeat="playlist in user.like_playlists">
       <div class="audio_player_preview">
         <div class="row">
@@ -87,6 +89,7 @@
     </div>
     </div>
     <div ng-if="containerView == 2">
+      <h3 ng-if="user.following.length == 0">User is not following anyone</h3>
       <div class="following col-lg-3 following_button" ng-repeat="following in user.following">
         <a href="/#!/profile/{{following.username}}/{{following._id}}">
         <img class="img-circle follow_image img-responsive" ng-src="{{following.profile_image}}">
@@ -98,6 +101,7 @@
       </div>
     </div>
     <div ng-if="containerView == 3">
+      <h3 ng-if="user.followers.length == 0">User has no followers</h3>
       <div class="following col-lg-3 following_button" ng-repeat="follower in user.followers">
         <a href="/#!/profile/{{follower.username}}/{{follower._id}}">
         <img class="img-circle follow_image img-responsive" ng-src="{{follower.profile_image}}">

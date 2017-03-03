@@ -1,4 +1,4 @@
-app.controller("successController", ["$scope", "userFactory", "$location", "$cookies", "$timeout", function($scope, userFactory, $location, $cookies, $timeout){
+app.controller("successController", ["$scope", "userFactory", "songFactory", "$location", "$cookies", "$timeout","$uibModal","$route", function($scope, userFactory, songFactory, $location, $cookies, $timeout, $uibModal,$route){
   if ($cookies.get("id")){
     $scope.user = $cookies.get("username");
     $scope.id = $cookies.get('id');
@@ -200,24 +200,41 @@ app.controller("successController", ["$scope", "userFactory", "$location", "$coo
     }
     surfers[index].playPause();
   };
-  $scope.like = function(song_id, user_id, index){
+  $scope.like = function(song_id, user_id, index, type){
+    console.log(type)
     songFactory.like(song_id, user_id, function(data){
-      $scope.user.uploaded_songs[index].likeFlag = true;
+        $scope[type][index].likeFlag = true;
     })
   }
-  $scope.disLike = function(song_id, user_id, index){
+  $scope.disLike = function(song_id, user_id, index, type){
+    console.log(type)
     songFactory.disLike(song_id, user_id, function(data){
-      $scope.user.uploaded_songs[index].likeFlag = false;
+      $scope[type][index].likeFlag = false;
     })
   }
-  $scope.repost = function(song_id, user_id, index){
+  $scope.repost = function(song_id, user_id, index, type){
     songFactory.repost(song_id, user_id, function(data){
-      $scope.user.uploaded_songs[index].repostFlag = true;
+      $scope[type][index].repostFlag = true;
     })
   }
-  $scope.removeRepost = function(song_id, user_id, index){
+  $scope.removeRepost = function(song_id, user_id, index, type){
     songFactory.removeRepost(song_id, user_id, function(data){
-      $scope.user.uploaded_songs[index].repostFlag = false;
+      $scope[type][index].repostFlag = false;
     })
   };
+  $scope.open = function(song_id){
+    $cookies.put('songId', song_id)
+  $scope.modalInstance = $uibModal.open({
+        animation: true,
+        ariaLabelledBy: 'modal-title-top',
+        ariaDescribedBy: 'modal-body-top',
+        templateUrl: './partials/playlist.html',
+        controller: 'playlistController'
+      });
+      $scope.modalInstance.result.then(function(hello){
+        console.log('closed')
+      }, function(){
+        $route.reload()
+      })
+    }
 }])

@@ -1,4 +1,7 @@
 app.controller("uploadController", ["$scope", "songFactory", "$location", "$cookies", 'Upload', "$timeout", function($scope, songFactory, $location, $cookies, Upload, $timeout){
+  if (!$cookies.get("user")){
+    $location.url('/home')
+  }
   if ($cookies.get("id")){
     $scope.currentUserId = $cookies.get("id");
     $scope.song = {}

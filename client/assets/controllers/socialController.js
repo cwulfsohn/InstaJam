@@ -1,4 +1,7 @@
 app.controller("socialController", ["$scope", "userFactory","songFactory", "$location", "$cookies", 'Upload', "$timeout", "$routeParams","$uibModal", "$timeout", function($scope, userFactory, songFactory, $location, $cookies, Upload, $timeout, $routeParams, $uibModal, $timeout){
+  if (!$cookies.get("user")){
+    $location.url('/home')
+  }
   $scope.profile_id = $routeParams.id;
   if ($routeParams.number == 2 || $routeParams.number == 3){
     console.log($routeParams.number)
@@ -57,6 +60,9 @@ app.controller("socialController", ["$scope", "userFactory","songFactory", "$loc
   $scope.showOneUser();
 
   $scope.changeView = function(number){
+    if($scope.containerView == number){
+      return;
+    }
     if(number == 1){
       $scope.containerView = 1
       $scope.current = {index: 0, song: {}, playlist: {}};

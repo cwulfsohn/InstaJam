@@ -29,6 +29,7 @@
     <div class="col-sm-12" ng-if="containerView == 0">
     </div>
     <div class="col-sm-12" ng-if="containerView == 1">
+      <h3 ng-if="user.uploaded_songs.length == 0">User currently has no tracks</h3>
       <div class="song-area" ng-repeat="song in user.uploaded_songs">
         <div class="audio_player_preview">
           <div class="row">
@@ -57,6 +58,7 @@
       </div>
     </div>
       <div class="col-sm-12" ng-if="containerView == 2">
+        <h3 ng-if="user.playlists.length == 0">User currently has no playlists</h3>
           <div ng-repeat="playlist in user.playlists">
             <div class="audio_player_preview">
               <div class="row">
@@ -104,6 +106,7 @@
       </div>
       <div class="col-sm-12" ng-if="containerView == 3">
         <h3>Reposted Songs</h3>
+        <h4 ng-if="user.reposts.length == 0">User currently has not reposted a song</h4>
         <div ng-repeat="song in user.reposts">
           <div class="audio_player_preview">
             <div class="row">
@@ -131,6 +134,7 @@
           </div>
       </div>
       <h3>Reposted Playlists</h3>
+      <h4 ng-if="user.reposts.length == 0">User currently has not reposted a playlist</h4>
       <div ng-repeat="playlist in user.playlist_reposts">
         <div class="audio_player_preview">
           <div class="row">
