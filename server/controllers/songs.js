@@ -13,7 +13,8 @@ module.exports = {
     var file = req.files.file;
     var req_song = req.body.song;
     var filepath = req_song.uploader + file.name;
-    if (file.type != "audio/mp3"){
+    console.log(file.type)
+    if (file.type != "audio/mp3" && file.type != "audio/mpeg"){
       res.json({err:{errors:{type:{message:"MP3 Only"}}}})
     }
     else {
